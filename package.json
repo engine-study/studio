@@ -1,15 +1,12 @@
 {
-    "name":"ca.engine.studio",
-    "version":"1.0.0-pre",
-
-    "displayName": "Engine Studio",
-    "description": "The base functionality of Engine.",
-    "unity": "2020.1",
-    "author": 
-    {
-        "name" : "Neilson Koerner-Safrata",
-        "email" : "neilson@scrnprnt.ca",
-        "url" : "http://scrnprnt.ca/"
-    }
-    
+  "name": "study.engine.studio",
+  "version": "1.0.0-pre",
+  "displayName": "Studio Engine",
+  "description": "The base functionality of Engine.",
+  "unity": "2022.2",
+  "author": {
+    "name": "Neilson Koerner-Safrata",
+    "email": "neilson@scrnprnt.ca",
+    "url": "http://engine.study/"
+  }
 }
