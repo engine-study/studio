@@ -14,7 +14,7 @@ public class SPEncryption {
 
         //https://www.youtube.com/watch?v=36FqEUMCuvI
         //32 characters
-        string password = "q2FM203mWDOWEk393mkwWFPWE3025921";
+        string password = "failsonnotusingenvvariables";
 
         // Create sha256 hash
         SHA256 mySHA256 = SHA256Managed.Create();
