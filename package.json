@@ -8,5 +8,8 @@
     "name": "Neilson Koerner-Safrata",
     "email": "neilson@scrnprnt.ca",
     "url": "http://engine.study/"
+  },
+  "dependencies": {
+    "com.unity.textmeshpro": "3.0.6"
   }
 }
