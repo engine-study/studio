@@ -32,7 +32,7 @@ public class SPPlayerResources : MonoBehaviour
 
     void Init() {
 
-        triggerLocal.gameObject.SetActive(player.IsLocal);
+        triggerLocal.gameObject.SetActive(player.IsLocalPlayer);
         
         if(nameText) {
             nameText.gameObject.SetActive(false);

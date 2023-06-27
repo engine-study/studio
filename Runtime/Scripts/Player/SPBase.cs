@@ -11,7 +11,6 @@ public class SPBase : MonoBehaviour
     public Vector3 Center { get { return Root.position; } }
 
     public virtual bool HasInit { get { return hasInit; } }
-    public bool IsLocal {get{return isLocal;}}
     public System.Action OnPlayerToggle;
     public System.Action OnInit;
     protected bool hasInit;
@@ -19,8 +18,6 @@ public class SPBase : MonoBehaviour
     [Header("Settings")]
     [SerializeField] protected Transform root;
     [SerializeField] protected GameObject visual;
-    [SerializeField] protected bool hasBeenUpdated = false;
-    [SerializeField] protected bool isLocal;
     protected Rigidbody rb;
 
     Vector3 oldPosition;

@@ -36,9 +36,6 @@ public class SPLogicHuman : SPLogic {
 
             inputRaw.x = Input.GetAxis("Horizontal");
             inputRaw.z = Input.GetAxis("Vertical");
-            
-            inputRaw.y = Input.GetAxis("NoClipVertical");
-            inputRaw = SPHelper.CartesianToWorld(inputRaw);
 
             inputRaw = inputRaw.normalized;
         }

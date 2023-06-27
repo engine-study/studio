@@ -27,13 +27,13 @@ public class SPPlayer : SPBase
     [Header("Player")]
     [SerializeField] protected bool isNPC;
 
-    [HideInInspector] public SPLogic logic;
-    [HideInInspector] public SPController controller;
-    [HideInInspector] public SPAnimation anim;
-    [HideInInspector] public SPActor actor;
-    [HideInInspector] public SPAnimator animator;
-    [HideInInspector] public SPInteractReciever reciever;
-    [HideInInspector] public SPPlayerResources resources;
+    public SPLogic logic;
+    public SPController controller;
+    public SPAnimation anim;
+    public SPActor actor;
+    public SPAnimator animator;
+    public SPInteractReciever reciever;
+    public SPPlayerResources resources;
 
 
     protected override void Awake()
@@ -41,8 +41,7 @@ public class SPPlayer : SPBase
 
         base.Awake();
 
-        if (resources == null)
-        {
+        if (resources == null) {
             resources = GetComponentInChildren<SPPlayerResources>();
         }
 
@@ -95,14 +94,14 @@ public class SPPlayer : SPBase
 
         alive = true;
 
-        if (IsLocal)
+        if (IsLocalPlayer)
         {
             logic.Init();
             controller.Init();
-            Controller.ToggleController(IsLocal);
+            Controller.ToggleController(IsLocalPlayer);
         }
 
-        if (IsLocal)
+        if (IsLocalPlayer)
         {
             RespawnLocal();
         }
@@ -115,7 +114,7 @@ public class SPPlayer : SPBase
 
         base.Update();
 
-        if (IsLocal)
+        if (IsLocalPlayer)
         {
 
             UpdateInput();
@@ -147,7 +146,7 @@ public class SPPlayer : SPBase
         if (!Alive)
             return;
 
-        if (IsLocal)
+        if (IsLocalPlayer)
         {
             Controller.CallFixedUpdate();
         }
@@ -199,7 +198,7 @@ public class SPPlayer : SPBase
 
     public void UpdateInteract()
     {
-        if (IsLocal)
+        if (IsLocalPlayer)
         {
             // SPAttention.TogglePanel(reciever.InteractWithOnt != null, reciever.InteractWithOnt);
         }
@@ -228,7 +227,7 @@ public class SPPlayer : SPBase
 
     public void RespawnLocal()
     {
-        if (IsLocal)
+        if (IsLocalPlayer)
         {
             Respawn(transform.position);
         }
@@ -241,7 +240,7 @@ public class SPPlayer : SPBase
 
         Teleport(spawnPos);
 
-        if (IsLocal)
+        if (IsLocalPlayer)
         {
             //Debug.Log("Respawning at " + animalType.ToString() + " herd.");
 
@@ -277,7 +276,7 @@ public class SPPlayer : SPBase
 
         ToggleNoClip(toggle);
 
-        if (IsLocal)
+        if (IsLocalPlayer)
         {
             Controller.ToggleController(!toggle);
         }
