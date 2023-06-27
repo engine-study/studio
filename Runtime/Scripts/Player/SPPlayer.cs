@@ -89,9 +89,9 @@ public class SPPlayer : SPBase
     }
 
 
-    protected override void PostInit()
+    protected override void NetworkInit()
     {
-        base.PostInit();
+        base.NetworkInit();
 
         alive = true;
 
@@ -138,12 +138,6 @@ public class SPPlayer : SPBase
 
     public virtual void LateUpdate()
     {
-
-        if (!HasInit)
-        {
-            return;
-        }
-
         UpdateAnimation();
     }
 

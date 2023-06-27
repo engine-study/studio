@@ -52,11 +52,9 @@ public class SPBase : MonoBehaviour
     {
         hasInit = true;
         enabled = true;
-
-        PostInit();
     }
 
-    protected virtual void PostInit() {
+    protected virtual void NetworkInit() {
 
     }
 
