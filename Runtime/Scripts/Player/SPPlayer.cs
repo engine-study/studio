@@ -38,7 +38,7 @@ public class SPPlayer : SPBaseActor
         base.Awake();
 
         if (resources == null) {
-            resources = GetComponentInChildren<SPPlayerResources>();
+            resources = GetComponentInChildren<SPPlayerResources>(true);
         }
 
         anim = GetComponentInChildren<SPAnimation>();

@@ -21,10 +21,11 @@ public class SPUIBase : MonoBehaviour
     public static bool IsSelectedTextField {get{return I && isSelectedTextField;}}
     public static bool IsInputtingTextField {get{return I && isInputtingTextField;}}
     public static bool FullscreenUI {get{return fullscreenUI;}}
-    public static Camera Camera {get{return Camera.main;}}
-    public static RectTransform DraggableParent {get{return I.draggableParent;}}
-    public static Canvas Canvas {get{return I.mainCanvas;}}
-    public static RectTransform CanvasRect {get{return I.canvasRect;}}
+    public static Camera Camera {get{return SPUIInstance.Camera;}}
+    public static RectTransform DraggableParent {get{return SPUIInstance.DraggableParent;}}
+    public static Canvas Canvas {get{return SPUIInstance.Canvas;}}
+    public static RectTransform CanvasRect {get{return SPUIInstance.CanvasRect;}}
+    public static AudioSource AudioSource {get{return SPUIInstance.AudioSource;}}
 
     protected static bool canInput = false, fullscreenUI; 
 
@@ -32,19 +33,6 @@ public class SPUIBase : MonoBehaviour
     static bool submit, fakeSubmit = false; 
     [SerializeField] protected static bool isPointerOverUI = false, isUISelected = false, isSelectedTextField = false, isInputtingTextField = false, mouseOffscreen = false, dragging = false;
     [SerializeField] protected Selectable activeUI;
-
-    [Header("References")]
-    [SerializeField] protected Canvas mainCanvas;
-    [SerializeField] protected Camera mainCamera;
-
-    [Header("")]
-
-    [SerializeField] protected RectTransform canvasRect;
-    [SerializeField] protected AudioSource audioSource;
-
-
-    [Header("Cursor")]
-    [SerializeField] protected RectTransform draggableParent; 
 
 
     [Header("Audio")]
@@ -306,16 +294,16 @@ public class SPUIBase : MonoBehaviour
 
         //Calculate position considering our percentage, using our canvas size
         //So if canvas size is (1100,500), and percentage is (0.5,0.5), current value will be (550,250)
-        temp.x *= canvasRect.sizeDelta.x;
-        temp.y *= canvasRect.sizeDelta.y;
+        temp.x *= CanvasRect.sizeDelta.x;
+        temp.y *= CanvasRect.sizeDelta.y;
 
-        //The result is ready, but, this result is correct if canvasRect recttransform pivot is 0,0 - left lower corner.
+        //The result is ready, but, this result is correct if CanvasRect recttransform pivot is 0,0 - left lower corner.
         //But in reality its middle (0.5,0.5) by default, so we remove the amount considering cavnas rectransform pivot.
         //We could multiply with constant 0.5, but we will actually read the value, so if custom rect transform is passed(with custom pivot) , 
         //returned value will still be correct.
 
-        temp.x -= canvasRect.sizeDelta.x * canvasRect.pivot.x;
-        temp.y -= canvasRect.sizeDelta.y * canvasRect.pivot.y;
+        temp.x -= CanvasRect.sizeDelta.x * CanvasRect.pivot.x;
+        temp.y -= CanvasRect.sizeDelta.y * CanvasRect.pivot.y;
 
         uiRect.anchoredPosition = temp;
 
@@ -379,8 +367,8 @@ public class SPUIBase : MonoBehaviour
         if(!I)
             return;
 
-        I.audioSource.pitch = pitchShift ? UnityEngine.Random.Range(.95f,1.05f) : 1f;
-        I.audioSource.PlayOneShot(clip, volume);
+        AudioSource.pitch = pitchShift ? UnityEngine.Random.Range(.95f,1.05f) : 1f;
+        AudioSource.PlayOneShot(clip, volume);
     }
 
 
