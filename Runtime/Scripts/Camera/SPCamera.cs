@@ -15,8 +15,8 @@ public class SPCamera : MonoBehaviour
 
     [Header("Settings")]
     [SerializeField] private float moveSpeed = 5f; 
-    [SerializeField] private float scrollSpeed = .01f;
-    [SerializeField] private float minFOV = 5f, maxFOV = 100f;
+    [SerializeField] private float scrollSpeed = 1f;
+    [SerializeField] private float minFOV = 5f, maxFOV = 25f;
     private float fovMultiple = 1f;
 
 
@@ -153,7 +153,7 @@ public class SPCamera : MonoBehaviour
 
         //FOV
         fov = Mathf.Clamp(fov, minFOV, maxFOV);
-        fovLerp = Mathf.MoveTowards(fovLerp, fov * fovMultiple, Time.deltaTime * 25f);
+        fovLerp = Mathf.MoveTowards(fovLerp, fov * fovMultiple, Time.deltaTime * 100f);
         camera.orthographicSize = fovLerp;
         camera.fieldOfView = fovLerp;
 

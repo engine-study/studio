@@ -70,11 +70,12 @@ public class SPPlayer : SPBaseActor
 
         alive = true;
 
+        controller.Init();
+        Controller.ToggleController(IsLocalPlayer);
+
         if (IsLocalPlayer)
         {
             logic.Init();
-            controller.Init();
-            Controller.ToggleController(IsLocalPlayer);
         }
 
         if (IsLocalPlayer)

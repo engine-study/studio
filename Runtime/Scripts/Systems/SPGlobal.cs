@@ -28,6 +28,10 @@ public class SPGlobal : MonoBehaviour
             I = this;
         }
 
+        if(Application.isEditor || Debug.isDebugBuild) {
+            QualitySettings.vSyncCount = 2;
+        }
+
         if(Application.platform == RuntimePlatform.WindowsPlayer) {
             //BorderlessWindow.SetFramelessWindow();
             //BorderlessWindow.MoveWindowPos(Vector2Int.zero, Screen.width, Screen.height);
