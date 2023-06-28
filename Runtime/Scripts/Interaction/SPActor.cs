@@ -369,17 +369,17 @@ public class SPActor : MonoBehaviour, IActor
 
 
 
-    void OnDrawGizmosSelected() {
-        for(int i = 0; i < gameObjects.Count; i++) {
-            if(Target != null && gameObjects[i] == Target) {
-                Gizmos.color = Color.blue;
-                Gizmos.DrawLine(gameObjects[i].transform.position, transform.position);
-            } else {
-                Gizmos.color = Color.yellow;
-                Gizmos.DrawLine(gameObjects[i].transform.position, transform.position);
-            }
-        }
-    }
+    // void OnDrawGizmosSelected() {
+    //     for(int i = 0; i < gameObjects.Count; i++) {
+    //         if(Target != null && gameObjects[i] == Target) {
+    //             Gizmos.color = Color.blue;
+    //             Gizmos.DrawLine(gameObjects[i].transform.position, transform.position);
+    //         } else {
+    //             Gizmos.color = Color.yellow;
+    //             Gizmos.DrawLine(gameObjects[i].transform.position, transform.position);
+    //         }
+    //     }
+    // }
 }
 
 

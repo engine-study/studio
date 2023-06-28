@@ -2,18 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SPPlayer : SPBase
+public class SPPlayer : SPBaseActor
 {
     public bool IsLocalPlayer {get{return isLocalPlayer;}}
     public static SPPlayer LocalPlayer {get{return localPlayer;}}
     protected static SPPlayer localPlayer;
 
-    public System.Action<IAction> OnPlayerAction;
 
     public SPController Controller { get { return controller; } }
     public SPAnimation Animation { get { return anim; } }
     public SPAnimator Animator { get { return animator; } }
-    public SPActor Actor { get { return actor; } }
 
     public bool Alive { get { return alive; } }
     public Vector3 Vector { get { return vector; } }
@@ -30,9 +28,7 @@ public class SPPlayer : SPBase
     public SPLogic logic;
     public SPController controller;
     public SPAnimation anim;
-    public SPActor actor;
     public SPAnimator animator;
-    public SPInteractReciever reciever;
     public SPPlayerResources resources;
 
 
@@ -53,23 +49,6 @@ public class SPPlayer : SPBase
         }
 
         animator = GetComponentInChildren<SPAnimator>(true);
-
-        if (reciever == null)
-        {
-            reciever = gameObject.GetComponentInChildren<SPInteractReciever>();
-            reciever.OnInteractUpdate += UpdateInteract;
-        }
-
-        if (actor == null)
-        {
-            actor = gameObject.AddComponent<SPActor>();
-            actor.enabled = false;
-            actor.sender = this;
-            actor.reciever = reciever;
-            actor.OnAction += OnPlayerAction;
-        }
-
-        base.Awake();
     }
 
     public static void SetLocalPlayer(SPPlayer newLocal) {
@@ -81,9 +60,6 @@ public class SPPlayer : SPBase
     protected override void Destroy()
     {
         base.Destroy();
-
-        reciever.OnInteractUpdate -= UpdateInteract;
-        actor.OnAction -= OnPlayerAction;
 
     }
 
@@ -193,17 +169,6 @@ public class SPPlayer : SPBase
     {
 
     }
-
-
-
-    public void UpdateInteract()
-    {
-        if (IsLocalPlayer)
-        {
-            // SPAttention.TogglePanel(reciever.InteractWithOnt != null, reciever.InteractWithOnt);
-        }
-    }
-
 
 
     protected virtual void UpdateAnimation()
