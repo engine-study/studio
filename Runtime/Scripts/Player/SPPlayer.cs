@@ -71,6 +71,13 @@ public class SPPlayer : SPBaseActor
 
         alive = true;
 
+
+    }
+
+    protected override void PostInit()
+    {
+        base.PostInit();
+        
         controller.Init();
         Controller.ToggleController(IsLocalPlayer);
 
@@ -83,7 +90,6 @@ public class SPPlayer : SPBaseActor
         {
             RespawnLocal();
         }
-
     }
 
 

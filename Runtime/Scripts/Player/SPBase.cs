@@ -12,7 +12,7 @@ public class SPBase : MonoBehaviour
 
     public virtual bool HasInit { get { return hasInit; } }
     public System.Action OnPlayerToggle;
-    public System.Action OnInit;
+    public System.Action OnInit, OnNetworkInit, OnPostInit;
     protected bool hasInit;
 
     [Header("Settings")]
@@ -34,7 +34,7 @@ public class SPBase : MonoBehaviour
 
     protected virtual void Start()
     {
-        Init();
+        DoInit();
     }
 
     protected virtual void OnEnable() {}
@@ -53,6 +53,26 @@ public class SPBase : MonoBehaviour
 
     protected virtual void NetworkInit() {
 
+    }
+
+    protected virtual void PostInit() {
+
+    }
+
+    protected void DoInit() {
+        Init();
+        OnInit?.Invoke();
+    }
+    protected void DoNetworkInit() {
+        
+        NetworkInit();
+        OnNetworkInit?.Invoke();
+
+        DoPostInit();
+    }
+    protected void DoPostInit() {
+        PostInit();
+        OnPostInit?.Invoke();
     }
 
     protected virtual void Update()

@@ -22,12 +22,12 @@ public class SPPlayerResources : MonoBehaviour
     void Awake() {
 
         player = GetComponentInParent<SPPlayer>();
-        player.OnInit += Init;
+        player.OnPostInit += Init;
 
     }
 
     void OnDestroy() {
-        player.OnInit -= Init;
+        player.OnPostInit -= Init;
     }
 
     void Init() {

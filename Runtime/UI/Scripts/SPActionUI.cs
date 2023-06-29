@@ -84,7 +84,7 @@ public class SPActionUI : SPWindowParent
 
     void ToggleTarget(bool toggle, IInteract newInteract)
     {
-        actions[0].ToggleAction(true, actor, newInteract);
+        actions[0].ToggleAction(toggle, actor, newInteract);
         actions[0].ToggleActionTarget(toggle);
     }
 

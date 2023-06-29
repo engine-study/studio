@@ -83,9 +83,14 @@ public class SPActor : MonoBehaviour, IActor
         if(reciever.TargetInteract == null)
             return;
 
-        bool input = SPUIBase.CanInput && (Input.GetKeyDown(KeyCode.E) || (Input.GetKey(KeyCode.E)) && ActionRef == reciever.TargetInteract.Action().ActionRef());
+        // if(ActionRef == reciever.TargetInteract.Action().ActionRef()) {
+        //     Stop(reciever.TargetInteract.Action(), reciever.TargetInteract, ActionEndState.Input);   
+        // }
 
-        if(input || ActionState == ActionState.Acting) {
+        bool inputDown = SPUIBase.CanInput && Input.GetKeyDown(KeyCode.E);
+        bool input = SPUIBase.CanInput && Input.GetKey(KeyCode.E);
+
+        if((inputDown && ActionState == ActionState.Idle) || (input && ActionState == ActionState.Casting || ActionState == ActionState.Acting)) {
             Use(reciever.TargetInteract.Action(), reciever.TargetInteract);
         } else if(ActionRef) {
             Stop(reciever.TargetInteract.Action(), reciever.TargetInteract, ActionEndState.Input);   
