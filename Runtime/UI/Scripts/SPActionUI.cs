@@ -41,13 +41,13 @@ public class SPActionUI : SPWindowParent
 
         if (actor != null)
         {
-            actor.OnActionToggle -= LoadAction;
-            actor.OnTarget -= ToggleTarget;
+            actor.OnActionsUpdated -= LoadAction;
+            actor.OnTargetsUpdated -= ToggleTarget;
         }
 
         actor = newActor;
-        actor.OnActionToggle += LoadAction;
-        actor.OnTarget += ToggleTarget;
+        actor.OnActionsUpdated += LoadAction;
+        actor.OnTargetsUpdated += ToggleTarget;
     }
 
     protected override void Destroy()
@@ -56,8 +56,8 @@ public class SPActionUI : SPWindowParent
 
         if (actor != null)
         {
-            actor.OnActionToggle -= LoadAction;
-            actor.OnTarget -= ToggleTarget;
+            actor.OnActionsUpdated -= LoadAction;
+            actor.OnTargetsUpdated -= ToggleTarget;
         }
 
     }
@@ -84,21 +84,34 @@ public class SPActionUI : SPWindowParent
 
     void ToggleTarget(bool toggle, IInteract newInteract)
     {
-        int index = targets.IndexOf(newInteract.GameObject());
-
-        if(index == -1) {
-            Debug.LogError(newInteract.GameObject() + " not found", this);
-            return;
-        }
-
-        SPActionPrompt prompt = activeActions[index];
-        prompt.ToggleActionTarget(toggle);
+        actions[0].ToggleAction(true, actor, newInteract);
+        actions[0].ToggleActionTarget(toggle);
     }
+
+    //     void ToggleTarget(bool toggle, IInteract newInteract)
+    // {
+    //     int index = targets.IndexOf(newInteract.GameObject());
+
+    //     if(index == -1) {
+    //         Debug.LogError(newInteract.GameObject() + " not found", this);
+    //         return;
+    //     }
+
+    //     SPActionPrompt prompt = activeActions[index];
+    //     prompt.ToggleActionTarget(toggle);
+    // }
+
 
     void LoadAction(bool toggle, IInteract newInteract)
     {
-
+        return;
+        GameObject targetGO = newInteract.GameObject();
         SPAction actionRef = newInteract.Action().ActionRef();
+
+        if(targetGO == null) {
+            Debug.LogError("No gameobject on interactable", this);
+            return;
+        }
 
         if (toggle)
         {
@@ -109,12 +122,6 @@ public class SPActionUI : SPWindowParent
                 return;
             }
 
-            GameObject targetGO = newInteract.GameObject();
-
-            if(targetGO == null) {
-                Debug.LogError("No gameobject on interactable", this);
-                return;
-            }
 
             Debug.Log("Adding " + targetGO.name, this);
 
@@ -130,7 +137,7 @@ public class SPActionUI : SPWindowParent
         else
         {
 
-            int index = targets.IndexOf(newInteract.GameObject());
+            int index = targets.IndexOf(targetGO);
 
             if (index < 0)
             {
@@ -139,14 +146,14 @@ public class SPActionUI : SPWindowParent
             }
 
             SPActionPrompt newPrompt = activeActions[index];
+            newPrompt.ToggleAction(false, Actor, newInteract);
 
-            targets.Remove(newInteract.GameObject());
+            targets.Remove(targetGO);
             activeActions.Remove(newPrompt);
             actionStates.Remove(actionRef);
 
             actions.Insert(0, newPrompt);
 
-            newPrompt.ToggleAction(false, Actor, newInteract);
         }
 
     }

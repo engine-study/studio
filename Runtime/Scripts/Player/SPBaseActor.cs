@@ -19,7 +19,6 @@ public class SPBaseActor : SPBase
         if (reciever == null)
         {
             reciever = gameObject.GetComponentInChildren<SPInteractReciever>();
-            reciever.OnInteractUpdate += UpdateInteract;
         }
 
         if (actor == null)
@@ -39,12 +38,7 @@ public class SPBaseActor : SPBase
     {
         base.Destroy();
 
-        reciever.OnInteractUpdate -= UpdateInteract;
         actor.OnAction -= OnPlayerAction;
-
-    }
-
-    protected virtual void UpdateInteract() {
 
     }
 

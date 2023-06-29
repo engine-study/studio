@@ -21,7 +21,7 @@ public class SPWindowPosition : MonoBehaviour
         }
     }    
 
-    void Update() {
+    void LateUpdate() {
         UpdatePosition();
     }
 

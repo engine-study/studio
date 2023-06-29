@@ -5,23 +5,27 @@ using System;
 
 public class SPInteractReciever : MonoBehaviour
 {
-    public IInteract Target {get{return target;}}
+    public IInteract TargetInteract {get{return targetInteract;}}
+    public GameObject TargetGO {get{return targetGO;}}
     public SPBase TargetBase {get{return targetBase;}}
     public bool HasInteractable {get{return hasInteractable;}}
+    
+    public List<IInteract> Interactables {get{return interactables;}}
+    public List<GameObject> GameObjects {get{return gameobjects;}}
+
 
     [Header("Interact")]
-    protected IInteract target;
+    protected IInteract targetInteract;
+    protected GameObject targetGO;
     protected SPBase targetBase;
     bool hasInteractable = false;
 
     [SerializeField] protected List<IInteract> interactables;
     [SerializeField] protected List<GameObject> gameobjects;
 
-    public Action OnInteractUpdate;
     public Action<bool, IInteract> OnInteractToggle;
     public Action<bool, IInteract> OnTargetToggle;
-    public Action<IInteract> OnInteractAdded;
-    public Action<IInteract> OnInteractRemoved;
+
 
     void Awake() {
 
@@ -63,6 +67,17 @@ public class SPInteractReciever : MonoBehaviour
             ToggleInteractable(false, interactables[i]);
         }
     }
+
+    float distanceCheck = .1f;
+    void Update() {
+
+        distanceCheck -= Time.deltaTime;
+        if(distanceCheck < 0f) {
+            distanceCheck += .1f;
+            UpdateTarget();
+        }
+
+    }
     
 
 
@@ -86,55 +101,67 @@ public class SPInteractReciever : MonoBehaviour
 
     }
      
-    void ToggleList(bool toggle, IInteract newInteract, int index) {
+    
+    void ToggleList(bool toggle, IInteract newInteract) {
         if(toggle) {
             interactables.Add(newInteract);
             gameobjects.Add(newInteract.GameObject());
         } else {
+            int index = gameobjects.LastIndexOf(newInteract.GameObject());
+            if(index == -1) {
+                Debug.LogError("Cannot find object", this);
+                return;
+            }
             interactables.RemoveAt(index);
             gameobjects.RemoveAt(index);
         }
+
+        OnInteractToggle?.Invoke(toggle,newInteract);
+
     }
 
     void ToggleInteractable(bool toggle, IInteract newInteract) {
 
-        //check if any null interactables have creapt into our list
-        for(int i = gameobjects.Count - 1; i > -1; i--) {
-            if(gameobjects[i] == null) {
-                ToggleList(false, null, i);
-                continue;
-            }
+        GameObject go = newInteract.GameObject();
+
+        if(go == null) {
+            Debug.LogError("NO gameobject", this);
         }
 
         //we shouldn't be toggling if we already have the object or have already disposed of it
-        bool contains = interactables.Contains(newInteract);
+        bool contains = gameobjects.Contains(go);
         if((toggle && contains) || (!toggle && !contains)) {
             return;
         }
 
         if(toggle) {
             // Debug.Log("Add Interactable: " + newInteract.GameObject().name);
-            ToggleList(true, newInteract, -1);
-            OnInteractAdded?.Invoke(newInteract);
+            ToggleList(true, newInteract);
 
         } else {
             // Debug.Log("Remove Interactable: " + newInteract.GameObject().name);
-            ToggleList(false, newInteract, gameobjects.IndexOf(newInteract.GameObject()));
-            OnInteractRemoved?.Invoke(newInteract);
+            ToggleList(false, newInteract);
 
         }
 
 
         //creates action that lets the UI know that an interactble object has either left the player or entered the players range
-        OnInteractToggle?.Invoke(toggle,newInteract);
+
+        UpdateTarget();
+
+        //Debug.Log("Toggle: " + newInteract);
+    }
+
+    void UpdateTarget() {
         
         float distance = 9999f;
         int index = -1;
+        //iterate backwards in case we delete elements
         for(int i = gameobjects.Count - 1; i > -1; i--) {
 
             if(gameobjects[i] == null) {
-                ToggleList(false, null, i);
-                Debug.LogError("This should never happen");
+                Debug.LogError("A gameobject became null", this);
+                ToggleList(false, null);
                 continue;
             }
 
@@ -146,29 +173,44 @@ public class SPInteractReciever : MonoBehaviour
             index = i;
 
         }
-        
+                
+
         //LOAD the new target
         IInteract newTarget = index != -1 ? interactables[index] : null;
-        if(newTarget != target) {
-            if(target != null) {
-                OnTargetToggle?.Invoke(false, target);
+        GameObject newTargetGO = newTarget != null ? newTarget.GameObject() : null; 
+
+        //always use gameobjects for comparisons
+        if(newTargetGO != targetGO) {
+
+            if(targetInteract != null) {
+                OnTargetToggle?.Invoke(false, targetInteract);
             }
-            target = newTarget;
-            if(target != null) {
-                OnTargetToggle?.Invoke(true, target);
+
+            //SET the new target
+            targetInteract = newTarget;
+            targetGO = newTargetGO;
+            targetBase = targetInteract?.GameObject()?.GetComponent<SPBase>();
+            hasInteractable = targetInteract != null;
+
+            //fire the event
+            if(targetInteract != null) {
+                OnTargetToggle?.Invoke(true, targetInteract);
             }
         }
-      
-    
-        targetBase = target?.GameObject()?.GetComponent<SPBase>();
-        hasInteractable = target != null;
 
-
-        OnInteractUpdate?.Invoke();
-
-        //Debug.Log("Toggle: " + newInteract);
     }
 
+     void OnDrawGizmos() {
+        for(int i = 0; i < GameObjects.Count; i++) {
+            if(GameObjects[i] == TargetGO) {
+                Gizmos.color = Color.blue;
+                Gizmos.DrawLine(GameObjects[i].transform.position, transform.position);
+            } else {
+                Gizmos.color = Color.yellow;
+                Gizmos.DrawLine(GameObjects[i].transform.position, transform.position);
+            }
+        }
+    }
     
 
 
