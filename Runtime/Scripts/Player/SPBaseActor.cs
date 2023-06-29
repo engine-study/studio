@@ -24,7 +24,7 @@ public class SPBaseActor : SPBase
 
         if (actor == null)
         {
-            actor = gameObject.AddComponent<SPActor>();
+            actor = gameObject.GetComponent<SPActor>();
             actor.enabled = false;
             actor.sender = this;
             actor.reciever = reciever;

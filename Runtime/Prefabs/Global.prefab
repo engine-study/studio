@@ -46,11 +46,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   activeUI: {fileID: 0}
-  mainCanvas: {fileID: 0}
-  mainCamera: {fileID: 0}
-  canvasRect: {fileID: 0}
-  audioSource: {fileID: 2519974322545783687}
-  draggableParent: {fileID: 0}
   s_typing: {fileID: 0}
   s_login: {fileID: 0}
   s_message: {fileID: 0}

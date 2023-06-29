@@ -29,7 +29,8 @@ public class SPGlobal : MonoBehaviour
         }
 
         if(Application.isEditor || Debug.isDebugBuild) {
-            QualitySettings.vSyncCount = 2;
+            QualitySettings.vSyncCount = 1;
+            Application.targetFrameRate = 30;
         }
 
         if(Application.platform == RuntimePlatform.WindowsPlayer) {

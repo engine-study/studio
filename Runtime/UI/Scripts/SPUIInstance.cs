@@ -19,11 +19,15 @@ public class SPUIInstance : MonoBehaviour
     [SerializeField] protected RectTransform draggableParent; 
     [SerializeField] protected AudioSource audioSource;
 
-    void Awake() {
+    protected virtual void Awake() {
         Instance = this;
     }
 
-    void OnDestroy() {
+    protected virtual void Start() {
+
+    }
+
+    protected virtual void OnDestroy() {
         Instance = null;
     }
 }

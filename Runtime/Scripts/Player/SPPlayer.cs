@@ -54,6 +54,7 @@ public class SPPlayer : SPBaseActor
     public static void SetLocalPlayer(SPPlayer newLocal) {
         localPlayer = newLocal;
         newLocal.isLocalPlayer = true;
+        SPEvents.OnLocalPlayerSpawn?.Invoke();
     }
 
 
