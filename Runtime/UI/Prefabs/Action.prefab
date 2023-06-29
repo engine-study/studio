@@ -269,7 +269,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &4968923104861173689
 RectTransform:
   m_ObjectHideFlags: 0
@@ -735,7 +735,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: -250}
-  m_SizeDelta: {x: 100, y: 20}
+  m_SizeDelta: {x: 200, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &7294684288166856946
 MonoBehaviour:
@@ -959,7 +959,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 425606280224981030, guid: 016a2f1f07a4fbd4bbb2d62f970d71ab, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0.000030517578
+      value: -40
       objectReference: {fileID: 0}
     - target: {fileID: 425606280224981030, guid: 016a2f1f07a4fbd4bbb2d62f970d71ab, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -983,7 +983,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 425606280224981031, guid: 016a2f1f07a4fbd4bbb2d62f970d71ab, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1986146860445263215, guid: 016a2f1f07a4fbd4bbb2d62f970d71ab, type: 3}
       propertyPath: m_IsActive
@@ -1113,10 +1113,6 @@ PrefabInstance:
       value: Interact
       objectReference: {fileID: 0}
     - target: {fileID: 1279236655786584264, guid: 2a5032fb2a26241479aad85d7a971944, type: 3}
-      propertyPath: m_fontSize
-      value: 14
-      objectReference: {fileID: 0}
-    - target: {fileID: 1279236655786584264, guid: 2a5032fb2a26241479aad85d7a971944, type: 3}
       propertyPath: m_margin.w
       value: -2
       objectReference: {fileID: 0}
@@ -1150,7 +1146,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1279236655786584264, guid: 2a5032fb2a26241479aad85d7a971944, type: 3}
       propertyPath: m_fontSizeBase
-      value: 14
+      value: 18
       objectReference: {fileID: 0}
     - target: {fileID: 1279236655786584264, guid: 2a5032fb2a26241479aad85d7a971944, type: 3}
       propertyPath: m_fontColor32.rgba

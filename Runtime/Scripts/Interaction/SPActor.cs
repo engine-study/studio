@@ -150,6 +150,8 @@ public class SPActor : MonoBehaviour, IActor
 
     public virtual void SetToInitialState() {
         
+        internalState = ActionState.Idle;
+
         castCount = 0f;
         actionCount = 0f; 
 
@@ -305,14 +307,13 @@ public class SPActor : MonoBehaviour, IActor
         ActionRef.OnActionStart?.Invoke();
 
         if(ActionRef.Type == ActionType.OneShot || ActionRef.Type == ActionType.State) {
-            SetToInitialState();
-        } else if(ActionRef.ActionDuration > 0f || ActionRef.Type == ActionType.Hold) {
+            Stop(ActionRef, Interact, ActionEndState.Success);
 
         } else {
             internalState = ActionState.Acting;
+            ActionUpdate();
         }
 
-        ActionUpdate();
 
     }
 

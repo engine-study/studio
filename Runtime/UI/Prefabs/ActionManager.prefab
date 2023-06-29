@@ -148,7 +148,6 @@ MonoBehaviour:
   addSubcanvas: 1
   addRaycaster: 1
   themeOverride: {fileID: 11400000, guid: d756c68bfadfba94a980ccaf5c4f862c, type: 2}
-  worldspace: 1
   actions:
   - {fileID: 3078605960159661368}
   - {fileID: 3078605960737196573}
@@ -156,6 +155,7 @@ MonoBehaviour:
   - {fileID: 3078605959903514203}
   actionSorted: []
   activeActions: []
+  actor: {fileID: 0}
   actionStates: []
   targets: []
   debugReadout: {fileID: 7409690595341861287}
@@ -620,33 +620,9 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5729295028405548051}
     m_Modifications:
-    - target: {fileID: 5274450752276959850, guid: a7df7bb19ba607a4c94a30d2a9414e37, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5274450752276959850, guid: a7df7bb19ba607a4c94a30d2a9414e37, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -0.000015258789
-      objectReference: {fileID: 0}
-    - target: {fileID: 5601654443654165963, guid: a7df7bb19ba607a4c94a30d2a9414e37, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5922219207892972595, guid: a7df7bb19ba607a4c94a30d2a9414e37, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5922219207892972595, guid: a7df7bb19ba607a4c94a30d2a9414e37, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -0.000289917
-      objectReference: {fileID: 0}
     - target: {fileID: 7294684288166856948, guid: a7df7bb19ba607a4c94a30d2a9414e37, type: 3}
       propertyPath: m_Name
       value: Action
-      objectReference: {fileID: 0}
-    - target: {fileID: 7294684288166856948, guid: a7df7bb19ba607a4c94a30d2a9414e37, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7294684288166856949, guid: a7df7bb19ba607a4c94a30d2a9414e37, type: 3}
       propertyPath: m_Pivot.x
@@ -723,14 +699,6 @@ PrefabInstance:
     - target: {fileID: 7294684288166856949, guid: a7df7bb19ba607a4c94a30d2a9414e37, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8429381996320901749, guid: a7df7bb19ba607a4c94a30d2a9414e37, type: 3}
-      propertyPath: m_text
-      value: Fish
-      objectReference: {fileID: 0}
-    - target: {fileID: 8787944552391267029, guid: a7df7bb19ba607a4c94a30d2a9414e37, type: 3}
-      propertyPath: m_text
-      value: Z
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

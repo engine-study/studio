@@ -9,6 +9,7 @@ public class SPActionPrompt : SPWindowParent
     public SPButton Input{get{return inputText;}}
 
     [Header("Action Prompt")]
+    public bool worldSpace;
     [SerializeField] protected SPButton buttonText;
     [SerializeField] protected SPButton inputText;
     [SerializeField] protected GameObject miniPromptParent;
@@ -65,7 +66,9 @@ public class SPActionPrompt : SPWindowParent
             Button.UpdateField(action.actionName);
 
             SPBase tryBase = interact.GameObject().GetComponent<SPBase>();
-            windowPosition.SetFollow(tryBase ? tryBase.Root : interact.GameObject().transform);
+
+            if(worldSpace)
+                windowPosition.SetFollow(tryBase ? tryBase.Root : interact.GameObject().transform);
 
             // buttonText.UpdateField(key.ToString());
 
