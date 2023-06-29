@@ -15,13 +15,15 @@ public class SPInteractReciever : MonoBehaviour
 
 
     [Header("Interact")]
+    [SerializeField] protected GameObject targetGO;
+    [SerializeField] protected SPBase targetBase;
+    [SerializeField] protected List<GameObject> gameobjects;
+    [SerializeField] protected List<IInteract> interactables;
+
     protected IInteract targetInteract;
-    protected GameObject targetGO;
-    protected SPBase targetBase;
     bool hasInteractable = false;
 
-    [SerializeField] protected List<IInteract> interactables;
-    [SerializeField] protected List<GameObject> gameobjects;
+
 
     public Action<bool, IInteract> OnInteractToggle;
     public Action<bool, IInteract> OnTargetToggle;
@@ -68,12 +70,12 @@ public class SPInteractReciever : MonoBehaviour
         }
     }
 
-    float distanceCheck = .1f;
+    float distanceCheck = .2f;
     void Update() {
 
         distanceCheck -= Time.deltaTime;
         if(distanceCheck < 0f) {
-            distanceCheck += .1f;
+            distanceCheck += .2f;
             UpdateTarget();
         }
 
@@ -107,7 +109,7 @@ public class SPInteractReciever : MonoBehaviour
             interactables.Add(newInteract);
             gameobjects.Add(newInteract.GameObject());
         } else {
-            int index = gameobjects.LastIndexOf(newInteract.GameObject());
+            int index = gameobjects.IndexOf(newInteract.GameObject());
             if(index == -1) {
                 Debug.LogError("Cannot find object", this);
                 return;
@@ -154,6 +156,8 @@ public class SPInteractReciever : MonoBehaviour
 
     void UpdateTarget() {
         
+        // Debug.Log("Update Target");
+
         float distance = 9999f;
         int index = -1;
         //iterate backwards in case we delete elements
@@ -166,34 +170,35 @@ public class SPInteractReciever : MonoBehaviour
             }
 
             float newDistance = Vector3.Distance(gameobjects[i].transform.position, transform.position);
+            
             if(newDistance < distance) {
                 distance = newDistance;
                 index = i;
             }
-            index = i;
 
         }
                 
-
         //LOAD the new target
         IInteract newTarget = index != -1 ? interactables[index] : null;
-        GameObject newTargetGO = newTarget != null ? newTarget.GameObject() : null; 
+        GameObject newTargetGO = index != -1 ? gameobjects[index] : null;
 
+        //check if new gameobject
         //always use gameobjects for comparisons
         if(newTargetGO != targetGO) {
 
-            if(targetInteract != null) {
+            if(targetGO != null) {
                 OnTargetToggle?.Invoke(false, targetInteract);
             }
 
             //SET the new target
             targetInteract = newTarget;
             targetGO = newTargetGO;
-            targetBase = targetInteract?.GameObject()?.GetComponent<SPBase>();
-            hasInteractable = targetInteract != null;
+            targetBase = targetGO?.GetComponent<SPBase>();
+            hasInteractable = targetGO != null;
 
             //fire the event
-            if(targetInteract != null) {
+            if(targetGO != null) {
+                Debug.Log("New Target: " + newTargetGO.name, newTargetGO);
                 OnTargetToggle?.Invoke(true, targetInteract);
             }
         }
