@@ -15,7 +15,7 @@ public class SPInteractReciever : MonoBehaviour
     bool hasInteractable = false;
 
     [SerializeField] protected List<IInteract> interactables;
-    [SerializeField] protected List<GameObject> interactableGameobjects;
+    [SerializeField] protected List<GameObject> gameobjects;
 
     public Action OnInteractUpdate;
     public Action<bool, IInteract> OnInteractToggle;
@@ -26,7 +26,7 @@ public class SPInteractReciever : MonoBehaviour
     void Awake() {
 
         interactables = new List<IInteract>();
-        interactableGameobjects = new List<GameObject>();
+        gameobjects = new List<GameObject>();
 
     }
 
@@ -89,17 +89,18 @@ public class SPInteractReciever : MonoBehaviour
     void ToggleList(bool toggle, IInteract newInteract, int index) {
         if(toggle) {
             interactables.Add(newInteract);
-            interactableGameobjects.Add(newInteract.GameObject());
+            gameobjects.Add(newInteract.GameObject());
         } else {
             interactables.RemoveAt(index);
-            interactableGameobjects.RemoveAt(index);
+            gameobjects.RemoveAt(index);
         }
     }
+
     void ToggleInteractable(bool toggle, IInteract newInteract) {
 
         //check if any null interactables have creapt into our list
-        for(int i = interactableGameobjects.Count - 1; i > -1; i--) {
-            if(interactableGameobjects[i] == null) {
+        for(int i = gameobjects.Count - 1; i > -1; i--) {
+            if(gameobjects[i] == null) {
                 ToggleList(false, null, i);
                 continue;
             }
@@ -118,7 +119,7 @@ public class SPInteractReciever : MonoBehaviour
 
         } else {
             // Debug.Log("Remove Interactable: " + newInteract.GameObject().name);
-            ToggleList(false, null, interactableGameobjects.IndexOf(newInteract.GameObject()));
+            ToggleList(false, newInteract, gameobjects.IndexOf(newInteract.GameObject()));
             OnInteractRemoved?.Invoke(newInteract);
 
         }
@@ -129,15 +130,15 @@ public class SPInteractReciever : MonoBehaviour
         
         float distance = 9999f;
         int index = -1;
-        for(int i = interactableGameobjects.Count - 1; i > -1; i--) {
+        for(int i = gameobjects.Count - 1; i > -1; i--) {
 
-            if(interactableGameobjects[i] == null) {
+            if(gameobjects[i] == null) {
                 ToggleList(false, null, i);
                 Debug.LogError("This should never happen");
                 continue;
             }
 
-            float newDistance = Vector3.Distance(interactableGameobjects[i].transform.position, transform.position);
+            float newDistance = Vector3.Distance(gameobjects[i].transform.position, transform.position);
             if(newDistance < distance) {
                 distance = newDistance;
                 index = i;

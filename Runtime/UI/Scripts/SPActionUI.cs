@@ -7,8 +7,8 @@ using TMPro;
 public class SPActionUI : SPWindowParent
 {
     public SPActor Actor {get{return actor;}}
+
     [Header("Interacting")]
-    public bool worldspace = true;
     public List<SPActionPrompt> actions;
     public List<SPActionPrompt> actionSorted;
     public List<SPActionPrompt> activeActions;
@@ -41,12 +41,12 @@ public class SPActionUI : SPWindowParent
 
         if (actor != null)
         {
-            actor.OnActionToggle -= ToggleAction;
+            actor.OnActionToggle -= LoadAction;
             actor.OnTarget -= ToggleTarget;
         }
 
         actor = newActor;
-        actor.OnActionToggle += ToggleAction;
+        actor.OnActionToggle += LoadAction;
         actor.OnTarget += ToggleTarget;
     }
 
@@ -56,7 +56,7 @@ public class SPActionUI : SPWindowParent
 
         if (actor != null)
         {
-            actor.OnActionToggle -= ToggleAction;
+            actor.OnActionToggle -= LoadAction;
             actor.OnTarget -= ToggleTarget;
         }
 
@@ -85,11 +85,17 @@ public class SPActionUI : SPWindowParent
     void ToggleTarget(bool toggle, IInteract newInteract)
     {
         int index = targets.IndexOf(newInteract.GameObject());
+
+        if(index == -1) {
+            Debug.LogError(newInteract.GameObject() + " not found", this);
+            return;
+        }
+
         SPActionPrompt prompt = activeActions[index];
         prompt.ToggleActionTarget(toggle);
     }
 
-    void ToggleAction(bool toggle, IInteract newInteract)
+    void LoadAction(bool toggle, IInteract newInteract)
     {
 
         SPAction actionRef = newInteract.Action().ActionRef();
@@ -99,7 +105,7 @@ public class SPActionUI : SPWindowParent
 
             if (actions.Count < 1)
             {
-                Debug.Log("Too many actions");
+                Debug.LogError("Too many actions");
                 return;
             }
 
@@ -110,9 +116,10 @@ public class SPActionUI : SPWindowParent
                 return;
             }
 
+            Debug.Log("Adding " + targetGO.name, this);
+
             SPActionPrompt newPrompt = actions[0];
             actions.RemoveAt(0);
-
 
             targets.Add(targetGO);
             activeActions.Add(newPrompt);

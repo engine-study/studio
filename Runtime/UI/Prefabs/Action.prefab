@@ -771,7 +771,7 @@ MonoBehaviour:
   progressParent: {fileID: 4434298146255648124}
   actionProgress: {fileID: 561293108746452799}
   sweetSpot: {fileID: 5052121174520996349}
-  windowPosition: {fileID: 0}
+  windowPosition: {fileID: 6107232928247664063}
   actorComponent: {fileID: 0}
   action: {fileID: 0}
 --- !u!114 &6107232928247664063
