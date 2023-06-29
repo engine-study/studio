@@ -13,7 +13,7 @@ public class SPWindowParent : SPWindow
 
     [SerializeField] protected bool addSubcanvas = true;
     [SerializeField] protected bool addRaycaster = true;
-    bool animateWindow = true;
+    bool animateWindow = false;
     [SerializeField] protected SPThemeScriptable themeOverride;
 
     protected List<SPWindow> windows;
