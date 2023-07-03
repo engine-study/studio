@@ -20,7 +20,6 @@ public class SPGlobal : MonoBehaviour
     [SerializeField] protected bool testnet = false;
 
     void Awake() {
-
         
         if(I != null) {
             Destroy(gameObject);
