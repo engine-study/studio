@@ -85,6 +85,10 @@ public class SPInteractReciever : MonoBehaviour
 
     protected virtual void OnTriggerEnter(Collider other) {
 
+        if(!enabled) {
+            return;
+        }
+
         IInteract i = other.GetComponentInParent<IInteract>();
         //Debug.Log("OnTriggerEnter: " + other.gameObject.name);
         if(i != null && i.IsInteractable() && i.GameObject() != gameObject) {
@@ -95,6 +99,10 @@ public class SPInteractReciever : MonoBehaviour
 
     protected virtual void OnTriggerExit(Collider other) {
 
+        if(!enabled) {
+            return;
+        }
+        
         IInteract i = other.GetComponentInParent<IInteract>();
         //Debug.Log("OnTriggerExit: " + other.gameObject.name);
         if(i != null && i.GameObject() != gameObject) {
@@ -198,7 +206,7 @@ public class SPInteractReciever : MonoBehaviour
 
             //fire the event
             if(targetGO != null) {
-                Debug.Log("New Target: " + newTargetGO.name, newTargetGO);
+                Debug.Log("New Target: " + newTargetGO.name, this);
                 OnTargetToggle?.Invoke(true, targetInteract);
             }
         }

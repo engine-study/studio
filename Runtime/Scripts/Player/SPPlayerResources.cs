@@ -23,6 +23,7 @@ public class SPPlayerResources : MonoBehaviour
 
         player = GetComponentInParent<SPPlayer>();
         player.OnPostInit += Init;
+        triggerLocal.gameObject.SetActive(false);
 
     }
 

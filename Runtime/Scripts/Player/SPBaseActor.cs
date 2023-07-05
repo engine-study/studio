@@ -33,7 +33,7 @@ public class SPBaseActor : SPBase
 
     }
 
-    
+
     protected override void Destroy()
     {
         base.Destroy();
