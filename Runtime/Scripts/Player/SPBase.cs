@@ -24,12 +24,9 @@ public class SPBase : MonoBehaviour
 
     protected virtual void Awake()
     {
-
-        rb = GetComponent<Rigidbody>();
-        if (rb == null) { rb = gameObject.AddComponent<Rigidbody>(); }
+        if (rb == null) { rb = GetComponent<Rigidbody>(); }
         if (Root == null) { root = transform; }
         if (Visual == null) { visual = gameObject; }
-
     }
 
     protected virtual void Start()
