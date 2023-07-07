@@ -11,8 +11,15 @@ public class SPWindowPosition : MonoBehaviour
     [SerializeField] protected OffsetType offsetSpace = OffsetType.Camera; 
 
     RectTransform rect;
-
+    bool hasInit = false;
     void Start() {
+        if(!hasInit) {
+            Init();
+        }
+    }
+
+    void Init(){
+
         if(window == null) {
             window = GetComponent<SPWindow>();
         }
@@ -23,9 +30,15 @@ public class SPWindowPosition : MonoBehaviour
             rect = window.Rect;
         }
         SetFollow(follow);
+        hasInit = true; 
     }
 
     public void SetFollow(Transform newFollow) {
+
+        if(!hasInit) {
+            Init();
+        }
+        
         follow = newFollow;
         enabled = follow != null;
 
