@@ -20,6 +20,10 @@ public class SPWindowPosition : MonoBehaviour
 
     void Init(){
 
+        if(hasInit) {
+            return;
+        }
+
         if(window == null) {
             window = GetComponent<SPWindow>();
         }
@@ -29,8 +33,11 @@ public class SPWindowPosition : MonoBehaviour
         } else {
             rect = window.Rect;
         }
-        SetFollow(follow);
+
         hasInit = true; 
+
+        SetFollow(follow);
+
     }
 
     public void SetFollow(Transform newFollow) {
@@ -38,7 +45,7 @@ public class SPWindowPosition : MonoBehaviour
         if(!hasInit) {
             Init();
         }
-        
+
         follow = newFollow;
         enabled = follow != null;
 

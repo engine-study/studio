@@ -18,6 +18,7 @@ public class SPActionUI : SPWindowParent
     public List<SPAction> actionStates;
     public List<GameObject> targets;
     public TextMeshProUGUI debugReadout;
+    public SPActionWheelUI wheel;
 
     public override void Init()
     {
@@ -48,6 +49,8 @@ public class SPActionUI : SPWindowParent
         actor = newActor;
         actor.OnActionsUpdated += LoadAction;
         actor.OnTargetsUpdated += ToggleTarget;
+
+        wheel.Setup(newActor);
     }
 
     protected override void Destroy()

@@ -9,7 +9,6 @@ public class SPBase : MonoBehaviour
     public Transform Root { get { return root; } }
     public GameObject Visual { get { return visual; } }
     public Vector3 Center { get { return Root.position; } }
-
     public virtual bool HasInit { get { return hasInit; } }
     public System.Action OnPlayerToggle;
     public System.Action OnInit, OnNetworkInit, OnPostInit;
