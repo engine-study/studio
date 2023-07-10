@@ -87,8 +87,8 @@ public class SPActionUI : SPWindowParent
 
     void ToggleTarget(bool toggle, IInteract newInteract)
     {
-        actions[0].ToggleAction(toggle, actor, newInteract);
-        actions[0].ToggleActionTarget(toggle);
+        // actions[0].ToggleAction(toggle, actor, newInteract);
+        // actions[0].ToggleActionTarget(toggle);
     }
 
     //     void ToggleTarget(bool toggle, IInteract newInteract)
@@ -107,7 +107,6 @@ public class SPActionUI : SPWindowParent
 
     void LoadAction(bool toggle, IInteract newInteract)
     {
-        return;
         GameObject targetGO = newInteract.GameObject();
         SPAction actionRef = newInteract.Action().ActionRef();
 
@@ -136,6 +135,7 @@ public class SPActionUI : SPWindowParent
             actionStates.Add(actionRef);
 
             newPrompt.ToggleAction(true, Actor, newInteract);
+            newPrompt.ToggleActionTarget(true);
         }
         else
         {

@@ -15,11 +15,15 @@ public class SPInteract : MonoBehaviour, IInteract
     public SPPlayer actorPlayer;
     public IActor actor;
 
+    [HideInInspector] public GameObject go;
+
     public System.Action OnActor, OnInteract;
     public System.Action<bool, IActor> OnActorToggle, OnInteractToggle;
 
     protected virtual void Awake() {
-
+        if(go == null) {
+            go = gameObject;
+        }
     }
 
     protected virtual void OnDestroy() {
@@ -67,7 +71,7 @@ public class SPInteract : MonoBehaviour, IInteract
     }
 
     public virtual GameObject GameObject() {
-        return gameObject;
+        return go;
     }
 
     public virtual IAction Action() {

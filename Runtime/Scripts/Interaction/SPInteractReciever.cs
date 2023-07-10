@@ -28,12 +28,24 @@ public class SPInteractReciever : MonoBehaviour
     public Action<bool, IInteract> OnInteractToggle;
     public Action<bool, IInteract> OnTargetToggle;
 
+    bool hasInit = false; 
 
     void Awake() {
+
+        Init();
+
+    }
+
+    void Init() {
+        
+        if(hasInit) {
+            return;
+        }
 
         interactables = new List<IInteract>();
         gameobjects = new List<GameObject>();
 
+        hasInit = true; 
     }
 
     /*
@@ -113,6 +125,7 @@ public class SPInteractReciever : MonoBehaviour
      
     
     void ToggleList(bool toggle, IInteract newInteract) {
+
         if(toggle) {
             interactables.Add(newInteract);
             gameobjects.Add(newInteract.GameObject());
@@ -128,6 +141,15 @@ public class SPInteractReciever : MonoBehaviour
 
         OnInteractToggle?.Invoke(toggle,newInteract);
 
+    }
+
+    public void ToggleInteractableManual(bool toggle, IInteract newInteract) {
+        
+        if(!hasInit) {
+            Init();
+        }
+        
+        ToggleInteractable(toggle,newInteract);
     }
 
     void ToggleInteractable(bool toggle, IInteract newInteract) {

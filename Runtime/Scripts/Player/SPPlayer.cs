@@ -77,7 +77,11 @@ public class SPPlayer : SPBaseActor
     protected override void PostInit()
     {
         base.PostInit();
-        
+
+        if(logic == null) {
+            logic = GetComponent<SPLogic>();
+        }
+
         controller.Init();
         Controller.ToggleController(IsLocalPlayer);
 

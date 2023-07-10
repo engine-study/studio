@@ -5,6 +5,7 @@ using UnityEngine;
 public class SPBaseActor : SPBase
 {
     public SPActor Actor { get { return actor; } }
+    public SPInteractReciever Reciever { get { return reciever; } }
     public System.Action<IAction> OnPlayerAction;
 
     [Header("Actor")]
