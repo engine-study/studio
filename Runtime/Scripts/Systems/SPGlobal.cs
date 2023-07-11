@@ -2,6 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+
 public class SPGlobal : MonoBehaviour
 {
     public static SPGlobal I;
@@ -55,4 +59,24 @@ public class SPGlobal : MonoBehaviour
         FirstFrame = false; 
     }
 
+
+    
+    #if UNITY_EDITOR
+    [MenuItem("Engine/Find Player &w")]
+    static void FindPlayer()
+    {
+        SPPlayer player;
+
+        if(Application.isPlaying) {
+            player = SPPlayer.LocalPlayer;
+        } else {
+            player = FindObjectOfType<SPPlayer>(); 
+        }
+
+        if(!player) {return;}
+
+        Selection.activeGameObject = player.gameObject;
+
+    }
+    #endif
 }

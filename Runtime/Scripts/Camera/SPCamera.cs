@@ -59,6 +59,7 @@ public class SPCamera : MonoBehaviour
     public static void SetTarget(Vector3 targetPos) {SetTarget(targetPos, I.transform.rotation);}
     public static void SetTarget(Vector3 targetPos, Quaternion targetRot) {
         Debug.Log("Camera Target: " + targetPos.ToString());
+        I.follow = false;
         I.position = targetPos;
         I.rotation = targetRot;
     }
@@ -125,13 +126,13 @@ public class SPCamera : MonoBehaviour
 
         if(SPUIBase.IsMouseOnScreen && canScroll) {
 
-            if(Input.GetKey(KeyCode.LeftShift)) {
+            if(Input.GetKey(KeyCode.LeftControl)) {
                 scrollRot += Input.mouseScrollDelta.y * 10f;
                 scrollLock = Mathf.Round(scrollRot / 90) * 90;
 
                 // rotation = rotation * Quaternion.Euler(Vector3.up * Input.mouseScrollDelta.y * 25f);
                 // transform.Rotate(0f,Input.mouseScrollDelta.y * 25f,0f);
-            } else {
+            } else if(Input.GetKey(KeyCode.LeftShift)){
                 SetFOVGlobal(fov + Input.mouseScrollDelta.y * -scrollSpeed);
             }
         }
