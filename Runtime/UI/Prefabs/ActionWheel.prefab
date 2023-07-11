@@ -53,7 +53,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   follow: {fileID: 0}
   window: {fileID: 0}
-  offset: {x: 0.75, y: 0.25, z: 0}
+  offset: {x: 0.75, y: 0.5, z: 0}
   offsetSpace: 0
 --- !u!114 &6025234878469540592
 MonoBehaviour:

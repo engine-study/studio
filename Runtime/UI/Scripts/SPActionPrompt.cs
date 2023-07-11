@@ -15,11 +15,13 @@ public class SPActionPrompt : SPWindowParent
     [SerializeField] protected GameObject miniPromptParent;
     [SerializeField] protected GameObject fullPromptParent;
     [SerializeField] protected GameObject promptParent;
+    [SerializeField] protected SPWindowPosition windowPosition;
+    [SerializeField] protected SPWindowPosition progressPosition;
+
+    [Header("Progress")]
     [SerializeField] protected GameObject progressParent;
     [SerializeField] protected Image actionProgress;
     [SerializeField] protected Image sweetSpot;
-    [SerializeField] protected SPWindowPosition windowPosition;
-
 
     [Header("Debug")]
     [SerializeField] public SPActor actorComponent;
@@ -41,11 +43,14 @@ public class SPActionPrompt : SPWindowParent
     public void ToggleActionTarget(bool toggle) {
         miniPromptParent.SetActive(!toggle);
         fullPromptParent.SetActive(toggle);
+        progressParent.SetActive(toggle);
     }
     public void ToggleAction(bool toggle, SPActor actor, IInteract interact) {
 
         action = interact.Action().ActionRef();
         actorComponent = actor;
+
+        progressPosition.SetFollow(actor.transform);
 
         if(toggle) {
             
@@ -110,7 +115,7 @@ public class SPActionPrompt : SPWindowParent
     void StartCast() {ToggleCast(true);}
     void EndCast() {ToggleCast(false);}
     void UpdateCast() {
-        actionProgress.color = Theme.defaultTheme.color;
+        actionProgress.color = Color.green;  //Theme.defaultTheme.color;
         UpdateProgress(actorComponent.CastLerp);
     }
 

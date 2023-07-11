@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class SPInteract : MonoBehaviour, IInteract
 {
@@ -9,11 +10,15 @@ public class SPInteract : MonoBehaviour, IInteract
     [Header("Interact")]
     public SPAction action;
     public SPState state;
-
+    
     [Header("Debug")]
     public bool interacting = false; 
     public SPPlayer actorPlayer;
     public IActor actor;
+
+    [Header("Events")]
+    public UnityEvent OnStartEvent;
+    public UnityEvent OnEndEvent;
 
     [HideInInspector] public GameObject go;
 
@@ -48,14 +53,20 @@ public class SPInteract : MonoBehaviour, IInteract
 
             newActor.SetState(state != null ? state : new SPState(PlayerState.Interact));
 
+            OnStartEvent?.Invoke();
+
         } else {
             actorPlayer = null;
 
             if(state != null) {
                 newActor.SetState(null);
             }
+                               
+            OnEndEvent?.Invoke();
+
         }
 
+    
         OnInteract?.Invoke();
         OnInteractToggle?.Invoke(toggle,newActor);
 

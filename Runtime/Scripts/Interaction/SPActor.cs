@@ -62,6 +62,10 @@ public class SPActor : MonoBehaviour, IActor
         reciever.OnTargetToggle -= ToggleTarget;
     }
 
+    public void ToggleActor(bool toggle) {
+        enabled = toggle;
+    }
+
     public virtual MonoBehaviour Player() {
         return sender; 
     }
@@ -77,26 +81,29 @@ public class SPActor : MonoBehaviour, IActor
     }
 
     bool hasLift;
+
     void UpdateInput() {
 
+        InputAction(KeyCode.E, reciever.TargetInteract);
 
-        if(reciever.TargetInteract == null)
-            return;
+    }
+
+    public void InputAction(KeyCode inputCode, IInteract newInteractable) {
 
         // if(ActionRef == reciever.TargetInteract.Action().ActionRef()) {
         //     Stop(reciever.TargetInteract.Action(), reciever.TargetInteract, ActionEndState.Input);   
         // }
 
-        bool inputDown = SPUIBase.CanInput && Input.GetKeyDown(KeyCode.E);
-        bool input = SPUIBase.CanInput && Input.GetKey(KeyCode.E);
+        bool inputDown = SPUIBase.CanInput && Input.GetKeyDown(inputCode);
+        bool input = SPUIBase.CanInput && Input.GetKey(inputCode);
 
         if((inputDown && ActionState == ActionState.Idle) || (input && ActionState == ActionState.Casting || ActionState == ActionState.Acting)) {
-            Use(reciever.TargetInteract.Action(), reciever.TargetInteract);
+            Use(newInteractable.Action(), newInteractable);
         } else if(ActionRef) {
-            Stop(reciever.TargetInteract.Action(), reciever.TargetInteract, ActionEndState.Input);   
+            Stop(newInteractable.Action(), newInteractable, ActionEndState.Input);   
         } 
-        
 
+        //reciever.TargetInteract.Action()  //reciever.TargetInteract
     }
 
     void UpdateAction() {

@@ -85,6 +85,8 @@ public class SPPlayer : SPBaseActor
         controller.Init();
         Controller.ToggleController(IsLocalPlayer);
 
+        actor.ToggleActor(IsLocalPlayer);
+
         if (IsLocalPlayer)
         {
             logic.Init();
