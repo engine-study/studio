@@ -31,8 +31,9 @@ public class SPActionWheelUI : SPWindow
         
         if(linger != null) {
             StopCoroutine(linger);
-            actionGlow.gameObject.SetActive(false);
         }
+
+        actionGlow.gameObject.SetActive(false);
 
         if(newState != state) {
 
@@ -66,7 +67,7 @@ public class SPActionWheelUI : SPWindow
 
         while(lerp < 1f) {
             lerp += Time.deltaTime;
-            actionGlow.color = startColor - Color.black * Mathf.Sin(lerp * 10f * Mathf.PI);
+            actionGlow.color = startColor - Color.black * .5f - Color.black * (Mathf.Sin(lerp * 4f * Mathf.PI) + 1f) * .25f;
             yield return null;
         }
 
