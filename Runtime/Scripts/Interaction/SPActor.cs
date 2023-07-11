@@ -100,7 +100,7 @@ public class SPActor : MonoBehaviour, IActor
         if((inputDown && ActionState == ActionState.Idle) || (input && ActionState == ActionState.Casting || ActionState == ActionState.Acting)) {
             Use(newInteractable.Action(), newInteractable);
         } else if(ActionRef) {
-            Stop(newInteractable.Action(), newInteractable, ActionEndState.Input);   
+            Stop(newInteractable.Action(), newInteractable, ActionEndState.Canceled);   
         } 
 
         //reciever.TargetInteract.Action()  //reciever.TargetInteract
@@ -143,7 +143,7 @@ public class SPActor : MonoBehaviour, IActor
             gos.Remove(go);
             //stop the action if it was active
             if(go == Target) {
-                Stop(newAction, newInteractable, ActionEndState.Canceled);
+                Stop(newAction, newInteractable, ActionEndState.Failed);
 
             //tell the interactable we are not interactable
             newInteractable.ToggleActor(false, this);
@@ -177,7 +177,7 @@ public class SPActor : MonoBehaviour, IActor
 
             //stop current action
             if(Action != null) {
-                Stop(Action, newInteractable, ActionEndState.Canceled);
+                Stop(Action, newInteractable, ActionEndState.Failed);
             }
 
             //setup new action
@@ -214,7 +214,7 @@ public class SPActor : MonoBehaviour, IActor
 
     public void Stop(IAction newAction, IInteract newInteract, ActionEndState reason) {
 
-        bool shouldEnd = reason != ActionEndState.Input || (reason == ActionEndState.Input && (ActionRef.Type == ActionType.Hold || ActionRef.Type == ActionType.Looping));
+        bool shouldEnd = reason != ActionEndState.Canceled || (reason == ActionEndState.Canceled && (ActionRef.Type == ActionType.Hold || ActionRef.Type == ActionType.Looping));
 
         if(internalState == ActionState.Casting) {
 
@@ -291,7 +291,7 @@ public class SPActor : MonoBehaviour, IActor
         Debug.Log(ActionRef.name + " Casting End",Interact.GameObject());
 
         if(endState == ActionEndState.Success) {
-
+            
         } else {
             Action.DoCast(false, this, Interact);   
             internalState = ActionState.Idle;
@@ -315,7 +315,6 @@ public class SPActor : MonoBehaviour, IActor
 
         if(ActionRef.Type == ActionType.OneShot || ActionRef.Type == ActionType.State) {
             Stop(ActionRef, Interact, ActionEndState.Success);
-
         } else {
             internalState = ActionState.Acting;
             ActionUpdate();

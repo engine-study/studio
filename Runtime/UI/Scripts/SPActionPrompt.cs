@@ -19,8 +19,6 @@ public class SPActionPrompt : SPWindowParent
 
     [Header("Progress")]
     public SPActionWheelUI wheel;
-    [SerializeField] protected GameObject progressParent;
-    [SerializeField] protected Image actionProgress;
     [SerializeField] protected Image sweetSpot;
 
     [Header("Debug")]
@@ -46,15 +44,13 @@ public class SPActionPrompt : SPWindowParent
     {
         miniPromptParent.SetActive(!toggle);
         fullPromptParent.SetActive(toggle);
-        progressParent.SetActive(toggle);
+
     }
     public void ToggleAction(bool toggle, SPActor actor, IInteract interact)
     {
 
         action = interact.Action().ActionRef();
         actorComponent = actor;
-
-        wheel.actionPosition.SetFollow(actor.transform);
 
         if (toggle)
         {
@@ -64,7 +60,7 @@ public class SPActionPrompt : SPWindowParent
             action.OnActionEndCasting += EndCast;
 
             action.OnActionStart += StartAction;
-            action.OnActionEnd += EndAction;
+            action.OnActionOver += EndAction;
 
             action.OnSweetSpotStart += StartSweetSpot;
             action.OnSweetSpotEnd += EndSweetSpot;
@@ -91,7 +87,7 @@ public class SPActionPrompt : SPWindowParent
             action.OnActionEndCasting -= EndCast;
 
             action.OnActionStart -= StartAction;
-            action.OnActionEnd -= EndAction;
+            action.OnActionOver -= EndAction;
 
             action.OnSweetSpotStart -= StartSweetSpot;
             action.OnSweetSpotEnd -= EndSweetSpot;
@@ -117,7 +113,13 @@ public class SPActionPrompt : SPWindowParent
     {
 
         promptParent.SetActive(!toggle);
-        progressParent.SetActive(toggle);
+
+        if (wheel)
+        {
+            wheel.ToggleWindow(toggle);
+            wheel.UpdateState(toggle ? ActionEndState.InProgress : ActionEndState.Canceled);
+        }
+
         UpdateCast();
 
     }
@@ -126,33 +128,24 @@ public class SPActionPrompt : SPWindowParent
     void EndCast() { ToggleCast(false); }
     void UpdateCast()
     {
-        actionProgress.color = Color.green;  //Theme.defaultTheme.color;
         UpdateProgress(actorComponent.CastLerp);
     }
 
     void UpdateProgress(float lerp)
     {
-
         if (wheel)
             wheel.UpdateProgress(lerp);
-
-        actionProgress.fillAmount = lerp;
     }
 
     void StartAction()
     {
-
         if (action.Type == ActionType.OneShot || action.Type == ActionType.Hold)
         {
-            ToggleWindowClose();
+            // ToggleWindowClose();
         }
         else if (action.Type == ActionType.Looping)
         {
             ToggleCast(true);
-
-            UpdateProgress(1f);
-            actionProgress.color = Color.green;
-
             UpdateCast();
         }
         else
@@ -160,20 +153,27 @@ public class SPActionPrompt : SPWindowParent
             ToggleCast(false);
         }
 
+        UpdateProgress(1f);
+
+        if (wheel)
+        {
+            wheel.UpdateState(ActionEndState.InProgress);
+        }
     }
 
     void UpdateAction()
     {
-
         UpdateProgress(actorComponent.ActionLerp);
-        actionProgress.color = Color.blue;
-
     }
 
-    void EndAction()
+    void EndAction(ActionEndState endState)
     {
         ToggleCast(false);
-        ToggleWindowOpen();
+
+        if(wheel) {
+            wheel.UpdateState(endState);
+        }
+        // ToggleWindowOpen();
     }
 
     void StartSweetSpot() { ToggleSweetSpot(true); }

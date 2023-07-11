@@ -4,7 +4,7 @@ using UnityEngine;
 
 
 public enum ActionState{Idle, Casting, Acting, Complete}
-public enum ActionEndState{Success, Input, Canceled}
+public enum ActionEndState{InProgress, Success, Canceled, Failed}
 public enum ActionRestriction{None, Movement, Arms, Head}
 public enum ActionType{OneShot, Looping, State, Hold}
 public abstract class SPAction : ScriptableObject, IAction
@@ -18,6 +18,7 @@ public abstract class SPAction : ScriptableObject, IAction
     public float CastDuration = .5f;
     public float ActionDuration = 0f; 
 
+    public System.Action<ActionEndState> OnActionOver;
     public System.Action OnActionStart, OnActionUpdate, OnActionEnd;
     public System.Action OnActionStartCasting, OnActionUpdateCasting, OnActionEndCasting;
     public System.Action OnSweetSpotStart, OnSweetSpotEnd; 
@@ -57,9 +58,8 @@ public abstract class SPAction : ScriptableObject, IAction
         //     }
         // }
 
-        
-
         OnActionEnd?.Invoke();
+        OnActionOver?.Invoke(reason);
     }
 
 
