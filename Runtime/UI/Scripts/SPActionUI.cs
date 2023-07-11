@@ -6,7 +6,7 @@ using TMPro;
 
 public class SPActionUI : SPWindowParent
 {
-    public SPActor Actor {get{return actor;}}
+    public SPActor Actor { get { return actor; } }
 
     [Header("Interacting")]
     public List<SPActionPrompt> actions;
@@ -30,8 +30,14 @@ public class SPActionUI : SPWindowParent
 
         base.Init();
 
+        for (int i = 0; i < actions.Count; i++)
+        {
+            actions[i].wheel = wheel;
+            actions[i].ToggleWindowClose();
+        }
+
         actionSorted = new List<SPActionPrompt>(actions);
-        debugReadout.gameObject.SetActive( debugReadout.gameObject.activeSelf && SPGlobal.IsDebug && Application.isEditor);
+        debugReadout.gameObject.SetActive(debugReadout.gameObject.activeSelf && SPGlobal.IsDebug && Application.isEditor);
 
         ToggleWindowOpen();
 
@@ -87,6 +93,10 @@ public class SPActionUI : SPWindowParent
 
     void ToggleTarget(bool toggle, IInteract newInteract)
     {
+        if (!hasInit)
+        {
+            Init();
+        }
         // actions[0].ToggleAction(toggle, actor, newInteract);
         // actions[0].ToggleActionTarget(toggle);
     }
@@ -107,10 +117,15 @@ public class SPActionUI : SPWindowParent
 
     void LoadAction(bool toggle, IInteract newInteract)
     {
+        if (!hasInit)
+        {
+            Init();
+        }
         GameObject targetGO = newInteract.GameObject();
         SPAction actionRef = newInteract.Action().ActionRef();
 
-        if(targetGO == null) {
+        if (targetGO == null)
+        {
             Debug.LogError("No gameobject on interactable", this);
             return;
         }

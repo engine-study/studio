@@ -5,8 +5,8 @@ using UnityEngine.UI;
 public class SPActionPrompt : SPWindowParent
 {
 
-    public SPButton Button{get{return buttonText;}}
-    public SPButton Input{get{return inputText;}}
+    public SPButton Button { get { return buttonText; } }
+    public SPButton Input { get { return inputText; } }
 
     [Header("Action Prompt")]
     public bool worldSpace;
@@ -16,9 +16,9 @@ public class SPActionPrompt : SPWindowParent
     [SerializeField] protected GameObject fullPromptParent;
     [SerializeField] protected GameObject promptParent;
     [SerializeField] protected SPWindowPosition windowPosition;
-    [SerializeField] protected SPWindowPosition progressPosition;
 
     [Header("Progress")]
+    public SPActionWheelUI wheel;
     [SerializeField] protected GameObject progressParent;
     [SerializeField] protected Image actionProgress;
     [SerializeField] protected Image sweetSpot;
@@ -28,9 +28,11 @@ public class SPActionPrompt : SPWindowParent
     [SerializeField] public SPAction action;
     [SerializeField] public IInteract interact;
 
-    public override void Init() {
+    public override void Init()
+    {
 
-        if(hasInit) {
+        if (hasInit)
+        {
             return;
         }
 
@@ -40,27 +42,30 @@ public class SPActionPrompt : SPWindowParent
 
     }
 
-    public void ToggleActionTarget(bool toggle) {
+    public void ToggleActionTarget(bool toggle)
+    {
         miniPromptParent.SetActive(!toggle);
         fullPromptParent.SetActive(toggle);
         progressParent.SetActive(toggle);
     }
-    public void ToggleAction(bool toggle, SPActor actor, IInteract interact) {
+    public void ToggleAction(bool toggle, SPActor actor, IInteract interact)
+    {
 
         action = interact.Action().ActionRef();
         actorComponent = actor;
 
-        progressPosition.SetFollow(actor.transform);
+        wheel.actionPosition.SetFollow(actor.transform);
 
-        if(toggle) {
-            
+        if (toggle)
+        {
+
             action.OnActionStartCasting += StartCast;
             action.OnActionUpdateCasting += UpdateCast;
             action.OnActionEndCasting += EndCast;
 
             action.OnActionStart += StartAction;
             action.OnActionEnd += EndAction;
-            
+
             action.OnSweetSpotStart += StartSweetSpot;
             action.OnSweetSpotEnd += EndSweetSpot;
 
@@ -72,13 +77,15 @@ public class SPActionPrompt : SPWindowParent
 
             SPBase tryBase = interact.GameObject().GetComponent<SPBase>();
 
-            if(worldSpace)
+            if (worldSpace)
                 windowPosition.SetFollow(tryBase ? tryBase.Root : interact.GameObject().transform);
 
             // buttonText.UpdateField(key.ToString());
 
-        } else {
-            
+        }
+        else
+        {
+
             action.OnActionStartCasting -= StartCast;
             action.OnActionUpdateCasting -= UpdateCast;
             action.OnActionEndCasting -= EndCast;
@@ -94,17 +101,20 @@ public class SPActionPrompt : SPWindowParent
 
     }
 
-    public void TogglePrompt(bool toggle, string message = "") {
+    public void TogglePrompt(bool toggle, string message = "")
+    {
 
         // Debug.Log("Prompt: " + toggle + " " + message + gameObject.name);
         ToggleWindow(toggle);
 
-        if(toggle) {
+        if (toggle)
+        {
             Button.UpdateField(string.IsNullOrEmpty(message) ? "Interact" : message);
         }
     }
 
-    void ToggleCast(bool toggle) {
+    void ToggleCast(bool toggle)
+    {
 
         promptParent.SetActive(!toggle);
         progressParent.SetActive(toggle);
@@ -112,56 +122,72 @@ public class SPActionPrompt : SPWindowParent
 
     }
 
-    void StartCast() {ToggleCast(true);}
-    void EndCast() {ToggleCast(false);}
-    void UpdateCast() {
+    void StartCast() { ToggleCast(true); }
+    void EndCast() { ToggleCast(false); }
+    void UpdateCast()
+    {
         actionProgress.color = Color.green;  //Theme.defaultTheme.color;
         UpdateProgress(actorComponent.CastLerp);
     }
 
-    void UpdateProgress(float lerp) {
+    void UpdateProgress(float lerp)
+    {
+
+        if (wheel)
+            wheel.UpdateProgress(lerp);
+
         actionProgress.fillAmount = lerp;
     }
 
-    void StartAction() {
-        
-        if(action.Type == ActionType.OneShot || action.Type == ActionType.Hold) {
+    void StartAction()
+    {
+
+        if (action.Type == ActionType.OneShot || action.Type == ActionType.Hold)
+        {
             ToggleWindowClose();
-        } else if(action.Type == ActionType.Looping) {
+        }
+        else if (action.Type == ActionType.Looping)
+        {
             ToggleCast(true);
 
             UpdateProgress(1f);
             actionProgress.color = Color.green;
 
             UpdateCast();
-        } else {
+        }
+        else
+        {
             ToggleCast(false);
         }
-     
+
     }
 
-    void UpdateAction() {
+    void UpdateAction()
+    {
 
         UpdateProgress(actorComponent.ActionLerp);
         actionProgress.color = Color.blue;
 
     }
 
-    void EndAction() {
+    void EndAction()
+    {
         ToggleCast(false);
         ToggleWindowOpen();
     }
 
-    void StartSweetSpot() {ToggleSweetSpot(true);}
+    void StartSweetSpot() { ToggleSweetSpot(true); }
 
-    void EndSweetSpot() {ToggleSweetSpot(false);}
+    void EndSweetSpot() { ToggleSweetSpot(false); }
 
-    void ToggleSweetSpot(bool toggle) {
+    void ToggleSweetSpot(bool toggle)
+    {
         sweetSpot.gameObject.SetActive(toggle);
     }
 
     //function for button to call submit if the user clicks directly on the UI
-    public void Interact() {
+    public void Interact()
+    {
         SPUIBase.SendSubmit();
     }
 }

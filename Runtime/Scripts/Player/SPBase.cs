@@ -10,14 +10,19 @@ public class SPBase : MonoBehaviour
     public GameObject Visual { get { return visual; } }
     public Vector3 Center { get { return Root.position; } }
     public virtual bool HasInit { get { return hasInit; } }
+    public string Name {get{return baseName;}}
+
     public System.Action OnPlayerToggle;
     public System.Action OnInit, OnNetworkInit, OnPostInit;
     protected bool hasInit;
 
+
     [Header("Settings")]
     [SerializeField] protected Transform root;
     [SerializeField] protected GameObject visual;
+
     protected Rigidbody rb;
+    [HideInInspector] public string baseName;
 
     Vector3 oldPosition;
 
