@@ -33,10 +33,10 @@ public class SPActionWheelUI : SPWindow
             StopCoroutine(linger);
         }
 
-        actionGlow.gameObject.SetActive(false);
 
         if(newState != state) {
 
+            actionGlow.gameObject.SetActive(false);
             ToggleWindow(newState != ActionEndState.Canceled);
 
             if(newState == ActionEndState.InProgress) {
@@ -67,11 +67,11 @@ public class SPActionWheelUI : SPWindow
 
         while(lerp < 1f) {
             lerp += Time.deltaTime;
-            actionGlow.color = startColor - Color.black * .5f - Color.black * (Mathf.Sin(lerp * 4f * Mathf.PI) + 1f) * .25f;
+            actionGlow.color = startColor - Color.black * .25f - Color.black * (Mathf.Sin(lerp * 4f * Mathf.PI) + 1f) * .25f;
             yield return null;
         }
 
-        actionGlow.gameObject.SetActive(false);
         linger = null;
+        ToggleWindowClose();
     }
 }
