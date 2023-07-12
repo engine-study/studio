@@ -84,7 +84,9 @@ public class SPActor : MonoBehaviour, IActor
 
     void UpdateInput() {
 
-        InputAction(KeyCode.E, reciever.TargetInteract);
+        if(reciever.TargetGO) {
+            InputAction(KeyCode.E, reciever.TargetInteract);
+        }
 
     }
 
