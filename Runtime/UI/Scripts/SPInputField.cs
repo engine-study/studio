@@ -35,7 +35,7 @@ public class SPInputField : SPWindowSelectable {
 
         //inputField.onEndEdit.AddListener(delegate {UpdateField(inputField.text); });
 
-        inputField.pointSize = Theme.textSize;
+        // inputField.pointSize = Theme.textSize;
         text = inputField.text;
         base.Init();
     }

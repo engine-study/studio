@@ -15,7 +15,7 @@ public class SPWindow : MonoBehaviour
     public static void SetThemeGlobal(SPWindowTheme newTheme) {globalTheme = newTheme;}
     public void SetThemeLocal(SPWindowTheme newTheme) {themeLocal = newTheme; UpdateColor();}
     public RectTransform Rect {get{return rect;}}
-
+    public System.Action<bool> OnToggleWindow;
 
     private static Hashtable uniqueUI;
 
@@ -181,6 +181,7 @@ public class SPWindow : MonoBehaviour
 
     public virtual void ToggleWindow(bool toggle) {
         gameObject.SetActive(toggle);
+        OnToggleWindow?.Invoke(toggle);
     }
 
     public void ToggleWindow() { ToggleWindow(!gameObject.activeSelf);}
@@ -204,8 +205,8 @@ public class SPWindowTheme {
 
     [System.Serializable]
     public class SPTheme {
-        public Color color = Color.black;
-        public Color bgColor = Color.white;
+        public Color color = Color.white;
+        public Color bgColor = Color.black;
         public SPTheme(){}
         public SPTheme(Color newColor, Color newBGColor) {
             color = newColor;
