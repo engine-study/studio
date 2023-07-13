@@ -16,6 +16,7 @@ public class SPCamera : MonoBehaviour
     [Header("Settings")]
     [SerializeField] private float moveSpeed = 5f; 
     [SerializeField] private float scrollSpeed = 1f;
+    [SerializeField] private float rotateSpeed = 90f;
     [SerializeField] private float minFOV = 5f, maxFOV = 25f;
     private float fovMultiple = 1f;
 
@@ -127,7 +128,8 @@ public class SPCamera : MonoBehaviour
 
             if(Input.GetKey(KeyCode.LeftControl)) {
                 scrollRot += Input.mouseScrollDelta.y * 10f;
-                scrollLock = Mathf.Round(scrollRot / 90) * 90;
+                scrollLock = scrollRot;
+                // scrollLock = Mathf.Round(scrollRot / 90) * 90;
 
                 // rotation = rotation * Quaternion.Euler(Vector3.up * Input.mouseScrollDelta.y * 25f);
                 // transform.Rotate(0f,Input.mouseScrollDelta.y * 25f,0f);
@@ -153,7 +155,7 @@ public class SPCamera : MonoBehaviour
         float distanceToTarget = Mathf.Max(.25f,Vector3.Distance(transform.position,newPos));
 
         transform.position = Vector3.MoveTowards(transform.position, newPos, distanceToTarget * 2f * Time.deltaTime * moveSpeed);
-        transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation * Quaternion.Euler(Vector3.up * scrollLock), 720f * Time.deltaTime);
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation * Quaternion.Euler(Vector3.up * scrollLock), rotateSpeed * Time.deltaTime);
 
         //FOV
         fov = Mathf.Clamp(fov, minFOV, maxFOV);

@@ -28,7 +28,7 @@ public class SPActionWheelUI : SPWindow
         actionWheel.fillAmount = lerp;
     }
 
-    public void UpdateState(ActionEndState newState) {
+    public void UpdateState(ActionEndState newState, bool force = false) {
         
         if(linger != null) {
             StopCoroutine(linger);
@@ -37,7 +37,7 @@ public class SPActionWheelUI : SPWindow
         group.transform.localScale = Vector3.one;
         group.alpha = 1f;
 
-        if(newState != state) {
+        if(newState != state || force) {
 
             actionGlow.gameObject.SetActive(false);
             ToggleWindow(newState != ActionEndState.Canceled);
@@ -46,13 +46,16 @@ public class SPActionWheelUI : SPWindow
                 actionWheel.color = inProgress;
 
             } else if(newState == ActionEndState.Success) {
+                actionWheel.fillAmount = 1f;
                 actionWheel.color = success;
                 actionGlow.color = success;
                 linger = StartCoroutine(LingerCoroutine());
 
             } else if(newState == ActionEndState.Canceled) {
-                
+                actionWheel.fillAmount = 1f;
+
             } else if(newState == ActionEndState.Failed) {
+                actionWheel.fillAmount = 1f;
                 actionWheel.color = failure;
                 actionGlow.color = failure;
                 linger = StartCoroutine(LingerCoroutine());
