@@ -92,22 +92,28 @@ public class SPActor : MonoBehaviour, IActor {
 
     bool hasLift;
 
-    void UpdateInput() {
-
-        if (reciever.TargetGO) {
-            InputAction(KeyCode.E, reciever.TargetInteract);
-        }
+    protected virtual void UpdateInput() {
 
     }
 
-    public void InputAction(KeyCode inputCode, IInteract newInteractable) {
+    public void InputClick(int mouseButton, IInteract i) {
+
+        bool inputDown = SPUIBase.CanInput && Input.GetMouseButtonDown(mouseButton);
+        bool input = SPUIBase.CanInput && Input.GetMouseButton(mouseButton);
+        InputAction(inputDown,input,i);
+    }
+
+    public void InputKey(KeyCode keyCode, IInteract i) {
+
+        bool inputDown = SPUIBase.CanInput && Input.GetKeyDown(keyCode);
+        bool input = SPUIBase.CanInput && Input.GetKey(keyCode);
+        InputAction(inputDown,input,i);
+    }
+    public void InputAction(bool inputDown, bool input, IInteract newInteractable) {
 
         // if(ActionRef == reciever.TargetInteract.Action().ActionRef()) {
         //     Stop(reciever.TargetInteract.Action(), reciever.TargetInteract, ActionEndState.Input);   
         // }
-
-        bool inputDown = SPUIBase.CanInput && Input.GetKeyDown(inputCode);
-        bool input = SPUIBase.CanInput && Input.GetKey(inputCode);
 
         if ((inputDown && ActionState == ActionState.Idle) || (input && ActionState == ActionState.Casting || ActionState == ActionState.Acting)) {
             Use(newInteractable.Action(), newInteractable);

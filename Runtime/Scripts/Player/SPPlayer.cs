@@ -184,7 +184,7 @@ public class SPPlayer : SPBaseActor
 
     }
 
-    public virtual void UpdateInput()
+    protected virtual void UpdateInput()
     {
 
     }
