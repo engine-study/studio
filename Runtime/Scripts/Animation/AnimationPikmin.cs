@@ -35,7 +35,7 @@ public class AnimationPikmin : SPAnimation
         } else {
 
             if(timeIdle > startIdling) {
-                player.resources.fx_spawn.Play();
+                player.Resources.fx_spawn.Play();
             }
 
             timeIdle = 0f;

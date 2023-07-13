@@ -10,7 +10,7 @@ public class SPController : MonoBehaviour
 
     [Header("Fields")]
     public SPPlayer player;
-    public SPLogic Logic {get{return player.logic;}}
+    public SPLogic Logic {get{return player.Logic;}}
     protected Collider mainCollider;
     protected CharacterController controller;
     protected Animator animator;

@@ -140,7 +140,7 @@ public class SPAnimation : MonoBehaviour
             footstepCount += Time.deltaTime;
             if(footstepCount > footstepDistance) {
                 footstepCount -= footstepDistance;
-                player.resources.sfx.PlaySound(footsteps, .1f);
+                player.Resources.sfx.PlaySound(footsteps, .1f);
             }
         } else {
             footstepCount = 0f; 

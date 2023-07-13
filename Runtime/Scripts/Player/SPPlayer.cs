@@ -8,9 +8,11 @@ public class SPPlayer : SPBaseActor {
     protected static SPPlayer localPlayer;
 
 
+    public SPLogic Logic { get { return logic; } }
     public SPController Controller { get { return controller; } }
     public SPAnimation Animation { get { return anim; } }
     public SPAnimator Animator { get { return animator; } }
+    public SPPlayerResources Resources { get { return resources; } }
 
     public bool Alive { get { return alive; } }
     public Vector3 Vector { get { return vector; } }
@@ -24,11 +26,11 @@ public class SPPlayer : SPBaseActor {
     [Header("Player")]
     [SerializeField] protected bool isNPC;
 
-    public SPLogic logic;
-    public SPController controller;
-    public SPAnimation anim;
-    public SPAnimator animator;
-    public SPPlayerResources resources;
+    [SerializeField] private SPLogic logic;
+    [SerializeField] private SPController controller;
+    [SerializeField] private SPAnimation anim;
+    [SerializeField] private SPAnimator animator;
+    [SerializeField] private SPPlayerResources resources;
 
 
     protected override void Awake() {

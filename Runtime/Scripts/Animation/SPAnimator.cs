@@ -7,6 +7,11 @@ using UnityEngine.Animations;
 public class SPAnimator : MonoBehaviour
 {
 
+
+    [Header("Animator")]
+    public SPIK ik;
+
+    [Header("Debug")]
     public List<SPAnimationEvent> animationEvents;
     public System.Action<Object> OnEffect;
     [SerializeField] Animator animator;
