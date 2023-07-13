@@ -71,7 +71,7 @@ MonoBehaviour:
   uniqueUITag: 
   border: {fileID: 0}
   bg: {fileID: 0}
-  rect: {fileID: 0}
+  rect: {fileID: 7881596999579633304}
   _graphics: []
   _texts: []
   _images: []
