@@ -144,7 +144,7 @@ public class SPController : MonoBehaviour
             if(toggle) {
                 rigidbodies[i].velocity = player.Velocity - player.Root.forward + Vector3.down;
             } else {
-                rigidbodies[i].velocity = Vector3.zero;
+                // rigidbodies[i].velocity = Vector3.zero;
             }
         }
     }

@@ -49,9 +49,18 @@ public class SPPlayer : SPBaseActor
         }
 
         animator = GetComponentInChildren<SPAnimator>(true);
+        
+        if(logic == null) {
+            logic = GetComponent<SPLogic>();
+        }
     }
 
     public static void SetLocalPlayer(SPPlayer newLocal) {
+
+        if(localPlayer != null) {
+            Debug.LogError("Multiple local players", localPlayer);
+        }
+
         localPlayer = newLocal;
         newLocal.isLocalPlayer = true;
         SPEvents.OnLocalPlayerSpawn?.Invoke();
@@ -77,10 +86,6 @@ public class SPPlayer : SPBaseActor
     protected override void PostInit()
     {
         base.PostInit();
-
-        if(logic == null) {
-            logic = GetComponent<SPLogic>();
-        }
 
         controller.Init();
         Controller.ToggleController(IsLocalPlayer);
