@@ -2,10 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SPPlayer : SPBaseActor
-{
-    public bool IsLocalPlayer {get{return isLocalPlayer;}}
-    public static SPPlayer LocalPlayer {get{return localPlayer;}}
+public class SPPlayer : SPBaseActor {
+    public bool IsLocalPlayer { get { return isLocalPlayer; } }
+    public static SPPlayer LocalPlayer { get { return localPlayer; } }
     protected static SPPlayer localPlayer;
 
 
@@ -32,8 +31,7 @@ public class SPPlayer : SPBaseActor
     public SPPlayerResources resources;
 
 
-    protected override void Awake()
-    {
+    protected override void Awake() {
 
         base.Awake();
 
@@ -42,22 +40,21 @@ public class SPPlayer : SPBaseActor
         }
 
         anim = GetComponentInChildren<SPAnimation>();
-        if (anim == null)
-        {
+        if (anim == null) {
             Debug.LogWarning(gameObject.name + ": No animation system", gameObject);
             anim = gameObject.AddComponent<SPAnimation>();
         }
 
         animator = GetComponentInChildren<SPAnimator>(true);
-        
-        if(logic == null) {
+
+        if (logic == null) {
             logic = GetComponent<SPLogic>();
         }
     }
 
     public static void SetLocalPlayer(SPPlayer newLocal) {
 
-        if(localPlayer != null) {
+        if (localPlayer != null) {
             Debug.LogError("Multiple local players", localPlayer);
         }
 
@@ -67,15 +64,13 @@ public class SPPlayer : SPBaseActor
     }
 
 
-    protected override void Destroy()
-    {
+    protected override void Destroy() {
         base.Destroy();
 
     }
 
 
-    protected override void NetworkInit()
-    {
+    protected override void NetworkInit() {
         base.NetworkInit();
 
         alive = true;
@@ -83,8 +78,7 @@ public class SPPlayer : SPBaseActor
 
     }
 
-    protected override void PostInit()
-    {
+    protected override void PostInit() {
         base.PostInit();
 
         controller.Init();
@@ -92,32 +86,26 @@ public class SPPlayer : SPBaseActor
 
         Actor.ToggleActor(IsLocalPlayer);
 
-        if (IsLocalPlayer)
-        {
+        if (IsLocalPlayer) {
             logic.Init();
         }
 
-        if (IsLocalPlayer)
-        {
+        if (IsLocalPlayer) {
             RespawnLocal();
         }
     }
 
 
-    protected override void Update()
-    {
+    protected override void Update() {
 
         base.Update();
 
-        if (IsLocalPlayer)
-        {
+        if (IsLocalPlayer) {
 
             UpdateInput();
             UpdateLogic();
 
-        }
-        else
-        {
+        } else {
 
         }
 
@@ -125,24 +113,20 @@ public class SPPlayer : SPBaseActor
 
 
 
-    protected virtual void UpdateLogic()
-    {
+    protected virtual void UpdateLogic() {
         logic.UpdateInput();
     }
 
-    public virtual void LateUpdate()
-    {
+    public virtual void LateUpdate() {
         UpdateAnimation();
     }
 
-    public virtual void FixedUpdate()
-    {
+    public virtual void FixedUpdate() {
 
         if (!Alive)
             return;
 
-        if (IsLocalPlayer)
-        {
+        if (IsLocalPlayer) {
             Controller.CallFixedUpdate();
         }
 
@@ -155,8 +139,7 @@ public class SPPlayer : SPBaseActor
     protected Vector3 lastWorldPos, lastForward; //velocity of character
     protected Quaternion lastRot;
 
-    void CacheFixedValues()
-    {
+    void CacheFixedValues() {
 
         /*
         if(!Alive)
@@ -184,21 +167,18 @@ public class SPPlayer : SPBaseActor
 
     }
 
-    protected virtual void UpdateInput()
-    {
+    protected virtual void UpdateInput() {
 
     }
 
 
-    protected virtual void UpdateAnimation()
-    {
+    protected virtual void UpdateAnimation() {
 
         anim.UpdateAnimation();
 
     }
 
-    public virtual void Kill()
-    {
+    public virtual void Kill() {
 
         alive = false;
         resources.sfx.PlaySound(resources.deathSound, 1f);
@@ -209,28 +189,22 @@ public class SPPlayer : SPBaseActor
     }
 
 
-    public void RespawnLocal()
-    {
-        if (IsLocalPlayer)
-        {
+    public void RespawnLocal() {
+        if (IsLocalPlayer) {
             Respawn(transform.position);
         }
     }
 
-    public virtual void Respawn(Vector3 spawnPos)
-    {
+    public virtual void Respawn(Vector3 spawnPos) {
 
         alive = true;
 
         Teleport(spawnPos);
 
-        if (IsLocalPlayer)
-        {
+        if (IsLocalPlayer) {
             //Debug.Log("Respawning at " + animalType.ToString() + " herd.");
 
-        }
-        else
-        {
+        } else {
 
         }
 
@@ -241,27 +215,23 @@ public class SPPlayer : SPBaseActor
 
 
 
-    public override void Teleport(Vector3 newPosition, Quaternion newRotation)
-    {
+    public override void Teleport(Vector3 newPosition, Quaternion newRotation) {
 
         Controller.Teleport(newPosition);
 
         base.Teleport(newPosition, newRotation);
     }
 
-    public virtual void ToggleNoClip(bool toggle)
-    {
+    public virtual void ToggleNoClip(bool toggle) {
         noclip = toggle;
         Controller.ToggleNoClip(toggle);
     }
 
-    public virtual void ToggleStatic(bool toggle)
-    {
+    public virtual void ToggleStatic(bool toggle) {
 
         ToggleNoClip(toggle);
 
-        if (IsLocalPlayer)
-        {
+        if (IsLocalPlayer) {
             Controller.ToggleController(!toggle);
         }
     }
