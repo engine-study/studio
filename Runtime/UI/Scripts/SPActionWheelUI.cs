@@ -7,6 +7,7 @@ public class SPActionWheelUI : SPWindow
 {
     public enum WheelState{Empty, InProgress, Success, Failure}
     [Header("Wheel")]
+    public CanvasGroup group;
     public Image actionWheel;
     public Image actionGlow;
     public SPWindowPosition actionPosition;
@@ -33,6 +34,8 @@ public class SPActionWheelUI : SPWindow
             StopCoroutine(linger);
         }
 
+        group.transform.localScale = Vector3.one;
+        group.alpha = 1f;
 
         if(newState != state) {
 
@@ -61,13 +64,14 @@ public class SPActionWheelUI : SPWindow
     }
 
     IEnumerator LingerCoroutine() {
-        actionGlow.gameObject.SetActive(true);
+        // actionGlow.gameObject.SetActive(true);
         float lerp = 0f;
         Color startColor = actionGlow.color;
 
         while(lerp < 1f) {
-            lerp += Time.deltaTime;
-            actionGlow.color = startColor - Color.black * .25f - Color.black * (Mathf.Sin(lerp * 4f * Mathf.PI) + 1f) * .25f;
+            lerp += Time.deltaTime * 5f;
+            group.transform.localScale = Vector3.one * (1f + lerp * .5f);
+            group.alpha = 1f-lerp;
             yield return null;
         }
 

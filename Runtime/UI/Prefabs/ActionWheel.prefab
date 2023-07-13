@@ -76,6 +76,7 @@ MonoBehaviour:
   _texts: []
   _images: []
   hasInit: 0
+  group: {fileID: 7853790822821937956}
   actionWheel: {fileID: 217861229161428898}
   actionGlow: {fileID: 7295969610362250014}
   actionPosition: {fileID: 1387007483949708053}
@@ -92,6 +93,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1885425630701701003}
+  - component: {fileID: 7853790822821937956}
   m_Layer: 5
   m_Name: ActionBar
   m_TagString: Untagged
@@ -122,6 +124,18 @@ RectTransform:
   m_AnchoredPosition: {x: -50, y: 50}
   m_SizeDelta: {x: 30, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!225 &7853790822821937956
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 997502749232515518}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
 --- !u!1 &1020356222663288206
 GameObject:
   m_ObjectHideFlags: 0

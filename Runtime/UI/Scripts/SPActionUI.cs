@@ -39,6 +39,7 @@ public class SPActionUI : SPWindowParent
         actionSorted = new List<SPActionPrompt>(actions);
         debugReadout.gameObject.SetActive(debugReadout.gameObject.activeSelf && SPGlobal.IsDebug && Application.isEditor);
 
+        wheel.ToggleWindowClose();
         ToggleWindowOpen();
 
     }
