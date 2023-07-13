@@ -5,12 +5,12 @@ using UnityEngine;
 public class SPBaseActor : SPBase
 {
     public SPActor Actor { get { return actor; } }
-    public SPInteractReciever Reciever { get { return reciever; } }
+    public SPReciever Reciever { get { return reciever; } }
     public System.Action<IAction> OnPlayerAction;
 
     [Header("Actor")]
-    public SPActor actor;
-    public SPInteractReciever reciever;
+    private SPActor actor;
+    private SPReciever reciever;
 
     protected override void Awake()
     {
@@ -19,7 +19,7 @@ public class SPBaseActor : SPBase
 
         if (reciever == null)
         {
-            reciever = gameObject.GetComponentInChildren<SPInteractReciever>();
+            reciever = gameObject.GetComponentInChildren<SPReciever>();
         }
 
         if (actor == null)
@@ -27,13 +27,17 @@ public class SPBaseActor : SPBase
             actor = gameObject.GetComponent<SPActor>();
             actor.enabled = false;
             actor.sender = this;
-            actor.reciever = reciever;
             actor.OnAction += OnPlayerAction;
         }
-
-
     }
 
+    public void SetReciever(SPReciever r) {
+        
+        actor.ToggleReciever(false, reciever);
+        reciever = r;
+        actor.ToggleReciever(true, reciever);
+
+    }
 
     protected override void Destroy()
     {

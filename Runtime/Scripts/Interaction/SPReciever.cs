@@ -1,9 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System;
-
-public class SPInteractReciever : MonoBehaviour
+public class SPReciever : MonoBehaviour
 {
     public IInteract TargetInteract {get{return targetInteract;}}
     public GameObject TargetGO {get{return targetGO;}}
@@ -12,7 +10,6 @@ public class SPInteractReciever : MonoBehaviour
     
     public List<IInteract> Interactables {get{return interactables;}}
     public List<GameObject> GameObjects {get{return gameobjects;}}
-
 
     [Header("Interact")]
     [SerializeField] protected GameObject targetGO;
@@ -25,8 +22,8 @@ public class SPInteractReciever : MonoBehaviour
 
 
 
-    public Action<bool, IInteract> OnInteractToggle;
-    public Action<bool, IInteract> OnTargetToggle;
+    public System.Action<bool, IInteract> OnInteractToggle;
+    public System.Action<bool, IInteract> OnTargetToggle;
 
     bool hasInit = false; 
 
@@ -48,25 +45,7 @@ public class SPInteractReciever : MonoBehaviour
         hasInit = true; 
     }
 
-    /*
-
-    public virtual void PlayerToggle(bool toggle, SPPlayer newPlayer) {
-
-        bool contains = Players.Contains(newPlayer);
-        if(toggle && !contains) {
-            Players.Add(newPlayer);
-        } else if(!toggle && contains) {
-            Players.Remove(newPlayer);
-        }
-
-        OnPlayerToggle?.Invoke();
-
-    }
-
-    */
-
-
-
+    
     void OnEnable() {
 
     }
@@ -82,49 +61,8 @@ public class SPInteractReciever : MonoBehaviour
         }
     }
 
-    float distanceCheck = .2f;
-    void Update() {
-
-        distanceCheck -= Time.deltaTime;
-        if(distanceCheck < 0f) {
-            distanceCheck += .2f;
-            UpdateTarget();
-        }
-
-    }
     
-
-
-    protected virtual void OnTriggerEnter(Collider other) {
-
-        if(!enabled) {
-            return;
-        }
-
-        IInteract i = other.GetComponentInParent<IInteract>();
-        //Debug.Log("OnTriggerEnter: " + other.gameObject.name);
-        if(i != null && i.IsInteractable() && i.GameObject() != gameObject) {
-            ToggleInteractable(true, i);
-        }
-
-    }
-
-    protected virtual void OnTriggerExit(Collider other) {
-
-        if(!enabled) {
-            return;
-        }
-        
-        IInteract i = other.GetComponentInParent<IInteract>();
-        //Debug.Log("OnTriggerExit: " + other.gameObject.name);
-        if(i != null && i.GameObject() != gameObject) {
-            ToggleInteractable(false, i);
-        }
-
-    }
-     
-    
-    void ToggleList(bool toggle, IInteract newInteract) {
+    protected void ToggleList(bool toggle, IInteract newInteract) {
 
         if(toggle) {
             interactables.Add(newInteract);
@@ -152,7 +90,7 @@ public class SPInteractReciever : MonoBehaviour
         ToggleInteractable(toggle,newInteract);
     }
 
-    void ToggleInteractable(bool toggle, IInteract newInteract) {
+    protected void ToggleInteractable(bool toggle, IInteract newInteract) {
 
         GameObject go = newInteract.GameObject();
 
@@ -184,7 +122,7 @@ public class SPInteractReciever : MonoBehaviour
         //Debug.Log("Toggle: " + newInteract);
     }
 
-    void UpdateTarget() {
+    protected void UpdateTarget() {
         
         // Debug.Log("Update Target");
 
@@ -246,7 +184,6 @@ public class SPInteractReciever : MonoBehaviour
             }
         }
     }
-    
 
 
 }
