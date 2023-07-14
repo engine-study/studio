@@ -17,7 +17,9 @@ public abstract class SPAction : ScriptableObject, IAction
     public ActionType actionType = ActionType.OneShot;
     public float CastDuration = .5f;
     public float ActionDuration = 0f; 
+    public float Distance = 1.1f; 
 
+    bool canPerform;
     public System.Action<ActionEndState> OnActionOver;
     public System.Action OnActionStart, OnActionUpdate, OnActionEnd;
     public System.Action OnActionStartCasting, OnActionUpdateCasting, OnActionEndCasting;
@@ -26,19 +28,22 @@ public abstract class SPAction : ScriptableObject, IAction
     public SPConditionalScriptable [] conditions;
     public SPAction [] endAction;
 
-
-    public virtual SPAction ActionRef() {
-        return this;
-    }
     public virtual bool TryAction(IActor actor, IInteract interactable) {
+
+        if(Vector3.Distance(actor.Owner().gameObject.transform.position, interactable.GameObject().transform.position) > Distance){
+            canPerform = false;
+            return canPerform;
+        }
 
         for(int i = 0; i < conditions.Length; i++) {
             if(!conditions[i].IsAllowed()) {
-                return false;
+                canPerform = false; 
+                return canPerform;
             }
         }
 
-        return true;
+        canPerform = true;
+        return canPerform;
     }
 
     public virtual void DoCast(bool toggle, IActor actor, IInteract interactable) {
@@ -66,7 +71,8 @@ public abstract class SPAction : ScriptableObject, IAction
 }
 
 public interface IAction {
-    SPAction ActionRef();
+
+    //this is the template of the action that we do not touch
     bool TryAction(IActor actor, IInteract interactable);
     void DoCast(bool toggle, IActor actor, IInteract interactable);
     void DoAction(bool toggle, IActor actor, IInteract interactable);

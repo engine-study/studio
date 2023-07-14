@@ -7,23 +7,25 @@ public class SPActor : MonoBehaviour, IActor {
 
     public ActionState ActionState { get { return internalState; } }
 
-    public IAction Action;
-    public SPAction ActionRef { get { return actionRef; } }
+    public IAction ActionInterface {get{return actionInterface;}}
+
+    public SPAction ActionScript { get { return actionScript; } }
     public IInteract Interact { get { return interact; } }
-    public GameObject Target { get { return currentInteract; } }
+    public GameObject Target { get { return currentGO; } }
     private static KeyCode[] KEYS = new KeyCode[1] { KeyCode.E };
 
     [Header("Action")]
     public SPBase sender;
-    protected SPReciever reciever;
 
     [Header("Debug")]
-    public SPState State;
+    [SerializeField] private SPState State;
+    [SerializeField] protected IAction actionInterface;
+    [SerializeField] protected SPReciever reciever;
 
-    [SerializeField] protected SPAction actionRef;
+    [SerializeField] protected SPAction actionScript;
     [SerializeField] protected IInteract interact;
     [SerializeField] protected IInteract activeInteract;
-    [SerializeField] protected GameObject currentInteract;
+    [SerializeField] protected GameObject currentGO;
     [SerializeField] protected List<GameObject> gos;
 
     [Header("Mutable Data")]
@@ -34,7 +36,7 @@ public class SPActor : MonoBehaviour, IActor {
     [SerializeField] public float CastLerp = 0f;
     [SerializeField] public float ActionLerp = 0f;
 
-
+    MonoBehaviour owner;
 
     public System.Action<bool, IInteract> OnTargetsUpdated;
     public System.Action<bool, IInteract> OnActionsUpdated;
@@ -60,6 +62,8 @@ public class SPActor : MonoBehaviour, IActor {
 
     void Start() {
 
+        owner = sender != null ? sender : this;
+
         if (reciever == null) {
             ToggleReciever(true, gameObject.GetComponent<SPReciever>());
         }
@@ -76,14 +80,15 @@ public class SPActor : MonoBehaviour, IActor {
         enabled = toggle;
     }
 
-    public virtual MonoBehaviour Player() {
-        return sender;
+    public virtual MonoBehaviour Owner() {
+        return owner;
     }
 
 
     bool hasUp = false;
     void Update() {
 
+        UpdateActionsAvailable();
         UpdateInput();
         UpdateAction();
         UpdateState();
@@ -92,6 +97,11 @@ public class SPActor : MonoBehaviour, IActor {
 
     bool hasLift;
 
+    void UpdateActionsAvailable() {
+        for(int i = 0; i < reciever.Interactables.Count; i++) {
+            reciever.Interactables[i].Action().TryAction(this, reciever.Interactables[i]);
+        }
+    }
     protected virtual void UpdateInput() {
 
     }
@@ -111,17 +121,12 @@ public class SPActor : MonoBehaviour, IActor {
     }
     public void InputAction(bool inputDown, bool input, IInteract newInteractable) {
 
-        // if(ActionRef == reciever.TargetInteract.Action().ActionRef()) {
-        //     Stop(reciever.TargetInteract.Action(), reciever.TargetInteract, ActionEndState.Input);   
-        // }
-
-        if ((inputDown && ActionState == ActionState.Idle) || (input && ActionState == ActionState.Casting || ActionState == ActionState.Acting)) {
+        if (newInteractable.Action().TryAction(this, newInteractable) && (inputDown && ActionState == ActionState.Idle) || (input && ActionState == ActionState.Casting || ActionState == ActionState.Acting)) {
             Use(newInteractable.Action(), newInteractable);
-        } else if (ActionRef) {
+        } else if (ActionScript) {
             Stop(newInteractable.Action(), newInteractable, ActionEndState.Canceled);
         }
 
-        //reciever.TargetInteract.Action()  //reciever.TargetInteract
     }
 
     void UpdateAction() {
@@ -188,29 +193,30 @@ public class SPActor : MonoBehaviour, IActor {
     public void Use() {
 
     }
+
     public void Use(IAction newAction, IInteract newInteractable) {
 
         //load new action if we haven't loaded it yet
-        if (currentInteract != newInteractable.GameObject() || actionRef != newInteractable.Action().ActionRef()) {
+        if (currentGO != newInteractable.GameObject() || actionScript != newInteractable.Action() as SPAction) {
 
             //stop current action
-            if (Action != null) {
-                Stop(Action, newInteractable, ActionEndState.Failed);
+            if (actionInterface != null) {
+                Stop(actionInterface, newInteractable, ActionEndState.Failed);
             }
 
             //setup new action
             int index = reciever.GameObjects.IndexOf(newInteractable.GameObject());
 
-            Action = newInteractable.Action();
-            actionRef = newInteractable.Action().ActionRef();
+            actionInterface = newInteractable.Action();
+            actionScript = newInteractable.Action() as SPAction;
             interact = reciever.Interactables[index];
-            currentInteract = reciever.GameObjects[index];
+            currentGO = reciever.GameObjects[index];
 
         }
 
         UpdateActionLogic();
 
-        OnAction?.Invoke(Action);
+        OnAction?.Invoke(actionInterface);
 
     }
 
@@ -232,7 +238,7 @@ public class SPActor : MonoBehaviour, IActor {
 
     public void Stop(IAction newAction, IInteract newInteract, ActionEndState reason) {
 
-        bool shouldEnd = reason != ActionEndState.Canceled || (reason == ActionEndState.Canceled && (ActionRef.Type == ActionType.Hold || ActionRef.Type == ActionType.Looping));
+        bool shouldEnd = reason != ActionEndState.Canceled || (reason == ActionEndState.Canceled && (ActionScript.Type == ActionType.Hold || ActionScript.Type == ActionType.Looping));
 
         if (internalState == ActionState.Casting) {
 
@@ -250,10 +256,10 @@ public class SPActor : MonoBehaviour, IActor {
             }
 
 
-            Action = null;
-            actionRef = null;
+            actionInterface = null;
+            actionScript = null;
             interact = null;
-            currentInteract = null;
+            currentGO = null;
 
             activeInteract = null;
 
@@ -266,7 +272,7 @@ public class SPActor : MonoBehaviour, IActor {
 
     protected virtual void UpdateActionLogic() {
 
-        if (castCount < ActionRef.CastDuration) {
+        if (castCount < ActionScript.CastDuration) {
 
             if (castCount == 0f) {
                 CastingStart();
@@ -286,10 +292,10 @@ public class SPActor : MonoBehaviour, IActor {
 
     protected virtual void CastingStart() {
 
-        Debug.Log(ActionRef.name + " Casting Start", Interact.GameObject());
+        Debug.Log(ActionScript.name + " Casting Start", Interact.GameObject());
         internalState = ActionState.Casting;
-        Action.DoCast(true, this, Interact);
-        ActionRef.OnActionStartCasting?.Invoke();
+        actionInterface.DoCast(true, this, Interact);
+        ActionScript.OnActionStartCasting?.Invoke();
 
         CastingUpdate();
     }
@@ -297,8 +303,8 @@ public class SPActor : MonoBehaviour, IActor {
     protected virtual void CastingUpdate() {
 
         castCount += Time.deltaTime;
-        CastLerp = Mathf.Clamp01(castCount / ActionRef.CastDuration);
-        ActionRef.OnActionUpdateCasting?.Invoke();
+        CastLerp = Mathf.Clamp01(castCount / ActionScript.CastDuration);
+        ActionScript.OnActionUpdateCasting?.Invoke();
         if (CastLerp == 1f) {
             CastingEnd(ActionEndState.Success);
         }
@@ -306,33 +312,33 @@ public class SPActor : MonoBehaviour, IActor {
 
     protected virtual void CastingEnd(ActionEndState endState) {
 
-        Debug.Log(ActionRef.name + " Casting End", Interact.GameObject());
+        Debug.Log(ActionScript.name + " Casting End", Interact.GameObject());
 
         if (endState == ActionEndState.Success) {
 
         } else {
-            Action.DoCast(false, this, Interact);
+            actionInterface.DoCast(false, this, Interact);
             internalState = ActionState.Idle;
         }
 
 
-        ActionRef.OnActionEndCasting?.Invoke();
+        ActionScript.OnActionEndCasting?.Invoke();
     }
 
     protected virtual void ActionStart() {
 
-        Debug.Log(ActionRef.name + " Action Start", Interact.GameObject());
+        Debug.Log(ActionScript.name + " Action Start", Interact.GameObject());
         internalState = ActionState.Acting;
 
-        Action.DoAction(true, this, Interact);
+        actionInterface.DoAction(true, this, Interact);
         Interact.Interact(true, this);
 
         activeInteract = Interact;
 
-        ActionRef.OnActionStart?.Invoke();
+        ActionScript.OnActionStart?.Invoke();
 
-        if (ActionRef.Type == ActionType.OneShot || ActionRef.Type == ActionType.State) {
-            Stop(ActionRef, Interact, ActionEndState.Success);
+        if (ActionScript.Type == ActionType.OneShot || ActionScript.Type == ActionType.State) {
+            Stop(ActionScript, Interact, ActionEndState.Success);
         } else {
             internalState = ActionState.Acting;
             ActionUpdate();
@@ -346,32 +352,32 @@ public class SPActor : MonoBehaviour, IActor {
         Debug.Log(Interact.GameObject().name + " Action Update", Interact.GameObject());
 
         actionCount += Time.deltaTime;
-        ActionLerp = Mathf.Clamp01(actionCount / ActionRef.ActionDuration);
+        ActionLerp = Mathf.Clamp01(actionCount / ActionScript.ActionDuration);
 
         //update the interactable
         Interact.UpdateInteract();
 
         if (ActionLerp == 1f) {
 
-            if (ActionRef.Type == ActionType.Hold) {
+            if (ActionScript.Type == ActionType.Hold) {
                 ActionEnd(ActionEndState.Success);
             } else {
 
             }
         }
 
-        ActionRef.OnActionUpdate?.Invoke();
+        ActionScript.OnActionUpdate?.Invoke();
     }
 
 
     protected virtual void ActionEnd(ActionEndState reason) {
 
-        Debug.Log(ActionRef.name + " Action End", Interact.GameObject());
+        Debug.Log(ActionScript.name + " Action End", Interact.GameObject());
 
         internalState = ActionState.Idle;
 
-        Action.DoAction(false, this, Interact);
-        ActionRef.EndAction(this, Interact, reason);
+        actionInterface.DoAction(false, this, Interact);
+        ActionScript.EndAction(this, Interact, reason);
 
     }
 
@@ -381,7 +387,7 @@ public class SPActor : MonoBehaviour, IActor {
 
 public interface IActor {
 
-    MonoBehaviour Player();
+    MonoBehaviour Owner();
     void Use(IAction newAction, IInteract newInteractable);
     void Stop(IAction newAction, IInteract newInteract, ActionEndState reason);
     void SetState(IState newState);

@@ -37,7 +37,7 @@ public class SPActionPlayer : SPAction
 
     
     protected void ApplyState(IActor actor, IInteract interactable, string state, float fade = .1f) {
-        SPPlayer player = actor.Player() as SPPlayer;
+        SPPlayer player = actor.Owner() as SPPlayer;
         AnimationMesh anim = player.Animation as AnimationMesh;
 
         if(anim) {

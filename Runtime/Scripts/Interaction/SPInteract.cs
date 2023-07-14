@@ -26,6 +26,7 @@ public class SPInteract : MonoBehaviour, IInteract
     public System.Action<bool, IActor> OnActorToggle, OnInteractToggle;
 
     protected virtual void Awake() {
+
         if(go == null) {
             go = gameObject;
         }
@@ -49,7 +50,7 @@ public class SPInteract : MonoBehaviour, IInteract
         
         if(toggle) {
             actor = newActor;
-            actorPlayer = newActor.Player() as SPPlayer;
+            actorPlayer = newActor.Owner() as SPPlayer;
 
             newActor.SetState(state != null ? state : new SPState(PlayerState.Interact));
 

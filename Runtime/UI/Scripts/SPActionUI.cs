@@ -74,16 +74,16 @@ public class SPActionUI : SPWindowParent
 #if UNITY_EDITOR
     void Update() {
 
-        if(!actor || !Actor.ActionRef) {
+        if(!actor || !Actor.ActionScript) {
             debugReadout.text = "";
             return;
         }
 
 
-        if(Actor.ActionRef != null) {
-            debugReadout.text = "Action: " + Actor?.ActionRef.name + "\n";
+        if(Actor.ActionScript != null) {
+            debugReadout.text = "Action: " + Actor?.ActionScript.name + "\n";
             debugReadout.text += "State: " + Actor.ActionState.ToString() + "\n";
-            debugReadout.text += "Type: " + Actor.ActionRef.Type.ToString() + "\n";
+            debugReadout.text += "Type: " + Actor.ActionScript.Type.ToString() + "\n";
             debugReadout.text += "Cast: " + Actor.CastLerp.ToString("F1") + "\n";
             debugReadout.text += "Action: " + Actor.ActionLerp.ToString("F1") + "\n";
             
@@ -123,7 +123,7 @@ public class SPActionUI : SPWindowParent
             Init();
         }
         GameObject targetGO = newInteract.GameObject();
-        SPAction actionRef = newInteract.Action().ActionRef();
+        SPAction ActionScript = newInteract.Action() as SPAction;
 
         if (targetGO == null)
         {
@@ -148,7 +148,7 @@ public class SPActionUI : SPWindowParent
 
             targets.Add(targetGO);
             activeActions.Add(newPrompt);
-            actionStates.Add(actionRef);
+            actionStates.Add(ActionScript);
 
             newPrompt.ToggleAction(true, Actor, newInteract);
             newPrompt.ToggleActionTarget(true);
@@ -169,7 +169,7 @@ public class SPActionUI : SPWindowParent
 
             targets.Remove(targetGO);
             activeActions.Remove(newPrompt);
-            actionStates.Remove(actionRef);
+            actionStates.Remove(ActionScript);
 
             actions.Insert(0, newPrompt);
 
