@@ -5,19 +5,17 @@ using UnityEngine.UI;
 public class SPActionPrompt : SPWindowParent {
 
     public SPButton Button { get { return buttonText; } }
-    public SPButton Input { get { return inputText; } }
+    public SPInputPrompt Input { get { return inputText; } }
 
     [Header("Action Prompt")]
     [SerializeField] private bool worldSpace;
     [SerializeField] private SPButton buttonText;
-    [SerializeField] private SPButton inputText;
+    [SerializeField] private SPInputPrompt inputText;
     [SerializeField] private GameObject miniPromptParent;
     [SerializeField] private GameObject fullPromptParent;
     [SerializeField] private GameObject promptParent;
     [SerializeField] private SPWindowPosition windowPosition;
-    [SerializeField] private GameObject canPerform;
-    [SerializeField] private GameObject cantPerform;
-
+    [SerializeField] private Image canPerform;
     [Header("Progress")]
     [SerializeField] public SPActionWheelUI wheel;
     [SerializeField] private Image sweetSpot;
@@ -44,8 +42,10 @@ public class SPActionPrompt : SPWindowParent {
             return;
         }
 
-        canPerform.SetActive(actionScript.TryAction(actorComponent,interactable));
-        cantPerform.SetActive(!actionScript.TryAction(actorComponent,interactable));
+        bool allowed = actionScript.TryAction(actorComponent,interactable);
+        inputText.ToggleWindow(allowed);
+        canPerform.color = allowed ? Color.black : Color.black - Color.black * .5f;
+
         
     }
 
