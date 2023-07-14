@@ -1,0 +1,46 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3bf607ff64f781f408b3559f98e9beb2, type: 3}
+  m_Name: CursorTextures
+  m_EditorClassIdentifier: 
+  cursorTextures:
+  - {fileID: 2800000, guid: 47220c7b4f311184aa5b3a0cb5c2e7e7, type: 3}
+  - {fileID: 2800000, guid: e8e056ef90e1211488b115e1785db1ba, type: 3}
+  - {fileID: 2800000, guid: 572ea5c4ea3187a4ba30368fe9ac4626, type: 3}
+  - {fileID: 2800000, guid: b8d3d6d66c20a8246bfafa490a619e0a, type: 3}
+  - {fileID: 2800000, guid: 1afadb1707fc7aa4c8e678e82244151c, type: 3}
+  - {fileID: 2800000, guid: 6cfe62ba55a7afa4aaf6df0082b10681, type: 3}
+  - {fileID: 2800000, guid: 1c279863daf3a124caa99fce0b2019ba, type: 3}
+  - {fileID: 2800000, guid: bd657ebbe9abebd41bb02ed85cdb4ceb, type: 3}
+  - {fileID: 2800000, guid: 9651b0449da3ce749b973c2505d28273, type: 3}
+  - {fileID: 2800000, guid: 7a9751b67e194b547a366050ae3c9992, type: 3}
+  - {fileID: 2800000, guid: c4497259cef145e4ca994ff59206e247, type: 3}
+  - {fileID: 2800000, guid: cffa5c5c831f6c14aa41dc506c3ffc0b, type: 3}
+  - {fileID: 2800000, guid: 146c9978ae9e39146b8b93576c3c9770, type: 3}
+  - {fileID: 2800000, guid: 207a48616b7f3064a8f83eada992ff60, type: 3}
+  - {fileID: 2800000, guid: ea78fc512c385d241882ed3eeca5a5e0, type: 3}
+  cursorHotspots:
+  - {x: 16, y: 0}
+  - {x: 16, y: 16}
+  - {x: 16, y: 16}
+  - {x: 16, y: 6}
+  - {x: 16, y: 16}
+  - {x: 16, y: 6}
+  - {x: 16, y: 6}
+  - {x: 16, y: 6}
+  - {x: 16, y: 6}
+  - {x: 16, y: 6}
+  - {x: 16, y: 16}
+  - {x: 16, y: 16}
+  - {x: 16, y: 0}
+  - {x: 16, y: 16}
+  - {x: 16, y: 16}
