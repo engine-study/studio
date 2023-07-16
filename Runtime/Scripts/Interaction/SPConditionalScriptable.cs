@@ -8,7 +8,7 @@ public abstract class SPConditionalScriptable : ScriptableObject
     [Header("Conditional")]
     protected bool cachedBool;
 
-    public virtual bool IsAllowed() {cachedBool = Evaluate(); return cachedBool;}
-    protected abstract bool Evaluate();
+    public virtual bool IsAllowed(IActor actor, IInteract interact) {cachedBool = Evaluate(actor, interact); return cachedBool;}
+    protected abstract bool Evaluate(IActor actor, IInteract interact);
     
 }

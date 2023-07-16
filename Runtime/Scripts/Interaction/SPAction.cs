@@ -36,7 +36,7 @@ public abstract class SPAction : ScriptableObject, IAction
         }
 
         for(int i = 0; i < conditions.Length; i++) {
-            if(!conditions[i].IsAllowed()) {
+            if(!conditions[i].IsAllowed(actor, interactable)) {
                 canPerform = false; 
                 return canPerform;
             }
