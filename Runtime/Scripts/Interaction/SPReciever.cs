@@ -1,15 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-public class SPReciever : MonoBehaviour
-{
-    public IInteract TargetInteract {get{return targetInteract;}}
-    public GameObject TargetGO {get{return targetGO;}}
-    public SPBase TargetBase {get{return targetBase;}}
-    public bool HasInteractable {get{return hasInteractable;}}
-    
-    public List<IInteract> Interactables {get{return interactables;}}
-    public List<GameObject> GameObjects {get{return gameobjects;}}
+public class SPReciever : MonoBehaviour {
+    public IInteract TargetInteract { get { return targetInteract; } }
+    public GameObject TargetGO { get { return targetGO; } }
+    public SPBase TargetBase { get { return targetBase; } }
+    public bool HasInteractable { get { return hasInteractable; } }
+
+    public List<IInteract> Interactables { get { return interactables; } }
+    public List<GameObject> GameObjects { get { return gameobjects; } }
 
     [Header("Interact")]
     [SerializeField] protected GameObject targetGO;
@@ -25,7 +24,7 @@ public class SPReciever : MonoBehaviour
     public System.Action<bool, IInteract> OnInteractToggle;
     public System.Action<bool, IInteract> OnTargetToggle;
 
-    bool hasInit = false; 
+    bool hasInit = false;
 
     void Awake() {
 
@@ -34,42 +33,42 @@ public class SPReciever : MonoBehaviour
     }
 
     void Init() {
-        
-        if(hasInit) {
+
+        if (hasInit) {
             return;
         }
 
         interactables = new List<IInteract>();
         gameobjects = new List<GameObject>();
 
-        hasInit = true; 
+        hasInit = true;
     }
 
-    
+
     void OnEnable() {
 
     }
 
     void OnDisable() {
-        
-        if(interactables == null) {
+
+        if (interactables == null) {
             return;
         }
 
-        for(int i = interactables.Count-1; i > -1; i--) {
+        for (int i = interactables.Count - 1; i > -1; i--) {
             ToggleInteractable(false, interactables[i]);
         }
     }
 
-    
+
     protected void ToggleList(bool toggle, IInteract newInteract) {
 
-        if(toggle) {
+        if (toggle) {
             interactables.Add(newInteract);
             gameobjects.Add(newInteract.GameObject());
         } else {
             int index = gameobjects.IndexOf(newInteract.GameObject());
-            if(index == -1) {
+            if (index == -1) {
                 Debug.LogError("Cannot find object", this);
                 return;
             }
@@ -77,34 +76,34 @@ public class SPReciever : MonoBehaviour
             gameobjects.RemoveAt(index);
         }
 
-        OnInteractToggle?.Invoke(toggle,newInteract);
+        OnInteractToggle?.Invoke(toggle, newInteract);
 
     }
 
     public void ToggleInteractableManual(bool toggle, IInteract newInteract) {
-        
-        if(!hasInit) {
+
+        if (!hasInit) {
             Init();
         }
-        
-        ToggleInteractable(toggle,newInteract);
+
+        ToggleInteractable(toggle, newInteract);
     }
 
     protected void ToggleInteractable(bool toggle, IInteract newInteract) {
 
         GameObject go = newInteract.GameObject();
 
-        if(go == null) {
+        if (go == null) {
             Debug.LogError("NO gameobject", this);
         }
 
         //we shouldn't be toggling if we already have the object or have already disposed of it
         bool contains = gameobjects.Contains(go);
-        if((toggle && contains) || (!toggle && !contains)) {
+        if ((toggle && contains) || (!toggle && !contains)) {
             return;
         }
 
-        if(toggle) {
+        if (toggle) {
             // Debug.Log("Add Interactable: " + newInteract.GameObject().name);
             ToggleList(true, newInteract);
 
@@ -123,38 +122,38 @@ public class SPReciever : MonoBehaviour
     }
 
     protected void UpdateTarget() {
-        
+
         // Debug.Log("Update Target");
 
         float distance = 9999f;
         int index = -1;
         //iterate backwards in case we delete elements
-        for(int i = gameobjects.Count - 1; i > -1; i--) {
+        for (int i = gameobjects.Count - 1; i > -1; i--) {
 
-            if(gameobjects[i] == null) {
+            if (gameobjects[i] == null) {
                 Debug.LogError("A gameobject became null", this);
                 ToggleList(false, null);
                 continue;
             }
 
             float newDistance = Vector3.Distance(gameobjects[i].transform.position, transform.position);
-            
-            if(newDistance < distance) {
+
+            if (newDistance < distance) {
                 distance = newDistance;
                 index = i;
             }
 
         }
-                
+
         //LOAD the new target
         IInteract newTarget = index != -1 ? interactables[index] : null;
         GameObject newTargetGO = index != -1 ? gameobjects[index] : null;
 
         //check if new gameobject
         //always use gameobjects for comparisons
-        if(newTargetGO != targetGO) {
+        if (newTargetGO != targetGO) {
 
-            if(targetGO != null) {
+            if (targetGO != null) {
                 OnTargetToggle?.Invoke(false, targetInteract);
             }
 
@@ -165,17 +164,16 @@ public class SPReciever : MonoBehaviour
             hasInteractable = targetGO != null;
 
             //fire the event
-            if(targetGO != null) {
-                Debug.Log("New Target: " + newTargetGO.name, this);
+            if (targetGO != null) {
                 OnTargetToggle?.Invoke(true, targetInteract);
             }
         }
 
     }
 
-     void OnDrawGizmos() {
-        for(int i = 0; i < GameObjects.Count; i++) {
-            if(GameObjects[i] == TargetGO) {
+    void OnDrawGizmos() {
+        for (int i = 0; i < GameObjects.Count; i++) {
+            if (GameObjects[i] == TargetGO) {
                 Gizmos.color = Color.blue;
                 Gizmos.DrawLine(GameObjects[i].transform.position, transform.position);
             } else {

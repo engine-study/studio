@@ -4,8 +4,7 @@ using UnityEngine;
 using System;
 using TMPro;
 
-public class SPActionUI : SPWindowParent
-{
+public class SPActionUI : SPWindowParent {
     public SPActor Actor { get { return actor; } }
 
     [Header("Interacting")]
@@ -20,18 +19,15 @@ public class SPActionUI : SPWindowParent
     public TextMeshProUGUI debugReadout;
     public SPActionWheelUI wheel;
 
-    public override void Init()
-    {
+    public override void Init() {
 
-        if (hasInit)
-        {
+        if (hasInit) {
             return;
         }
 
         base.Init();
 
-        for (int i = 0; i < actions.Count; i++)
-        {
+        for (int i = 0; i < actions.Count; i++) {
             actions[i].wheel = wheel;
             actions[i].ToggleWindowClose();
         }
@@ -44,11 +40,9 @@ public class SPActionUI : SPWindowParent
 
     }
 
-    public void Setup(SPActor newActor)
-    {
+    public void Setup(SPActor newActor) {
 
-        if (actor != null)
-        {
+        if (actor != null) {
             actor.OnActionsUpdated -= LoadAction;
             actor.OnTargetsUpdated -= ToggleTarget;
         }
@@ -60,12 +54,10 @@ public class SPActionUI : SPWindowParent
         wheel.Setup(newActor);
     }
 
-    protected override void Destroy()
-    {
+    protected override void Destroy() {
         base.Destroy();
 
-        if (actor != null)
-        {
+        if (actor != null) {
             actor.OnActionsUpdated -= LoadAction;
             actor.OnTargetsUpdated -= ToggleTarget;
         }
@@ -92,10 +84,8 @@ public class SPActionUI : SPWindowParent
     }
 #endif
 
-    void ToggleTarget(bool toggle, IInteract newInteract)
-    {
-        if (!hasInit)
-        {
+    void ToggleTarget(bool toggle, IInteract newInteract) {
+        if (!hasInit) {
             Init();
         }
         // actions[0].ToggleAction(toggle, actor, newInteract);
@@ -116,32 +106,26 @@ public class SPActionUI : SPWindowParent
     // }
 
 
-    void LoadAction(bool toggle, IInteract newInteract)
-    {
-        if (!hasInit)
-        {
+    void LoadAction(bool toggle, IInteract newInteract) {
+        if (!hasInit) {
             Init();
         }
         GameObject targetGO = newInteract.GameObject();
         SPAction ActionScript = newInteract.Action() as SPAction;
 
-        if (targetGO == null)
-        {
+        if (targetGO == null) {
             Debug.LogError("No gameobject on interactable", this);
             return;
         }
 
-        if (toggle)
-        {
+        if (toggle) {
 
-            if (actions.Count < 1)
-            {
+            if (actions.Count < 1) {
                 Debug.LogError("Too many actions");
                 return;
             }
 
-
-            Debug.Log("Adding " + targetGO.name, this);
+            // Debug.Log("Adding " + targetGO.name, this);
 
             SPActionPrompt newPrompt = actions[0];
             actions.RemoveAt(0);
@@ -152,14 +136,11 @@ public class SPActionUI : SPWindowParent
 
             newPrompt.ToggleAction(true, Actor, newInteract);
             newPrompt.ToggleActionTarget(true);
-        }
-        else
-        {
+        } else {
 
             int index = targets.IndexOf(targetGO);
 
-            if (index < 0)
-            {
+            if (index < 0) {
                 Debug.LogError("Couldnt find action?");
                 return;
             }
