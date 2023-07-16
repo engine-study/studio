@@ -3,32 +3,30 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class SPInteract : MonoBehaviour, IInteract
-{
+public class SPInteract : MonoBehaviour, IInteract {
 
 
     [Header("Interact")]
     public SPAction action;
     public SPState state;
-    
+
     [Header("Debug")]
-    public bool interacting = false; 
-    public SPPlayer actorPlayer;
+    public bool interacting = false;
+    public GameObject targetGO;
+
     public IActor actor;
 
     [Header("Events")]
     public UnityEvent OnStartEvent;
     public UnityEvent OnEndEvent;
 
-    [HideInInspector] public GameObject go;
-
     public System.Action OnActor, OnInteract;
     public System.Action<bool, IActor> OnActorToggle, OnInteractToggle;
 
     protected virtual void Awake() {
 
-        if(go == null) {
-            go = gameObject;
+        if (targetGO == null) {
+            targetGO = gameObject;
         }
     }
 
@@ -36,7 +34,7 @@ public class SPInteract : MonoBehaviour, IInteract
 
     }
 
-    public virtual bool IsInteractable() {return true;}
+    public virtual bool IsInteractable() { return true; }
 
     public virtual void ToggleActor(bool toggle, IActor newActor) {
 
@@ -46,30 +44,27 @@ public class SPInteract : MonoBehaviour, IInteract
 
     public virtual void Interact(bool toggle, IActor newActor) {
 
-        interacting = toggle; 
-        
-        if(toggle) {
-            actor = newActor;
-            actorPlayer = newActor.Owner() as SPPlayer;
+        interacting = toggle;
 
+        if (toggle) {
+            actor = newActor;
             newActor.SetState(state != null ? state : new SPState(PlayerState.Interact));
 
             OnStartEvent?.Invoke();
 
         } else {
-            actorPlayer = null;
 
-            if(state != null) {
+            if (state != null) {
                 newActor.SetState(null);
             }
-                               
+
             OnEndEvent?.Invoke();
 
         }
 
-    
+
         OnInteract?.Invoke();
-        OnInteractToggle?.Invoke(toggle,newActor);
+        OnInteractToggle?.Invoke(toggle, newActor);
 
     }
 
@@ -83,7 +78,7 @@ public class SPInteract : MonoBehaviour, IInteract
     }
 
     public virtual GameObject GameObject() {
-        return go;
+        return targetGO;
     }
 
     public virtual IAction Action() {
@@ -98,7 +93,7 @@ public interface IInteract {
     void Interact(bool toggle, IActor newActor);
     void UpdateInteract();
     void UpdateState();
-    bool IsInteractable() {return true;}
+    bool IsInteractable() { return true; }
     GameObject GameObject();
     IAction Action();
 }
