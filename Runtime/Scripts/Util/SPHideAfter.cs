@@ -33,11 +33,15 @@ public class SPHideAfter : MonoBehaviour
     }
     
     void Refresh(bool toggle) {
+                
+        if(!gameObject.activeSelf)
+            return;
+
         if(toggle) {
+
             if(hide != null) {
                 StopCoroutine(hide);
             }
-
             hide = StartCoroutine(HideAfterCoroutine());
         }
     }
