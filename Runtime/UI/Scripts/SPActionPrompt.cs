@@ -114,7 +114,7 @@ public class SPActionPrompt : SPWindowParent {
 
     void ToggleCast(bool toggle) {
 
-        promptParent.SetActive(!toggle);
+        // promptParent.SetActive(!toggle);
 
         if (wheel) {
             wheel.ToggleWindow(toggle);
