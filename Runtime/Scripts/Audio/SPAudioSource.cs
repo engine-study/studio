@@ -5,6 +5,7 @@ using UnityEngine;
 public class SPAudioSource : MonoBehaviour
 {
   
+    public AudioSource Source {get{return audioSource;}}
     
     [SerializeField] protected AudioSource audioSource;
 
