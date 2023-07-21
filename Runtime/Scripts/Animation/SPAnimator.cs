@@ -36,24 +36,25 @@ public class SPAnimator : MonoBehaviour {
 
         if (toggle) {
 
-            if (prop == null) {
-                if (props.ContainsKey(propPrefab.gameObject.name)) {
-                    prop = props[propPrefab.gameObject.name];
-                    prop.gameObject.SetActive(true);
-                } else {
-                    prop = Instantiate(propPrefab, transform.position, transform.rotation, transform);
+            if (props.ContainsKey(propPrefab.gameObject.name)) {
+                
+                prop = props[propPrefab.gameObject.name];
+                prop.gameObject.SetActive(true);
 
-                    if (prop.bodyParent != PlayerBody.None) {
-                        prop.bodyProp.parent = bodyParts[(int)prop.bodyParent];
-                        prop.bodyProp.localPosition = Vector3.zero;
-                        prop.bodyProp.localRotation = Quaternion.identity;
-                    }
-                }
             } else {
-                Debug.Assert(propPrefab.gameObject.name == prop.gameObject.name, "Have not disabled old prop", this);
+                prop = Instantiate(propPrefab, transform.position, transform.rotation, transform);
+                props.Add(propPrefab.gameObject.name, prop);
+
+                if (prop.bodyParent != PlayerBody.None) {
+                    prop.bodyProp.parent = bodyParts[(int)prop.bodyParent];
+                    prop.bodyProp.localPosition = Vector3.zero;
+                    prop.bodyProp.localRotation = Quaternion.identity;
+                }
             }
+            
         } else {
             prop.gameObject.SetActive(false);
+            prop = null;
         }
       
     }
