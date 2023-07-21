@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
 public class SPReciever : MonoBehaviour {
     public IInteract TargetInteract { get { return targetInteract; } }
     public GameObject TargetGO { get { return targetGO; } }
@@ -23,6 +24,7 @@ public class SPReciever : MonoBehaviour {
 
     public System.Action<bool, IInteract> OnInteractToggle;
     public System.Action<bool, IInteract> OnTargetToggle;
+    public System.Action OnTarget;
 
     bool hasInit = false;
 
@@ -167,6 +169,8 @@ public class SPReciever : MonoBehaviour {
             if (targetGO != null) {
                 OnTargetToggle?.Invoke(true, targetInteract);
             }
+
+            OnTarget?.Invoke();
         }
 
     }
