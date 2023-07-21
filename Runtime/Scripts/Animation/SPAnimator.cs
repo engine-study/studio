@@ -3,37 +3,63 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Animations;
 
+
+public enum PlayerBody { None, LeftHand, RightHand, Head }
+
 [RequireComponent(typeof(Animator))]
-public class SPAnimator : MonoBehaviour
-{
+public class SPAnimator : MonoBehaviour {
 
 
     [Header("Animator")]
+    public Transform [] bodyParts;
     public SPIK ik;
 
     [Header("Debug")]
-    public List<SPAnimationEvent> animationEvents;
+    public SPAnimationProp prop;
+    public Dictionary<string, SPAnimationProp> props;
     public System.Action<Object> OnEffect;
     [SerializeField] Animator animator;
     private RuntimeAnimatorController backupController;
 
     void Awake() {
 
+        props = new Dictionary<string, SPAnimationProp>();
+
         animator = GetComponent<Animator>();
         backupController = animator.runtimeAnimatorController;
 
     }
 
-    public void PlayClip(string name) {
-        animator.CrossFade(name, .1f);
+
+    public void ToggleProp(bool toggle, SPAnimationProp propPrefab) {
+
+
+        if (toggle) {
+
+            if (prop == null) {
+                if (props.ContainsKey(propPrefab.gameObject.name)) {
+                    prop = props[propPrefab.gameObject.name];
+                    prop.gameObject.SetActive(true);
+                } else {
+                    prop = Instantiate(propPrefab, transform.position, transform.rotation, transform);
+
+                    if (prop.bodyParent != PlayerBody.None) {
+                        prop.bodyProp.parent = bodyParts[(int)prop.bodyParent];
+                        prop.bodyProp.localPosition = Vector3.zero;
+                        prop.bodyProp.localRotation = Quaternion.identity;
+                    }
+                }
+            } else {
+                Debug.Assert(propPrefab.gameObject.name == prop.gameObject.name, "Have not disabled old prop", this);
+            }
+        } else {
+            prop.gameObject.SetActive(false);
+        }
+      
     }
 
-    public void ToggleAnimationEvent(bool toggle, SPAnimationEvent animationEvent) {
-        if(toggle) {
-            animationEvents.Add(animationEvent);
-        } else {    
-            animationEvents.Remove(animationEvent);
-        }
+    public void PlayClip(string name) {
+        animator.CrossFade(name, .1f);
     }
 
     public void SetSpeed(float newSpeed) {
@@ -47,10 +73,8 @@ public class SPAnimator : MonoBehaviour
     }
 
     public void Event(Object newObject) {
-        
-        for(int i = 0; i < animationEvents.Count; i++) {
-            animationEvents[i].Fire();
-        }
+
+        prop?.Fire();
 
         OnEffect?.Invoke(newObject);
     }

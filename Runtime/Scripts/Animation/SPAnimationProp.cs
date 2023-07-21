@@ -2,9 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SPAnimationEvent : MonoBehaviour
+public class SPAnimationProp : MonoBehaviour
 {
 
+    [Header("Settings")]
+    public PlayerBody bodyParent;
+    public Transform bodyProp;
     [Header("Debug")]
     public bool hasInit;
     public SPAnimator animator;
@@ -16,12 +19,14 @@ public class SPAnimationEvent : MonoBehaviour
             Init();
         }
 
-        animator.ToggleAnimationEvent(true, this);
+        //when we are spawned in we add ourselves to the animation list
+        // animator.ToggleAnimationEvent(true, this);
     }
 
 
     void OnDisable() {
-        animator.ToggleAnimationEvent(false, this);
+
+        // animator.ToggleAnimationEvent(false, this);
 
     }
     public virtual void Init() {

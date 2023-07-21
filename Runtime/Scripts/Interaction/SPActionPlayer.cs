@@ -9,22 +9,40 @@ public class SPActionPlayer : SPAction
     [Header("Player")]
     public SPAnimatorState animatorState;
 
+
     public override void DoCast(bool toggle, IActor actor, IInteract interactable) {
         base.DoCast(toggle, actor, interactable);
+
+        SPAnimator anim = (actor.Owner() as SPPlayer).Animator as SPAnimator;
+
+        ToggleProp(toggle, anim);
+
         if(toggle) {
-            ApplyState(actor, interactable, "Cast");
+            FadeAnimation(actor, interactable, "Cast");
         } else {
-            ApplyState(actor, interactable, "Idle");
+            FadeAnimation(actor, interactable, "Idle");
         }
     }
 
     public override void DoAction(bool toggle, IActor actor, IInteract interactable) {
         base.DoAction(toggle, actor, interactable);
         
+        SPAnimator anim = (actor.Owner() as SPPlayer).Animator as SPAnimator;
+
+        ToggleProp(toggle, anim);
+
         if(toggle) {
-            ApplyState(actor, interactable, "Action");
+            FadeAnimation(actor, interactable, "Action");
         } else {
-            ApplyState(actor, interactable, "Idle");
+            FadeAnimation(actor, interactable, "Idle");
+        }
+
+    }
+
+    void ToggleProp(bool toggle, SPAnimator animator) {
+
+        if(animatorState.Prop) {
+            animator.ToggleProp(toggle, animatorState.Prop);
         }
 
     }
@@ -32,11 +50,11 @@ public class SPActionPlayer : SPAction
     public override void EndAction(IActor actor, IInteract interactable, ActionEndState reason) {
         base.EndAction(actor, interactable, reason);    
 
-        ApplyState(actor, interactable, "Idle");
+        FadeAnimation(actor, interactable, "Idle");
+
     }
 
-    
-    protected void ApplyState(IActor actor, IInteract interactable, string state, float fade = .1f) {
+    protected void FadeAnimation(IActor actor, IInteract interactable, string state, float fade = .1f) {
         SPPlayer player = actor.Owner() as SPPlayer;
         AnimationMesh anim = player.Animation as AnimationMesh;
 
@@ -45,7 +63,10 @@ public class SPActionPlayer : SPAction
             // anim.Animator.Play("Action");
             anim.Animator.CrossFade(state, fade);
         }
+    }
 
+    protected void ReleaseState(IActor actor, IInteract interactable, string state, float fade = .1f) {
+        
     }
 
 }
