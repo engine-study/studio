@@ -19,8 +19,6 @@ public class SPAnimationProp : MonoBehaviour
             Init();
         }
 
-        //when we are spawned in we add ourselves to the animation list
-        // animator.ToggleAnimationEvent(true, this);
     }
 
 
@@ -29,6 +27,7 @@ public class SPAnimationProp : MonoBehaviour
         // animator.ToggleAnimationEvent(false, this);
 
     }
+    
     public virtual void Init() {
 
         if(animator == null) {

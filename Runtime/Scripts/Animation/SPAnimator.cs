@@ -33,7 +33,7 @@ public class SPAnimator : MonoBehaviour {
 
     public void ToggleProp(bool toggle, SPAnimationProp propPrefab) {
 
-
+        Debug.Log("Prop: " + toggle.ToString() + " " + propPrefab.gameObject.name.ToString());
         if (toggle) {
 
             if (props.ContainsKey(propPrefab.gameObject.name)) {
