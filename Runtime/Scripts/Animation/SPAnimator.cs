@@ -80,7 +80,16 @@ public class SPAnimator : MonoBehaviour {
 
     }
 
+    public void Event() {
+        Debug.Log("Event no Object");
+
+        prop?.Fire();
+
+    }
+
     public void Event(Object newObject) {
+
+        Debug.Log("Event WITH " + newObject.name);
 
         prop?.Fire();
 
