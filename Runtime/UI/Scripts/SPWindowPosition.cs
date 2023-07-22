@@ -45,6 +45,11 @@ public class SPWindowPosition : MonoBehaviour {
         }
     }
 
+    public void SetFollow(Transform newFollow, Vector3 newOffset) {
+        offset = newOffset;
+        SetFollow(newFollow);
+    }
+
     public void SetFollow(Transform newFollow) {
 
         if (!hasInit) {
