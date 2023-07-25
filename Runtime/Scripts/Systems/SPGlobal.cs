@@ -32,7 +32,7 @@ public class SPGlobal : MonoBehaviour
         }
 
         if(Application.isEditor || Debug.isDebugBuild) {
-            Application.targetFrameRate = -1;
+            Application.targetFrameRate = 60;
             QualitySettings.vSyncCount = 1;
         } else {
             Application.targetFrameRate = -1;
