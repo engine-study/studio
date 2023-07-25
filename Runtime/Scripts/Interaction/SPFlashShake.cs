@@ -10,6 +10,7 @@ public class SPFlashShake : MonoBehaviour {
 
     [Header("Debug")]
     [SerializeField] private GameObject clone;
+    [SerializeField] private MeshRenderer[] renderers;
     // [SerializeField] private MeshFilter mesh;
     // [SerializeField] private MeshRenderer mr;
 
@@ -17,6 +18,14 @@ public class SPFlashShake : MonoBehaviour {
     Coroutine flash;
 
     public void SetTarget(GameObject newTarget) {
+
+        if (newTarget == target) {
+            return;
+        }
+
+        if (flash != null) {
+            StopCoroutine(flash);
+        }
 
         if (clone != null) {
             GameObject.Destroy(clone);
@@ -35,27 +44,34 @@ public class SPFlashShake : MonoBehaviour {
 
     public void Flash() {
 
-        if(FlashMat == null) {
+        if (FlashMat == null) {
             FlashMat = Resources.Load("FlashDither") as Material;
         }
 
         if (clone == null) {
-            clone = Instantiate(target);
-            clone.transform.parent = target.transform.parent;
-            clone.transform.localPosition = target.transform.localPosition;
-            clone.transform.localRotation = target.transform.localRotation;
-            clone.transform.localScale = target.transform.localScale;
-            
-            MeshRenderer [] renderers = clone.GetComponentsInChildren<MeshRenderer>();
+            if (target == null) {
+                Debug.LogError("No target", this);
+                return;
+            }
 
+            clone = Instantiate(target, target.transform.parent);
+
+            // clone.transform.localPosition = target.transform.localPosition;
+            // clone.transform.localRotation = target.transform.localRotation;
+            // clone.transform.localScale = target.transform.localScale;
+
+            clone.SetActive(true);
+
+            renderers = clone.GetComponentsInChildren<MeshRenderer>();
+
+            if (renderers.Length == 0) {
+                Debug.LogError("No renderers", this);
+            }
+
+            //replace all materials with flash material
             for (int i = 0; i < renderers.Length; i++) {
-
                 Material[] sharedMaterialsCopy = renderers[i].sharedMaterials;
-
-                for (int j = 0; j < sharedMaterialsCopy.Length; j++) {
-                    sharedMaterialsCopy[j] = FlashMat;
-                }
-
+                for (int j = 0; j < sharedMaterialsCopy.Length; j++) { sharedMaterialsCopy[j] = FlashMat; }
                 renderers[i].sharedMaterials = sharedMaterialsCopy;
             }
 
@@ -65,7 +81,7 @@ public class SPFlashShake : MonoBehaviour {
             StopCoroutine(flash);
         }
 
-        StartCoroutine(FlashCoroutine());
+        flash = StartCoroutine(FlashCoroutine());
 
     }
 
