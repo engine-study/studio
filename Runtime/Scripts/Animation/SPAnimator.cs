@@ -10,6 +10,8 @@ public enum PlayerBody { None, LeftHand, RightHand, Head }
 public class SPAnimator : MonoBehaviour {
 
 
+    public SPIK IK {get{return ik;}}
+
     [Header("Animator")]
     public Transform [] bodyParts;
     public SPIK ik;

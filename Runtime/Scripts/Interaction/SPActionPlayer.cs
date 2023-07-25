@@ -15,9 +15,10 @@ public class SPActionPlayer : SPAction
 
         SPAnimator anim = (actor.Owner() as SPPlayer).Animator as SPAnimator;
 
+        ToggleProp(toggle, anim);
 
         if(toggle) {
-            ToggleProp(toggle, anim);
+            anim.IK.SetLook(null);
             FadeAnimation(actor, interactable, "Cast");
         } else {
             FadeAnimation(actor, interactable, "Idle");
@@ -29,9 +30,10 @@ public class SPActionPlayer : SPAction
         
         SPAnimator anim = (actor.Owner() as SPPlayer).Animator as SPAnimator;
 
+        ToggleProp(toggle, anim);
 
         if(toggle) {
-            ToggleProp(toggle, anim);
+            anim.IK.SetLook(null);
             FadeAnimation(actor, interactable, "Action");
         } else {
             FadeAnimation(actor, interactable, "Idle");
