@@ -4,14 +4,17 @@ using UnityEngine;
 
 public class SPAnimationProp : MonoBehaviour
 {
+    [Header("Effects")]
 
-    [Header("Settings")]
+    public ParticleSystem fx;
+    public AudioClip [] sfx;
+
+    [Header("Position")]
     public PlayerBody bodyParent;
     public Transform bodyProp;
+
     [Header("Debug")]
     public bool hasInit;
-    public SPAnimator animator;
-    public ParticleSystem particles;
 
     void OnEnable() {
        
@@ -30,12 +33,8 @@ public class SPAnimationProp : MonoBehaviour
     
     public virtual void Init() {
 
-        if(animator == null) {
-            animator = GetComponentInParent<SPAnimator>(true);
-        } 
-
-        if(!particles) {
-            particles = GetComponentInChildren<ParticleSystem>(true);
+        if(!fx) {
+            fx = GetComponentInChildren<ParticleSystem>(true);
         }
 
 
@@ -44,8 +43,12 @@ public class SPAnimationProp : MonoBehaviour
 
     public virtual void Fire() {
 
-        if(particles) {
-            particles.Play(true);
+        if(fx) {
+            fx.Play(true);
+        }
+
+        if(sfx.Length > 0) {
+            SPAudioSource.Play(transform.position,sfx);
         }
 
     }
