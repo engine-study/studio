@@ -363,6 +363,10 @@ public class SPUIBase : MonoBehaviour
     public static void PlayMessage() {  if(!I) return; PlaySound(I.s_message);}
 
 
+    public static void PlaySound(AudioClip [] clip, float volume = 1f, bool pitchShift = true) {
+        PlaySound(clip[UnityEngine.Random.Range(0,clip.Length)], volume,pitchShift);
+    }   
+
     public static void PlaySound(AudioClip clip, float volume = 1f, bool pitchShift = true) {
         if(!I)
             return;
