@@ -50,7 +50,7 @@ public class SPFlashShake : MonoBehaviour {
 
         if (clone == null) {
             if (target == null) {
-                Debug.LogError("No target", this);
+                // Debug.LogError("No target", this);
                 return;
             }
 
