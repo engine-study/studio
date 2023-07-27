@@ -59,6 +59,8 @@ public class SPWindowSelectable : SPWindow, IPointerEnterHandler, IPointerExitHa
         if(hasInit)
             return;
 
+        base.Init();
+
         //only gather children if we are in fact not, a child
         if(gameObject.GetComponentInParent<SPWindowSelectable>() == null) {
 
@@ -73,7 +75,6 @@ public class SPWindowSelectable : SPWindow, IPointerEnterHandler, IPointerExitHa
         ToggleType(selectableType);
         ToggleState(State);
 
-        base.Init();
 
     }
 
@@ -96,6 +97,11 @@ public class SPWindowSelectable : SPWindow, IPointerEnterHandler, IPointerExitHa
 
     protected override void OnDisable() {
         base.OnDisable();
+    }
+
+    public override void SetTheme(SPWindowTheme newTheme) {
+        base.SetTheme(newTheme);
+        ToggleType(selectableType);
     }
 
     //is this selectable a text field, link, what kind of data? 

@@ -38,10 +38,10 @@ public class SPWindowParent : SPWindow
 
         if(themeOverride) {
 
-            SetThemeLocal(themeOverride.Theme);
+            SetTheme(themeOverride.Theme);
 
             for(int i = 0; i < windows.Count; i++) {
-                windows[i].SetThemeLocal(themeOverride.Theme);
+                windows[i].SetTheme(themeOverride.Theme);
             }
         }
             

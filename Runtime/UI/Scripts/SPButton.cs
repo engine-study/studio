@@ -29,6 +29,12 @@ public class SPButton : SPWindowSelectable {
 
     }
 
+    protected override void OnDisable() {
+        base.OnDisable();
+
+        Debug.Log("Who??", this);
+    }
+
     public void SetupButton(string newText, bool useImage = false) {
         buttonText.text = newText;
         buttonImage.gameObject.SetActive(useImage);

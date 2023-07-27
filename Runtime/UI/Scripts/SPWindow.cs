@@ -7,13 +7,13 @@ using TMPro;
 public class SPWindow : MonoBehaviour
 {
     public bool Active {get{return gameObject.activeInHierarchy;}}
-    public SPWindowTheme Theme {get{return themeLocal != null? themeLocal : GlobalTheme;}}
-    public static SPWindowTheme GlobalTheme {get{if(globalTheme == null) globalTheme = new SPWindowTheme(); return globalTheme;}}
+    public SPWindowTheme Theme {get{return theme;}}
+    public static SPWindowTheme GlobalTheme {get{return globalTheme;}}
     protected static SPWindowTheme globalTheme;
 
     //add some delegate so changing theme changes all windows or something
     public static void SetThemeGlobal(SPWindowTheme newTheme) {globalTheme = newTheme;}
-    public void SetThemeLocal(SPWindowTheme newTheme) {themeLocal = newTheme; UpdateColor();}
+    public virtual void SetTheme(SPWindowTheme newTheme) {theme = newTheme; UpdateColor();}
     public RectTransform Rect {get{return rect;}}
     public System.Action<bool> OnToggleWindow;
 
@@ -22,13 +22,13 @@ public class SPWindow : MonoBehaviour
     [Header("Window")]
     public bool isolateDebug = false;
     [SerializeField] protected string uniqueUITag = null;
+    [SerializeField] protected SPWindowTheme theme = null;
     [SerializeField] protected Image border;
     [SerializeField] protected Image bg;
     [SerializeField] protected RectTransform rect;
     [SerializeReference] protected Graphic [] _graphics;
     [SerializeReference] protected TextMeshProUGUI [] _texts;
     [SerializeReference] protected Image [] _images;
-    [System.NonSerialized] protected SPWindowTheme themeLocal = null;
 
     [Header("Fields")]
     [SerializeField] protected bool hasInit = false;
@@ -48,6 +48,9 @@ public class SPWindow : MonoBehaviour
             // Debug.LogError(gameObject.name + ": Double init", gameObject);
             return;
         }
+
+        if(globalTheme == null) { globalTheme = new SPWindowTheme(); }
+        if(theme == null) { SetTheme(GlobalTheme); }
 
         if(!rect) rect = GetComponent<RectTransform>();
 
