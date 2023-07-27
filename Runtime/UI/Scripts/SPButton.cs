@@ -23,19 +23,6 @@ public class SPButton : SPWindowSelectable {
     [SerializeField] protected SPOpenLink linkScript;
     [SerializeField] protected UnityEvent OnClick;
     
-    public override void Init() {
-        base.Init(); 
-
-        // buttonText.fontSize = Theme.textSize;
-
-    }
-
-    protected override void OnDisable() {
-        base.OnDisable();
-
-        Debug.Log("Who??", this);
-    }
-
     public void SetupButton(string newText, bool useImage = false) {
         buttonText.text = newText;
         buttonImage.gameObject.SetActive(useImage);
