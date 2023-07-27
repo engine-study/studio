@@ -13,6 +13,7 @@ public class SPButton : SPWindowSelectable {
     //public Button Button {get{return button;}}
 
     public string Text {get{return buttonText.text;}}
+    public TextMeshProUGUI ButtonText {get{return buttonText;}}
     public Action OnClicked;
 
     [Header("Button")]
