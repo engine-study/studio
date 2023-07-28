@@ -102,6 +102,9 @@ public class SPPlayer : SPBaseActor {
 
         base.Update();
 
+        if (!Alive)
+            return;
+
         if (IsLocalPlayer) {
 
             UpdateInput();
