@@ -34,7 +34,7 @@ public class SPHideAfter : MonoBehaviour
     
     void Refresh(bool toggle) {
                 
-        if(!gameObject.activeSelf)
+        if(!gameObject.activeInHierarchy)
             return;
 
         if(toggle) {
