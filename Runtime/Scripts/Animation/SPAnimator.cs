@@ -15,6 +15,7 @@ public class SPAnimator : MonoBehaviour {
     [Header("Animator")]
     public Transform [] bodyParts;
     public SPIK ik;
+    public SPAnimationProp defaultPropPrefab;
 
     [Header("Debug")]
     public SPAnimationProp prop;
@@ -62,8 +63,15 @@ public class SPAnimator : MonoBehaviour {
             }
             
         } else {
+
             prop.gameObject.SetActive(false);
-            prop = null;
+
+            if(defaultPropPrefab && propPrefab != defaultPropPrefab) {
+                ToggleProp(true, defaultPropPrefab);
+            } else {
+                prop = null;
+            }
+
         }
       
     }
