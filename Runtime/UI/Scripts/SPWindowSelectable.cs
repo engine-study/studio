@@ -38,14 +38,13 @@ public class SPWindowSelectable : SPWindow, IPointerEnterHandler, IPointerExitHa
     [SerializeField] protected bool hideIfEmpty = false;
     [SerializeField] protected SPSelectableType selectableType;
     [SerializeField] protected SPActionType actionType;
+	[SerializeField] protected SPThemeScriptable customTheme;
     [SerializeField] protected SPWindowTheme.SPTheme selectableTheme;
 
 
     [Header("Reference")]
 	[SerializeField] protected Selectable selectable;
     [SerializeReference] protected SPWindowSelectable [] _selectables;
-
-    [SerializeReference] protected bool invert = false;
     protected List<SPWindowSelectable> children;
 
     [Header("State")]
@@ -100,7 +99,13 @@ public class SPWindowSelectable : SPWindow, IPointerEnterHandler, IPointerExitHa
     }
 
     public override void SetTheme(SPWindowTheme newTheme) {
-        base.SetTheme(newTheme);
+
+        if(customTheme != null) {
+            base.SetTheme(customTheme.Theme);
+        } else {
+            base.SetTheme(newTheme);
+        }
+
         ToggleType(selectableType);
     }
 
