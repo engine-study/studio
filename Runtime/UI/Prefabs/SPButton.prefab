@@ -298,6 +298,7 @@ GameObject:
   - component: {fileID: 2379962139873880183}
   - component: {fileID: 1407711517038758628}
   - component: {fileID: 2539555080832957129}
+  - component: {fileID: 7586551807540177563}
   m_Layer: 5
   m_Name: SPButton
   m_TagString: Untagged
@@ -345,6 +346,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isolateDebug: 0
   uniqueUITag: 
+  theme:
+    parentTheme:
+      color: {r: 1, g: 1, b: 1, a: 1}
+      bgColor: {r: 0, g: 0, b: 0, a: 1}
+    defaultTheme:
+      color: {r: 1, g: 1, b: 1, a: 1}
+      bgColor: {r: 0, g: 0, b: 0, a: 1}
+    linkTheme:
+      color: {r: 1, g: 1, b: 1, a: 1}
+      bgColor: {r: 0, g: 0, b: 0, a: 1}
+    addressTheme:
+      color: {r: 1, g: 1, b: 1, a: 1}
+      bgColor: {r: 0, g: 0, b: 0, a: 1}
+    identityTheme:
+      color: {r: 1, g: 1, b: 1, a: 1}
+      bgColor: {r: 0, g: 0, b: 0, a: 1}
+    highlightColor: {r: 0, g: 1, b: 0, a: 1}
+    readOnlyHighlight: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+    borderWidth: 0.5
+    textSize: 18
+    paragraphSize: 18
   border: {fileID: 4673966834592422586}
   bg: {fileID: 8160832526434168359}
   rect: {fileID: 2379962139873880183}
@@ -361,19 +383,19 @@ MonoBehaviour:
   hideIfEmpty: 0
   selectableType: 0
   actionType: 0
+  customTheme: {fileID: 0}
   selectableTheme:
     color: {r: 0, g: 0, b: 0, a: 1}
     bgColor: {r: 1, g: 1, b: 1, a: 1}
   selectable: {fileID: 2539555080832957129}
   _selectables: []
-  invert: 0
   dataType: 0
   hovering: 0
   clicking: 0
   button: {fileID: 2539555080832957129}
   buttonText: {fileID: 1279236655786584264}
   buttonImage: {fileID: 1743551131430352102}
-  linkScript: {fileID: 0}
+  linkScript: {fileID: 7586551807540177563}
   OnClick:
     m_PersistentCalls:
       m_Calls:
@@ -445,6 +467,19 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &7586551807540177563
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2379962139873880182}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59d9a85d309d51b439f1294b6705fb9c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  link: 
 --- !u!1 &2380947438445494574
 GameObject:
   m_ObjectHideFlags: 0
