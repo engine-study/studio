@@ -17,7 +17,7 @@ public class SPBlink : MonoBehaviour
 
         counter = count;
 
-        while(counter == -1 || counter > 0) {
+        while(count == -1 || counter > 0) {
             target.SetActive(true);
             yield return new WaitForSeconds(waitTime);
             target.SetActive(false);
