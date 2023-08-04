@@ -292,7 +292,7 @@ public class SPActor : MonoBehaviour, IActor {
 
     protected virtual void CastingStart() {
 
-        Debug.Log(ActionScript.name + " Casting Start", Interact.GameObject());
+        // Debug.Log(ActionScript.name + " Casting Start", Interact.GameObject());
         internalState = ActionState.Casting;
         actionInterface.DoCast(true, this, Interact);
         ActionScript.OnActionStartCasting?.Invoke();
@@ -312,7 +312,7 @@ public class SPActor : MonoBehaviour, IActor {
 
     protected virtual void CastingEnd(ActionEndState endState) {
 
-        Debug.Log(ActionScript.name + " Casting End", Interact.GameObject());
+        // Debug.Log(ActionScript.name + " Casting End", Interact.GameObject());
 
         if (endState == ActionEndState.Success) {
 
@@ -327,7 +327,7 @@ public class SPActor : MonoBehaviour, IActor {
 
     protected virtual void ActionStart() {
 
-        Debug.Log(ActionScript.name + " Action Start", Interact.GameObject());
+        // Debug.Log(ActionScript.name + " Action Start", Interact.GameObject());
         internalState = ActionState.Acting;
 
         actionInterface.DoAction(true, this, Interact);
@@ -349,7 +349,7 @@ public class SPActor : MonoBehaviour, IActor {
 
     protected virtual void ActionUpdate() {
 
-        Debug.Log(Interact.GameObject().name + " Action Update", Interact.GameObject());
+        // Debug.Log(Interact.GameObject().name + " Action Update", Interact.GameObject());
 
         actionCount += Time.deltaTime;
         ActionLerp = Mathf.Clamp01(actionCount / ActionScript.ActionDuration);
@@ -372,7 +372,7 @@ public class SPActor : MonoBehaviour, IActor {
 
     protected virtual void ActionEnd(ActionEndState reason) {
 
-        Debug.Log(ActionScript.name + " Action End", Interact.GameObject());
+        // Debug.Log(ActionScript.name + " Action End", Interact.GameObject());
 
         internalState = ActionState.Idle;
 
