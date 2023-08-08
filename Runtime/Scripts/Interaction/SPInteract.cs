@@ -6,15 +6,17 @@ using UnityEngine.Events;
 public class SPInteract : MonoBehaviour, IInteract {
 
 
+    public SPAction ActionScript {get{return action;}}
+
     [Header("Interact")]
-    public SPAction action;
-    public SPState state;
+    [SerializeField] SPAction action;
+    [SerializeField] SPState state;
 
     [Header("Debug")]
-    public bool interacting = false;
-    public GameObject targetGO;
+    [SerializeField] bool interacting = false;
+    [SerializeField] GameObject targetGO;
 
-    public IActor actor;
+    [SerializeField] IActor actor;
 
     [Header("Events")]
     public UnityEvent OnStartEvent;
