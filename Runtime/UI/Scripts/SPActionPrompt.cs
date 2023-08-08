@@ -78,10 +78,12 @@ public class SPActionPrompt : SPWindow {
 
             Button.UpdateField(actionScript.actionName);
 
-            SPBase tryBase = interact.GameObject().GetComponent<SPBase>();
 
-            if (worldSpace)
-                windowPosition.SetFollow(tryBase ? tryBase.Root : interact.GameObject().transform);
+            if (worldSpace) {
+                // SPBase tryBase = interact.GameObject().GetComponent<SPBase>();
+                // windowPosition.SetFollow(tryBase ? tryBase.Root : interact.GameObject().transform);
+                windowPosition.SetFollow(interact.GameObject().transform);
+            }
 
             // buttonText.UpdateField(key.ToString());
 
