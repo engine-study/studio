@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-public class SPActionPrompt : SPWindowParent {
+public class SPActionPrompt : SPWindow {
 
     public SPButton Button { get { return buttonText; } }
     public SPInputPrompt Input { get { return inputText; } }
