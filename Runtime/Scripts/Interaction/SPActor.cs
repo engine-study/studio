@@ -41,6 +41,7 @@ public class SPActor : MonoBehaviour, IActor {
     public System.Action<bool, IInteract> OnTargetsUpdated;
     public System.Action<bool, IInteract> OnActionsUpdated;
     public System.Action<IAction> OnAction;
+    public System.Action<ActionEndState> OnActionEnd;
     public System.Action OnActorUpdate;
 
 
@@ -264,6 +265,8 @@ public class SPActor : MonoBehaviour, IActor {
             activeInteract = null;
 
         }
+
+        OnActionEnd?.Invoke(reason);
 
         SetToInitialState();
 
