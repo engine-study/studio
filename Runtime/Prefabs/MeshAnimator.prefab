@@ -268,7 +268,7 @@ GameObject:
   - component: {fileID: 5316329334513552423}
   - component: {fileID: 3087040731772471117}
   m_Layer: 0
-  m_Name: Body03
+  m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1128,6 +1128,7 @@ MonoBehaviour:
   - {fileID: 4925666639248955986}
   - {fileID: 6138733964720524945}
   ik: {fileID: 7237790970229842130}
+  defaultPropPrefab: {fileID: 0}
   prop: {fileID: 0}
   animator: {fileID: 3988295389107969487}
 --- !u!114 &4749932027313776448

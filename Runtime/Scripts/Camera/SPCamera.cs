@@ -8,6 +8,7 @@ public class SPCamera : MonoBehaviour
     public static SPCamera I;
     public static Camera Camera {get{return I.camera;}}
     public static float Shake {get{return I.shake;}}
+    public static Transform Follow {get { return I.followTransform; } }
 
     [Header("Camera")]
     [SerializeField] private new Camera camera;
@@ -34,17 +35,13 @@ public class SPCamera : MonoBehaviour
     [SerializeField] private float fov = 15f;
     [SerializeField] private bool follow = true; 
     [SerializeField] private bool canScroll = true; 
+    [SerializeField] private bool inCinematic = false; 
     [SerializeField] private Transform followTransform;
     [SerializeField] private Vector3 position;
     [SerializeField] private Quaternion rotation;
 
     public static void ToggleCamera(bool toggle) {
         I.gameObject.SetActive(toggle);
-    }
-
-    public static void ToggleFollowPlayer(bool toggle) {
-        Debug.Log("Camera Follow: " + toggle);
-        I.follow = toggle;
     }
 
     public static void Teleport(Vector3 targetPos) { Teleport(targetPos, I.transform.rotation);}
