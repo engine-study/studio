@@ -128,14 +128,18 @@ public class SPCamera : MonoBehaviour
         if(SPUIBase.IsMouseOnScreen && canScroll) {
 
             if(Input.GetKey(KeyCode.LeftControl)) {
+                
                 scrollRot += Input.mouseScrollDelta.y * scrollSpeedRotate * Time.deltaTime;
                 scrollLock = Mathf.Round(scrollRot);
                 // scrollLock = Mathf.Round(scrollRot / 90) * 90;
 
                 // rotation = rotation * Quaternion.Euler(Vector3.up * Input.mouseScrollDelta.y * 25f);
                 // transform.Rotate(0f,Input.mouseScrollDelta.y * 25f,0f);
-            } else { //if(Input.GetKey(KeyCode.LeftShift))
+
+            } else if(!Input.GetKey(KeyCode.LeftShift) && !Input.GetKey(KeyCode.LeftAlt)) {
+
                 SetFOVGlobal(fov + Input.mouseScrollDelta.y * -scrollSpeed);
+
             }
         }
         
