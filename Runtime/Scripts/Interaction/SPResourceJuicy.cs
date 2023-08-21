@@ -8,6 +8,23 @@ public class SPResourceJuicy : MonoBehaviour
     Transform target;
     [SerializeField] private AudioClip [] sfx_spawn, sfx_recieve;
     
+    public static SPResourceJuicy GiveResource(string prefabNameInFolder, Transform target, Vector3 spawnPos = default(Vector3), Quaternion rotation = default(Quaternion)) {
+        
+        SPResourceJuicy res = (Instantiate(Resources.Load(prefabNameInFolder)) as GameObject).GetComponent<SPResourceJuicy>();
+
+        if(res == null) {
+            Debug.LogError("Could not find " + prefabNameInFolder);
+            return null;
+        }
+
+        res.transform.position = spawnPos;
+        res.transform.rotation = rotation;
+
+        res.GiveResource(target);
+
+        return res;
+
+    }
 
     public void GiveResource(Transform newTarget) {
         target = newTarget;
