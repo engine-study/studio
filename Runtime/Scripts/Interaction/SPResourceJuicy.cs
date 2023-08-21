@@ -6,6 +6,7 @@ public class SPResourceJuicy : MonoBehaviour
 {
     Vector3 start;
     Transform target;
+    [SerializeField] private Vector3 rotation;
     [SerializeField] private AudioClip [] sfx_spawn, sfx_recieve;
     
     public static SPResourceJuicy GiveResource(string prefabNameInFolder, Transform target, Vector3 spawnPos = default(Vector3), Quaternion rotation = default(Quaternion)) {
@@ -43,8 +44,7 @@ public class SPResourceJuicy : MonoBehaviour
         while(lerp < 1f) {
             
             transform.position = Vector3.Lerp(start, target.position, lerp) + Vector3.up * randomHeight * Mathf.Sin(lerp * Mathf.PI);
-            transform.Rotate(Vector3.up * Time.deltaTime * 720f);
-            transform.Rotate(Vector3.right * Time.deltaTime * 1080f);
+            transform.Rotate(rotation * Time.deltaTime );
 
             lerp += Time.deltaTime * .75f;
 

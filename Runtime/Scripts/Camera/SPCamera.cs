@@ -154,9 +154,9 @@ public class SPCamera : MonoBehaviour
             listener.transform.position = newPos;
         }
 
-        float distanceToTarget = Mathf.Max(.25f,Vector3.Distance(transform.position,newPos));
+        float distanceClamped = Mathf.Max(.25f,Vector3.Distance(transform.position,newPos));
 
-        transform.position = Vector3.MoveTowards(transform.position, newPos, distanceToTarget * 2f * Time.deltaTime * moveSpeed);
+        transform.position = Vector3.MoveTowards(transform.position, newPos, distanceClamped * 2f * Time.deltaTime * moveSpeed);
         transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation * Quaternion.Euler(Vector3.up * scrollLock), rotateSpeed * Time.deltaTime);
 
         //FOV
