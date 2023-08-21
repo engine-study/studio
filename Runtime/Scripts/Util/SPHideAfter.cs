@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class SPHideAfter : MonoBehaviour
 {
+    [HideInInspector] public bool active = true;
+
     public float waitTime = 2f;
     protected SPWindow window;
-    
+
     Coroutine hide;
     bool hasInit;
     void Init() {
@@ -25,7 +27,9 @@ public class SPHideAfter : MonoBehaviour
             Init();
         }
 
-        hide = StartCoroutine(HideAfterCoroutine());
+        if(active) {
+            hide = StartCoroutine(HideAfterCoroutine());
+        }
     }
     
     void OnDisable() {
@@ -37,11 +41,9 @@ public class SPHideAfter : MonoBehaviour
         if(!gameObject.activeInHierarchy)
             return;
 
-        if(toggle) {
+        if(toggle && active) {
 
-            if(hide != null) {
-                StopCoroutine(hide);
-            }
+            if(hide != null) { StopCoroutine(hide); }
             hide = StartCoroutine(HideAfterCoroutine());
         }
     }
