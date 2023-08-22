@@ -55,7 +55,6 @@ public class SPAnimator : MonoBehaviour {
             if (props.ContainsKey(propPrefab.gameObject.name)) {
                 
                 prop = props[propPrefab.gameObject.name];
-                prop.gameObject.SetActive(true);
 
             } else {
                 prop = Instantiate(propPrefab, transform.position, transform.rotation, transform);
@@ -68,6 +67,7 @@ public class SPAnimator : MonoBehaviour {
                 }
             }
 
+            prop.gameObject.SetActive(true);
             SetToPlayerLayer(prop.gameObject);
 
         } else {
