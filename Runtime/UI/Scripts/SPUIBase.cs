@@ -363,15 +363,23 @@ public class SPUIBase : MonoBehaviour
     public static void PlayMessage() {  if(!I) return; PlaySound(I.s_message);}
 
 
+    public static void PlaySound(AudioClip [] clip, float volume, float pitch) {
+        PlaySound(clip[UnityEngine.Random.Range(0,clip.Length)], volume, pitch);
+    }   
+
     public static void PlaySound(AudioClip [] clip, float volume = 1f, bool pitchShift = true) {
-        PlaySound(clip[UnityEngine.Random.Range(0,clip.Length)], volume,pitchShift);
+        PlaySound(clip[UnityEngine.Random.Range(0,clip.Length)], volume, UnityEngine.Random.Range(.95f,1.05f));
     }   
 
     public static void PlaySound(AudioClip clip, float volume = 1f, bool pitchShift = true) {
+        PlaySound(clip, volume, UnityEngine.Random.Range(.95f,1.05f));
+    }   
+
+    public static void PlaySound(AudioClip clip, float volume, float pitch) {
         if(!I)
             return;
 
-        AudioSource.pitch = pitchShift ? UnityEngine.Random.Range(.95f,1.05f) : 1f;
+        AudioSource.pitch = pitch;
         AudioSource.PlayOneShot(clip, volume);
     }
 

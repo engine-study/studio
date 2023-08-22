@@ -6,6 +6,7 @@ public class SPResourceJuicy : MonoBehaviour
 {
     Vector3 start;
     Transform target;
+    [SerializeField] Vector2 speed = new Vector2(.5f, .75f);
     [SerializeField] private Vector3 rotation;
     [SerializeField] private AudioClip [] sfx_spawn, sfx_recieve;
     
@@ -38,9 +39,10 @@ public class SPResourceJuicy : MonoBehaviour
 
         start = transform.position;
         
-        SPAudioSource.Play(transform.position, sfx_spawn);
+        if(sfx_spawn.Length > 0) SPAudioSource.Play(transform.position, sfx_spawn);
 
         float randomHeight = Random.Range(4f, 5f);
+        float speedTime = Random.Range(speed.x, speed.y);
 
         float lerp = 0f;
         while(lerp < 1f) {
@@ -48,12 +50,12 @@ public class SPResourceJuicy : MonoBehaviour
             transform.position = Vector3.Lerp(start, target.position, lerp) + Vector3.up * randomHeight * Mathf.Sin(lerp * Mathf.PI);
             transform.Rotate(rotation * Time.deltaTime );
 
-            lerp += Time.deltaTime * .75f;
+            lerp += Time.deltaTime * speedTime;
 
             yield return null;
         }
 
-        SPAudioSource.Play(transform.position, sfx_recieve);
+        if(sfx_recieve.Length > 0) SPAudioSource.Play(transform.position, sfx_recieve);
 
         Destroy(gameObject);
     } 

@@ -385,8 +385,8 @@ MonoBehaviour:
   actionType: 0
   customTheme: {fileID: 0}
   selectableTheme:
-    color: {r: 0, g: 0, b: 0, a: 1}
-    bgColor: {r: 1, g: 1, b: 1, a: 1}
+    color: {r: 1, g: 1, b: 1, a: 1}
+    bgColor: {r: 0, g: 0, b: 0, a: 1}
   selectable: {fileID: 2539555080832957129}
   _selectables: []
   dataType: 0
