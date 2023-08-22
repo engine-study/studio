@@ -33,6 +33,12 @@ public class SPAnimator : MonoBehaviour {
 
     }
 
+    public static void SetToPlayerLayer(GameObject newObject) {
+        Renderer [] children = newObject.GetComponentsInChildren<Renderer>(true);
+        for (int i = 0; i < children.Length; i++) {
+            children[i].gameObject.layer = SPLayers.CharacterLayer;
+        }
+    }
 
     public void ToggleProp(bool toggle, SPAnimationProp propPrefab) {
 
@@ -61,7 +67,9 @@ public class SPAnimator : MonoBehaviour {
                     prop.bodyProp.localRotation = Quaternion.identity;
                 }
             }
-            
+
+            SetToPlayerLayer(prop.gameObject);
+
         } else {
 
             prop.gameObject.SetActive(false);

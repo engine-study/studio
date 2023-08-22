@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class SPLayers {
 
-    public const int PlayerLayer = 8;
+    public const int PlayerLayer = 6;
     public const int LocalPlayerLayer = 9;
     public const int GroundLayer = 10;
+    public const int CharacterLayer = 7;
 
     public static LayerMask MaskPlayers = (1 << PlayerLayer); 
     public static LayerMask InvertMaskPlayers = ~(MaskPlayers);
