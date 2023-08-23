@@ -16,8 +16,9 @@ public class SPCamera : MonoBehaviour
 
     [Header("Settings")]
     [SerializeField] private float moveSpeed = 5f; 
-    [SerializeField] private float scrollSpeed = 1f;
-    [SerializeField] private float scrollSpeedRotate = 100f;
+    [SerializeField] private float scrollSensitivity = 1f;
+    [SerializeField] private float rotateSensitivity = 360f;
+    [SerializeField] private float rotateRound = 45f;
     [SerializeField] private float rotateSpeed = 90f;
     [SerializeField] private float minFOV = 5f, maxFOV = 25f;
     private float fovMultiple = 1f;
@@ -126,16 +127,16 @@ public class SPCamera : MonoBehaviour
 
             if(Input.GetKey(KeyCode.LeftControl)) {
                 
-                scrollRot += Input.mouseScrollDelta.y * scrollSpeedRotate * Time.deltaTime;
-                scrollLock = Mathf.Round(scrollRot);
-                // scrollLock = Mathf.Round(scrollRot / 90) * 90;
+                scrollRot += Input.mouseScrollDelta.y * rotateSensitivity * Time.deltaTime;
+                scrollLock = Mathf.Round(scrollRot / rotateRound) * rotateRound;
+                // scrollLock = Mathf.Round(scrollRot);
 
                 // rotation = rotation * Quaternion.Euler(Vector3.up * Input.mouseScrollDelta.y * 25f);
                 // transform.Rotate(0f,Input.mouseScrollDelta.y * 25f,0f);
 
             } else if(!Input.GetKey(KeyCode.LeftShift) && !Input.GetKey(KeyCode.LeftAlt)) {
 
-                SetFOVGlobal(fov + Input.mouseScrollDelta.y * -scrollSpeed);
+                SetFOVGlobal(fov + Input.mouseScrollDelta.y * -scrollSensitivity);
 
             }
         }

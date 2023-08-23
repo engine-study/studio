@@ -7,7 +7,7 @@ public class SPWindowPosition : MonoBehaviour {
     [SerializeField] protected Transform follow;
     [SerializeField] protected SPWindow window;
     [SerializeField] protected Vector3 offset = Vector3.zero;
-    [SerializeField] protected OffsetType offsetSpace = OffsetType.Camera;
+    [SerializeField] protected OffsetType offsetSpace = OffsetType.World;
 
     RectTransform rect;
     bool hasInit = false;
@@ -59,7 +59,7 @@ public class SPWindowPosition : MonoBehaviour {
         follow = newFollow;
         enabled = follow != null;
 
-        if (enabled) {
+        if (enabled && gameObject.activeInHierarchy) {
             UpdatePosition();
         }
     }
