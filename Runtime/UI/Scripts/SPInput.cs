@@ -15,6 +15,7 @@ public class SPInput : MonoBehaviour {
     public static Vector3 MouseWorldPos {get{return Instance.mouseWorldPos;}}
     public static Vector3 MousePlanePos {get{return Instance.mousePlanePos;}}
     public static Vector3 MouseNormal {get{return Instance.mouseNormal;}}
+    public static bool ModifierKey {get { return Instance.modifierKey; } }
     public static bool MouseHit {get{return Instance.didHit;}}
     public static bool MouseGround {get{return Instance.didHit && Instance.hit.collider.gameObject.layer == SPLayers.GroundLayer;}}
     public static GameObject MouseGameObject {get{return Instance.hit.collider.gameObject;}}
@@ -33,6 +34,7 @@ public class SPInput : MonoBehaviour {
     int hits;
     bool didHit;
     Ray mouseRay;
+    bool modifierKey = false;
     RaycastHit [] results = new RaycastHit[20];
     Plane plane = new Plane(Vector3.up, Vector3.zero);
     float enter = 0.0f;
@@ -46,12 +48,16 @@ public class SPInput : MonoBehaviour {
 
     void Update() {
 
+        modifierKey = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.LeftCommand) || Input.GetKey(KeyCode.LeftAlt) || Input.GetKey(KeyCode.LeftControl);
+        modifierKey = modifierKey || Input.GetKey(KeyCode.RightShift) || Input.GetKey(KeyCode.RightCommand) || Input.GetKey(KeyCode.RightAlt) || Input.GetKey(KeyCode.RightControl);
+
         float planeHeight = 0f;
     
         plane = new Plane(Vector3.up, Vector3.up * planeHeight);
 
         mouseRay = Camera.ScreenPointToRay(Input.mousePosition + Vector3.forward * 1000f);
         bool mouseDown = Input.GetMouseButton(0) || Input.GetMouseButton(1) || Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1);
+
 
         //project the mouse position onto the ground plane
         if (plane.Raycast(mouseRay, out enter)) {
