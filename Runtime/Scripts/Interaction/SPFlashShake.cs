@@ -44,22 +44,17 @@ public class SPFlashShake : MonoBehaviour {
 
     public void Flash() {
 
-        if (FlashMat == null) {
-            FlashMat = Resources.Load("FlashDither") as Material;
-        }
+        if (FlashMat == null) { FlashMat = Resources.Load("FlashDither") as Material;}
+
 
         if (clone == null) {
+
             if (target == null) {
                 // Debug.LogError("No target", this);
                 return;
             }
 
-            clone = Instantiate(target, target.transform.parent);
-
-            // clone.transform.localPosition = target.transform.localPosition;
-            // clone.transform.localRotation = target.transform.localRotation;
-            // clone.transform.localScale = target.transform.localScale;
-
+            clone = Instantiate(target, target.transform.position, target.transform.rotation, transform);
             clone.SetActive(true);
 
             renderers = clone.GetComponentsInChildren<MeshRenderer>();
@@ -77,10 +72,9 @@ public class SPFlashShake : MonoBehaviour {
 
         }
 
-        if (flash != null) {
-            StopCoroutine(flash);
-        }
+        if (!gameObject.activeInHierarchy) { return; }
 
+        if (flash != null) { StopCoroutine(flash);}
         flash = StartCoroutine(FlashCoroutine());
 
     }

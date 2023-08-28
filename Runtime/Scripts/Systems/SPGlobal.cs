@@ -9,6 +9,7 @@ using UnityEditor;
 public class SPGlobal : MonoBehaviour
 {
     public static SPGlobal I;
+    public static bool IsQuitting = false;
     public static bool IsMobile;
     public static bool FirstFrame = true; 
     public static bool IsDebug{get{return I.debug && Application.platform != RuntimePlatform.WebGLPlayer;}}
@@ -24,7 +25,9 @@ public class SPGlobal : MonoBehaviour
     [SerializeField] protected bool testnet = false;
 
     void Awake() {
-        
+
+        Application.quitting += Quit;
+
         if(I != null) {
             Destroy(gameObject);
         } else {
@@ -56,6 +59,14 @@ public class SPGlobal : MonoBehaviour
 
     }
 
+    void OnDestroy() {
+        I = null;
+        Application.quitting -= Quit;
+    }
+
+    void Quit() {
+        IsQuitting = true;
+    }
 
 
     void Update() {

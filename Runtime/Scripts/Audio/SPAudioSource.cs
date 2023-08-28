@@ -12,6 +12,7 @@ public class SPAudioSource : MonoBehaviour {
     }
 
     public void PlaySound(AudioClip[] clips, float volume = 1f, bool pitchShift = true) {
+        if(clips.Length == 0) return;
         PlaySound(clips[Random.Range(0, clips.Length)], volume, pitchShift);
     }
 
