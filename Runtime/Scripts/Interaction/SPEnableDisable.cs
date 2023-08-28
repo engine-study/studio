@@ -11,31 +11,34 @@ public class SPEnableDisable : MonoBehaviour
     public SPEffects onEffects;
     public SPEffects offEffects;
 
-    bool hasStarted = false; 
+    protected bool hasStarted = false; 
+    protected bool hasPlayed = false; 
 
-    public virtual bool CanPlay(SPEffects effect) { return effect != null && hasStarted && effect.isEnabled && !SPGlobal.IsQuitting; }
+    public virtual bool CanPlay(bool enable, SPEffects effect) { return effect != null && hasStarted && effect.isEnabled && !SPGlobal.IsQuitting; }
     
     protected virtual void Awake() {}
     protected virtual void Start() { 
         hasStarted = true; 
 
-        if(CanPlay(onEffects)) 
+        if(CanPlay(true, onEffects)) 
             Spawn(onEffects);
     }
 
     protected virtual void OnEnable() {
-        if(CanPlay(onEffects)) 
+        if(CanPlay(true, onEffects)) 
             Spawn(onEffects);
     }
 
     protected virtual void OnDisable() {
-        if(CanPlay(offEffects)) 
+        if(CanPlay(false, offEffects)) 
             Spawn(offEffects);
     }
 
-    public void Spawn(SPEffects newEffect) {
+    public virtual void Spawn(SPEffects newEffect) {
 
         Debug.Log("Spawning", this);
+
+        hasPlayed = true;
 
         SPEffects clone = GameObject.Instantiate(newEffect, gameObject.transform.position, gameObject.transform.rotation, null).GetComponent<SPEffects>();
         clone.Play();
