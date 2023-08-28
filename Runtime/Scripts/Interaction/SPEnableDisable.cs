@@ -14,15 +14,14 @@ public class SPEnableDisable : MonoBehaviour
     bool hasStarted = false; 
 
     public virtual bool CanPlay(SPEffects effect) { return effect != null && hasStarted && effect.isEnabled && !SPGlobal.IsQuitting; }
-    protected virtual void Awake() {
+    
+    protected virtual void Awake() {}
+    protected virtual void Start() { 
         hasStarted = true; 
 
         if(CanPlay(onEffects)) 
             Spawn(onEffects);
-        
     }
-
-    protected virtual void Start() { }
 
     protected virtual void OnEnable() {
         if(CanPlay(onEffects)) 
