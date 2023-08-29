@@ -12,7 +12,17 @@ public class SPActionPlayer : SPAction
 
     public override void DoCast(bool toggle, IActor actor, IInteract interactable) {
         base.DoCast(toggle, actor, interactable);
+        ToggleCastState(toggle, actor, interactable);
 
+    }
+
+    public override void DoAction(bool toggle, IActor actor, IInteract interactable) {
+        base.DoAction(toggle, actor, interactable);
+        ToggleActionState(toggle, actor, interactable);
+    }
+
+    
+    public void ToggleCastState(bool toggle, IActor actor, IInteract interactable) {
         SPAnimator anim = (actor.Owner() as SPPlayer).Animator as SPAnimator;
 
         ToggleProp(toggle, anim);
@@ -25,9 +35,7 @@ public class SPActionPlayer : SPAction
         }
     }
 
-    public override void DoAction(bool toggle, IActor actor, IInteract interactable) {
-        base.DoAction(toggle, actor, interactable);
-        
+    public void ToggleActionState(bool toggle, IActor actor, IInteract interactable) {
         SPAnimator anim = (actor.Owner() as SPPlayer).Animator as SPAnimator;
 
         ToggleProp(toggle, anim);
@@ -38,21 +46,18 @@ public class SPActionPlayer : SPAction
         } else {
             FadeAnimation(actor, interactable, "Idle");
         }
-
     }
 
     void ToggleProp(bool toggle, SPAnimator animator) {
-
         if(animatorState.Prop != null) {
             animator.ToggleProp(toggle, animatorState.Prop);
         }
-
     }
     
     public override void EndAction(IActor actor, IInteract interactable, ActionEndState reason) {
-        base.EndAction(actor, interactable, reason);    
+        base.EndAction(actor, interactable, reason);
 
-        FadeAnimation(actor, interactable, "Idle");
+        ToggleActionState(false, actor, interactable);
 
     }
 
