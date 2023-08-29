@@ -72,7 +72,8 @@ public class SPAnimator : MonoBehaviour {
 
         } else {
 
-            prop.gameObject.SetActive(false);
+            if(prop != null)
+                prop.gameObject.SetActive(false);
 
             if(defaultPropPrefab && propPrefab != defaultPropPrefab) {
                 ToggleProp(true, defaultPropPrefab);
