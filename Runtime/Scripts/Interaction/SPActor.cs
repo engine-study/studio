@@ -61,7 +61,7 @@ public class SPActor : MonoBehaviour, IActor {
         }
     }
 
-    void Start() {
+    public void Init() {
 
         owner = sender != null ? sender : this;
 

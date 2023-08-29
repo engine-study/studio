@@ -1,7 +1,9 @@
 {
     "name": "study.engine.studio.Editor",
     "rootNamespace": "",
-    "references": [],
+    "references": [
+        "GUID:92b28b1263d91b44d896e0fa244d66fd"
+    ],
     "includePlatforms": [
         "Editor"
     ],

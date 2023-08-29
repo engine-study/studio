@@ -62,6 +62,7 @@ public class SPGlobal : MonoBehaviour
     void OnDestroy() {
         I = null;
         Application.quitting -= Quit;
+        Quit();
     }
 
     void Quit() {

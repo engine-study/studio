@@ -17,18 +17,11 @@ public class SPBaseActor : SPBase
 
         base.Awake();
 
-        if (reciever == null)
-        {
-            reciever = gameObject.GetComponentInChildren<SPReciever>();
-        }
+        if (reciever == null) {reciever = gameObject.GetComponentInChildren<SPReciever>(); }
 
-        if (actor == null)
-        {
-            actor = gameObject.GetComponent<SPActor>();
-            actor.enabled = false;
-            actor.sender = this;
-            actor.OnAction += OnPlayerAction;
-        }
+        if (actor == null) { actor = gameObject.GetComponent<SPActor>(); }
+        actor.ToggleActor(false);
+    
     }
 
     public void SetReciever(SPReciever r) {
@@ -36,6 +29,14 @@ public class SPBaseActor : SPBase
         actor.ToggleReciever(false, reciever);
         reciever = r;
         actor.ToggleReciever(true, reciever);
+
+    }
+
+    protected override void PostInit() {
+        base.PostInit();
+
+        Actor.Init();
+        actor.OnAction += OnPlayerAction;
 
     }
 

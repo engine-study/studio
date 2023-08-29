@@ -41,14 +41,14 @@ public class SPPlayer : SPBaseActor {
             resources = GetComponentInChildren<SPPlayerResources>(true);
         }
 
-        anim = GetComponentInChildren<SPAnimation>();
+        if(anim == null) anim = GetComponentInChildren<SPAnimation>();
         if (anim == null) {
             Debug.LogWarning(gameObject.name + ": No animation system", gameObject);
             anim = gameObject.AddComponent<SPAnimation>();
         }
 
-        animator = GetComponentInChildren<SPAnimator>(true);
-
+        if(animator == null) animator = GetComponentInChildren<SPAnimator>(true);
+        
         if (logic == null) {
             logic = GetComponent<SPLogic>();
         }

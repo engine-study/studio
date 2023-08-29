@@ -23,6 +23,8 @@ public class SPActionPlayer : SPAction
 
     
     public void ToggleCastState(bool toggle, IActor actor, IInteract interactable) {
+
+        Debug.Log("Actor: " + actor.Owner());
         SPAnimator anim = (actor.Owner() as SPPlayer).Animator as SPAnimator;
 
         ToggleProp(toggle, anim);
@@ -36,7 +38,8 @@ public class SPActionPlayer : SPAction
     }
 
     public void ToggleActionState(bool toggle, IActor actor, IInteract interactable) {
-        SPAnimator anim = (actor.Owner() as SPPlayer).Animator as SPAnimator;
+
+        SPAnimator anim = (actor.Owner() as SPPlayer).Animator;
 
         ToggleProp(toggle, anim);
 
