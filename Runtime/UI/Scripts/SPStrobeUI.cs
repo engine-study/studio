@@ -10,7 +10,7 @@ public class SPStrobeUI : MonoBehaviour
     [SerializeField] public float duration = -1;
     Coroutine animationCoroutine;
 
-    public static void ToggleStrobe(SPWindow window, bool run = true, float newDuration = .75f) {
+    public static void ToggleStrobe(SPWindow window, bool run = true, float newDuration = .9f) {
 
         SPStrobeUI strobe = window.GetComponent<SPStrobeUI>();
 

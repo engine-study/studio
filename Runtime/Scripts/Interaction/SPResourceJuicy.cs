@@ -41,7 +41,7 @@ public class SPResourceJuicy : MonoBehaviour
         
         if(sfx_spawn.Length > 0) SPAudioSource.Play(transform.position, sfx_spawn);
 
-        float randomHeight = Random.Range(4f, 5f);
+        float randomHeight = Random.Range(2f, 3f);
         float speedTime = Random.Range(speed.x, speed.y);
 
         float lerp = 0f;
