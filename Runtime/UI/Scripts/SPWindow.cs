@@ -29,6 +29,7 @@ public class SPWindow : MonoBehaviour
     [SerializeReference] protected Graphic [] _graphics;
     [SerializeReference] protected TextMeshProUGUI [] _texts;
     [SerializeReference] protected Image [] _images;
+    [SerializeReference] protected Image [] _bgs;
 
     [Header("Fields")]
     [SerializeField] protected bool hasInit = false;
@@ -96,6 +97,7 @@ public class SPWindow : MonoBehaviour
         if(bg) {bg.color = bgColor;} 
         if(border) {border.color = borderColor;}
 
+        for(int i = 0; i < _bgs.Length; i++) { _bgs[i].color = bgColor;}
         for(int i = 0; i < _graphics.Length; i++) { _graphics[i].color = graphicsColor;}
         for(int i = 0; i < _texts.Length; i++) { _texts[i].color = graphicsColor;}
         for(int i = 0; i < _images.Length; i++) {_images[i].color = graphicsColor;}

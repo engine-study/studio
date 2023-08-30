@@ -5,17 +5,20 @@ using UnityEngine;
 public class SPStrobeUI : MonoBehaviour
 {
   
-    [SerializeField] protected bool strobeOnEnable = true;
-    [SerializeField] protected SPWindow target;
+    [SerializeField] bool strobeOnEnable = true;
+    [SerializeField] SPWindow target;
+    [SerializeField] public float duration = -1;
     Coroutine animationCoroutine;
 
-    public static void ToggleStrobe(SPWindow window, bool run = true) {
+    public static void ToggleStrobe(SPWindow window, bool run = true, float newDuration = .75f) {
 
         SPStrobeUI strobe = window.GetComponent<SPStrobeUI>();
 
         if(strobe == null) {
             strobe = window.gameObject.AddComponent<SPStrobeUI>();
-        } 
+        }
+
+        strobe.duration = newDuration;
 
         if(run) {
             
@@ -50,9 +53,9 @@ public class SPStrobeUI : MonoBehaviour
             target = GetComponent<SPWindow>();
         }
 
-        if(animationCoroutine == null) {
-            animationCoroutine = StartCoroutine(StrobeCoroutine());
-        }
+        if (animationCoroutine != null) { StopCoroutine(StrobeCoroutine()); }
+        animationCoroutine = StartCoroutine(StrobeCoroutine());
+        
     }
 
     public void StopStrobe() {
@@ -79,13 +82,13 @@ public class SPStrobeUI : MonoBehaviour
 
         SPWindowTheme.SPTheme strobeTheme = new SPWindowTheme.SPTheme(colorA, colorB);
 
-        while(true) {
-
-            // Debug.Log("Strobe");
-
+        float length = 0;
+        while(duration == -1 || length < duration || strobe) {
+ 
             strobe = !strobe;
-            
-            yield return new WaitForSeconds(.25f);
+            yield return new WaitForSeconds(.2f);
+
+            length += .2f;
 
             if(strobe) {target.UpdateColor(strobeTheme);}
             else {target.UpdateColor();}
