@@ -30,15 +30,20 @@ public abstract class SPAction : ScriptableObject, IAction
 
     public virtual bool TryAction(IActor actor, IInteract interactable) {
 
+        if(!interactable.GameObject().activeInHierarchy) {
+            canPerform = false;
+            return false;
+        }
+
         if(Vector3.Distance(actor.Owner().gameObject.transform.position, interactable.GameObject().transform.position) > Distance){
             canPerform = false;
-            return canPerform;
+            return false;
         }
 
         for(int i = 0; i < conditions.Length; i++) {
             if(!conditions[i].IsAllowed(actor, interactable)) {
                 canPerform = false; 
-                return canPerform;
+                return false;
             }
         }
 
