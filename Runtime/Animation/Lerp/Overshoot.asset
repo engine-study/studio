@@ -14,7 +14,34 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   curve:
     serializedVersion: 2
-    m_Curve: []
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0.029504865
+      outSlope: 0.029504865
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.19683947
+    - serializedVersion: 3
+      time: 0.97372067
+      value: 1.0268042
+      inSlope: 1.5924739
+      outSlope: 1.5924739
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.0631431
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: -0.9314179
+      outSlope: -0.9314179
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.070833325
+      outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4

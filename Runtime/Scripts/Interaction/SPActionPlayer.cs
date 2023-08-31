@@ -27,10 +27,10 @@ public class SPActionPlayer : SPAction
         Debug.Log("Actor: " + actor.Owner());
         SPAnimator anim = (actor.Owner() as SPPlayer).Animator as SPAnimator;
 
-        ToggleProp(toggle, anim);
 
         if(toggle) {
             anim.IK.SetLook(null);
+            ToggleProp(toggle, anim);
             FadeAnimation(actor, interactable, "Cast");
         } else {
             FadeAnimation(actor, interactable, "Idle");
@@ -41,10 +41,10 @@ public class SPActionPlayer : SPAction
 
         SPAnimator anim = (actor.Owner() as SPPlayer).Animator;
 
-        ToggleProp(toggle, anim);
 
         if(toggle) {
             anim.IK.SetLook(null);
+            ToggleProp(toggle, anim);
             FadeAnimation(actor, interactable, "Action");
         } else {
             FadeAnimation(actor, interactable, "Idle");
@@ -70,7 +70,6 @@ public class SPActionPlayer : SPAction
 
         if(anim) {
             animatorState?.Apply(anim.AnimatorScript);
-            // anim.Animator.Play("Action");
             anim.Animator.CrossFade(state, fade);
         }
     }
