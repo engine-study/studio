@@ -24,6 +24,7 @@ public class SPActionPrompt : SPWindow {
     [SerializeField] private SPActor actorComponent;
     [SerializeField] private SPAction actionScript;
     [SerializeField] private IInteract interactable;
+    [SerializeField] public int index;
 
     public override void Init() {
 
@@ -34,7 +35,6 @@ public class SPActionPrompt : SPWindow {
         base.Init();
 
         TogglePrompt(false, "");
-
     }
 
     void Update() {
@@ -82,7 +82,7 @@ public class SPActionPrompt : SPWindow {
             if (worldSpace) {
                 // SPBase tryBase = interact.GameObject().GetComponent<SPBase>();
                 // windowPosition.SetFollow(tryBase ? tryBase.Root : interact.GameObject().transform);
-                windowPosition.SetFollow(interact.GameObject().transform);
+                windowPosition.SetFollow(interact.GameObject().transform, Vector3.down * index);
             }
 
             // buttonText.UpdateField(key.ToString());

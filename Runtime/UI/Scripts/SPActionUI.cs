@@ -28,6 +28,7 @@ public class SPActionUI : SPWindowParent {
         base.Init();
 
         for (int i = 0; i < actions.Count; i++) {
+            actions[i].index = i;
             actions[i].wheel = wheel;
             actions[i].ToggleWindowClose();
         }
