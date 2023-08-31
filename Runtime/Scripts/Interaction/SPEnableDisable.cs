@@ -21,17 +21,26 @@ public class SPEnableDisable : MonoBehaviour
         hasStarted = true; 
 
         if(CanPlay(true, onEffects)) 
-            Spawn(onEffects);
+            PlayEnabled();
     }
 
     protected virtual void OnEnable() {
-        if(CanPlay(true, onEffects)) 
-            Spawn(onEffects);
+        if(CanPlay(true, onEffects))
+            PlayEnabled();
+
     }
 
     protected virtual void OnDisable() {
-        if(CanPlay(false, offEffects)) 
-            Spawn(offEffects);
+        if(CanPlay(false, offEffects))
+            PlayDisabled();
+    }
+
+    public void PlayEnabled() {
+        Spawn(onEffects);
+    }
+
+    public void PlayDisabled() {
+        Spawn(offEffects);
     }
 
     public virtual void Spawn(SPEffects newEffect) {
