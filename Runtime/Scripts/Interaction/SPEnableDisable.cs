@@ -8,13 +8,14 @@ public class SPEnableDisable : MonoBehaviour
 
     //clones on disable
     [Header("EnableDisable")]
+    public bool active = true;
     public SPEffects onEffects;
     public SPEffects offEffects;
 
     protected bool hasStarted = false; 
     protected bool hasPlayed = false; 
 
-    public virtual bool CanPlay(bool enable, SPEffects effect) { return effect != null && hasStarted && effect.isEnabled && !SPGlobal.IsQuitting; }
+    public virtual bool CanPlay(bool enable, SPEffects effect) { return active && effect != null && hasStarted && effect.isEnabled && !SPGlobal.IsQuitting; }
     
     protected virtual void Awake() {}
     protected virtual void Start() { 
