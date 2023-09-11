@@ -278,7 +278,7 @@ public class SPUIBase : MonoBehaviour
             }
         } else {
             if(toggle) {
-                Screen.SetResolution(Screen.resolutions[0].width, Screen.resolutions[0].height, FullScreenMode.MaximizedWindow);
+                Screen.SetResolution(Screen.resolutions[Screen.resolutions.Length -1].width, Screen.resolutions[Screen.resolutions.Length -1].height, FullScreenMode.MaximizedWindow);
             } else {
                 Screen.SetResolution(1280, 720, FullScreenMode.Windowed);
             }
