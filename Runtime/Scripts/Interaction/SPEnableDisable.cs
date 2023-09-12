@@ -52,6 +52,7 @@ public class SPEnableDisable : MonoBehaviour
         hasPlayed = true;
 
         SPEffects clone = GameObject.Instantiate(newEffect, gameObject.transform.position, gameObject.transform.rotation, null).GetComponent<SPEffects>();
+        clone.gameObject.SetActive(true);
         clone.Play();
 
     }
