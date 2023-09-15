@@ -21,7 +21,9 @@ public class SPCamera : MonoBehaviour
     [SerializeField] private float rotateRound = 45f;
     [SerializeField] private float rotateSpeed = 90f;
     [SerializeField] private float minFOV = 5f, maxFOV = 25f;
+    [SerializeField] private float shakeFalloff = 10f;
     private float fovMultiple = 1f;
+
 
 
     float shake = 0f;
@@ -186,15 +188,29 @@ public class SPCamera : MonoBehaviour
         }
     }
 
-    public void SetPosition(Vector3 position) {
-        transform.position = position;
+    public static void ToggleScroll(bool toggle) {
+        I.canScroll = toggle;
+        if(toggle) {} 
+        else {I.scrollRot = 0;}
     }
 
-    public static void SetShake(float set) {
+    public static void SetPosition(Vector3 position) {
+        I.transform.position = position;
+    }
+
+    public void SetRotation(Quaternion rotation) {
+        I.transform.rotation = rotation;
+    }
+
+    public static void SetShakeGlobal(float set) {
         I.shake = Mathf.Clamp01(set);
     }
 
-    public static void AddShake(float add) {
+    public static void AddShakeGlobal(float add) {
         I.shake = Mathf.Clamp01(I.shake + add);
+    }
+
+    public static void AddShake(float add, Vector3 position) {
+        I.shake = Mathf.Clamp01(I.shake + add) * Mathf.Clamp01(I.shakeFalloff - ((Vector3.Distance(I.transform.position, position) - I.shakeFalloff * 5f)));
     }
 }

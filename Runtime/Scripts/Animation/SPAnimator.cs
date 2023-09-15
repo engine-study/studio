@@ -111,6 +111,6 @@ public class SPAnimator : MonoBehaviour {
 
     public void Shake(float shake) {
         // Debug.Log("Animation Shake", gameObject);
-        SPCamera.AddShake(shake);
+        SPCamera.AddShake(shake, transform.position);
     }
 }
