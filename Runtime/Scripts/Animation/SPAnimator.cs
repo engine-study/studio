@@ -31,6 +31,9 @@ public class SPAnimator : MonoBehaviour {
         animator = GetComponent<Animator>();
         backupController = animator.runtimeAnimatorController;
 
+        if(defaultPropPrefab)
+            ToggleProp(true, defaultPropPrefab);
+
     }
 
     public static void SetToPlayerLayer(GameObject newObject) {
