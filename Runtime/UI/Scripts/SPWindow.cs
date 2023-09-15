@@ -22,10 +22,10 @@ public class SPWindow : MonoBehaviour
     [Header("Window")]
     public bool isolateDebug = false;
     [SerializeField] protected string uniqueUITag = null;
-    [SerializeField] protected SPWindowTheme theme = null;
     [SerializeField] protected Image border;
     [SerializeField] protected Image bg;
     [SerializeField] protected RectTransform rect;
+    [SerializeField] protected SPThemeScriptable customTheme;
     [SerializeReference] protected Graphic [] _graphics;
     [SerializeReference] protected TextMeshProUGUI [] _texts;
     [SerializeReference] protected Image [] _images;
@@ -33,6 +33,7 @@ public class SPWindow : MonoBehaviour
 
     [Header("Fields")]
     [SerializeField] protected bool hasInit = false;
+    [SerializeField] protected SPWindowTheme theme = null;
     public bool HasInit{get{return hasInit;}}
 
 
@@ -51,7 +52,8 @@ public class SPWindow : MonoBehaviour
         }
 
         if(globalTheme == null) { globalTheme = new SPWindowTheme(); }
-        if(theme == null) { SetTheme(GlobalTheme); }
+        if(customTheme != null) { SetTheme(customTheme.Theme); }
+        else { SetTheme(globalTheme); }
 
         if(!rect) rect = GetComponent<RectTransform>();
 

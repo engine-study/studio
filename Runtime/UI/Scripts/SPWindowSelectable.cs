@@ -38,7 +38,6 @@ public class SPWindowSelectable : SPWindow, IPointerEnterHandler, IPointerExitHa
     [SerializeField] protected bool hideIfEmpty = false;
     [SerializeField] protected SPSelectableType selectableType;
     [SerializeField] protected SPActionType actionType;
-	[SerializeField] protected SPThemeScriptable customTheme;
     [SerializeField] protected SPWindowTheme.SPTheme selectableTheme;
 
 
