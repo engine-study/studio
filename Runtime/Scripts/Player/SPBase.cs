@@ -39,7 +39,8 @@ public class SPBase : MonoBehaviour
     }
 
     protected virtual void OnEnable() {}
-    protected virtual void OnDisable() {
+    protected virtual void OnDisable() {}
+    protected virtual void OnDestroy() {
         if(HasInit) {
             Destroy();
         }

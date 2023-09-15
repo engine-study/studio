@@ -26,12 +26,13 @@ public class SPUIBase : MonoBehaviour
     public static Canvas Canvas {get{return SPUIInstance.Canvas;}}
     public static RectTransform CanvasRect {get{return SPUIInstance.CanvasRect;}}
     public static AudioSource AudioSource {get{return SPUIInstance.AudioSource;}}
-
+    public static SPWindowTheme GlobalTheme;
     protected static bool canInput = false, fullscreenUI; 
 
     bool isPregame = true; 
     static bool submit, fakeSubmit = false; 
     [SerializeField] protected static bool isPointerOverUI = false, isUISelected = false, isSelectedTextField = false, isInputtingTextField = false, mouseOffscreen = false, dragging = false;
+    [SerializeField] protected SPThemeScriptable defaultGlobalTheme;
     [SerializeField] protected Selectable activeUI;
 
 
@@ -61,6 +62,9 @@ public class SPUIBase : MonoBehaviour
     public void Init() {
         
         I = this;
+
+        if(defaultGlobalTheme) {GlobalTheme = defaultGlobalTheme.Theme;}
+        else {GlobalTheme = new SPWindowTheme();}
 
         UILayer = LayerMask.NameToLayer("UI");
         

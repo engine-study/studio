@@ -95,6 +95,8 @@ public class SPPlayer : SPBaseActor {
         if (IsLocalPlayer) {
             RespawnLocal();
         }
+
+        enabled = IsLocalPlayer;
     }
 
 

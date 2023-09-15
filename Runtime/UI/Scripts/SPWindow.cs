@@ -8,11 +8,8 @@ public class SPWindow : MonoBehaviour
 {
     public bool Active {get{return gameObject.activeInHierarchy;}}
     public SPWindowTheme Theme {get{return theme;}}
-    public static SPWindowTheme GlobalTheme {get{return globalTheme;}}
-    protected static SPWindowTheme globalTheme;
 
     //add some delegate so changing theme changes all windows or something
-    public static void SetThemeGlobal(SPWindowTheme newTheme) {globalTheme = newTheme;}
     public virtual void SetTheme(SPWindowTheme newTheme) {theme = newTheme; UpdateColor();}
     public RectTransform Rect {get{return rect;}}
     public System.Action<bool> OnToggleWindow;
@@ -51,9 +48,8 @@ public class SPWindow : MonoBehaviour
             return;
         }
 
-        if(globalTheme == null) { globalTheme = new SPWindowTheme(); }
         if(customTheme != null) { SetTheme(customTheme.Theme); }
-        else { SetTheme(globalTheme); }
+        else { SetTheme(SPUIBase.GlobalTheme); }
 
         if(!rect) rect = GetComponent<RectTransform>();
 
