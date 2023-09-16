@@ -39,12 +39,14 @@ public class SPAnimator : MonoBehaviour {
 
     }
 
-    public static void SetToPlayerLayer(GameObject newObject) {
+    public static void SetToPlayerLayer(GameObject newObject) {SetToLayer(newObject, SPLayers.PlayerLayer);}
+    public static void SetToLayer(GameObject newObject, int layer) {
         Renderer [] children = newObject.GetComponentsInChildren<Renderer>(true);
         for (int i = 0; i < children.Length; i++) {
-            children[i].gameObject.layer = SPLayers.CharacterLayer;
+            children[i].gameObject.layer =  layer;
         }
     }
+
 
     public void ToggleProp(bool toggle, SPAnimationProp propPrefab) {
 
@@ -72,7 +74,7 @@ public class SPAnimator : MonoBehaviour {
             }
 
             prop.gameObject.SetActive(true);
-            SetToPlayerLayer(prop.gameObject);
+            SetToLayer(prop.gameObject, gameObject.layer);
 
         } else {
 
