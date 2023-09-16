@@ -29,6 +29,9 @@ public class SPAnimator : MonoBehaviour {
         props = new Dictionary<string, SPAnimationProp>();
 
         animator = GetComponent<Animator>();
+        var state = animator.GetCurrentAnimatorStateInfo(0);
+        animator.Play(state.fullPathHash, 0, Random.Range(0f,1f));
+
         backupController = animator.runtimeAnimatorController;
 
         if(defaultPropPrefab)
