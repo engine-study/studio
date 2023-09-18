@@ -82,7 +82,6 @@ public class SPVelocity : MonoBehaviour
 
         UpdateValues();
         UpdateVisuals();
-        UpdateSound();
 
     }
 
@@ -180,20 +179,6 @@ public class SPVelocity : MonoBehaviour
         // (This code is reliant on the specific run cycle offset in our animations,
         // and assumes one leg passes the other at the normalized clip times of 0.0 and 0.5)
 
-    }
-
-    protected virtual void UpdateSound() {
-        return;
-        
-        if(moving && grounded) {
-            footstepCount += Time.deltaTime;
-            if(footstepCount > footstepDistance) {
-                footstepCount -= footstepDistance;
-                SPAudioSource.Play(transform.position, sfx_steps);
-            }
-        } else {
-            footstepCount = 0f; 
-        }
     }
     
     public virtual void ToggleDeath(bool toggle) {

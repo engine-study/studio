@@ -9,7 +9,7 @@ public enum PlayerBody { None, LeftHand, RightHand, Head }
 [RequireComponent(typeof(Animator))]
 public class SPAnimator : MonoBehaviour {
 
-
+    public System.Action OnStep;
     public SPIK IK {get{return ik;}}
     public Transform Head {get{return head;}}
 
@@ -108,9 +108,10 @@ public class SPAnimator : MonoBehaviour {
 
     }
 
-    public void Event() {
-        prop?.Fire();
-    }
+    public void Event() { prop?.Fire();}
+    public void Action() { prop?.Fire();}
+    public void FootL() { OnStep?.Invoke(); }
+    public void FootR() { OnStep?.Invoke(); }
 
     public void Event(Object newObject) {
         prop?.Fire();

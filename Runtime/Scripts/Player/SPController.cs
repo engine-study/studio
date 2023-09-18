@@ -75,8 +75,22 @@ public class SPController : MonoBehaviour
         }
 
         player = GetComponent<SPPlayer>();
+
         mainCollider = GetComponent<Collider>();
+        if(mainCollider == null) {
+            var capsule = gameObject.AddComponent<CapsuleCollider>();
+            capsule.height = 1.5f;
+            capsule.radius = .2f;
+            mainCollider = capsule;
+        }
+
         controller = GetComponent<CharacterController>();
+        if(controller == null) {
+            controller = gameObject.AddComponent<CharacterController>();
+            controller.height = 1.25f;
+            controller.radius = .1f;
+        }
+
         rb = GetComponent<Rigidbody>();
         animator = GetComponentInChildren<Animator>();
 
@@ -142,7 +156,13 @@ public class SPController : MonoBehaviour
             rigidbodies[i].isKinematic = !toggle; 
             rigidbodies[i].detectCollisions = toggle; 
             if(toggle) {
-                rigidbodies[i].velocity = player.Velocity - player.Root.forward + Vector3.down;
+
+                if(player) {
+                    rigidbodies[i].velocity = player.Velocity - player.Root.forward + Vector3.down;
+                } else {
+                    rigidbodies[i].velocity = (player.Root.forward + Vector3.down) * Random.Range(.75f,1.25f);
+                }
+
             } else {
                 // rigidbodies[i].velocity = Vector3.zero;
             }
@@ -205,17 +225,17 @@ public class SPController : MonoBehaviour
             return;
         }
 
-        SPPlayer newPlayer = collision.gameObject.GetComponent<SPPlayer>();
+        SPController other = collision.gameObject.GetComponent<SPController>();
 
-        if(!newPlayer) {
+        if(!other) {
             return;
         }
         
-        if(player == newPlayer) {
+        if(other == gameObject) {
             return;
         }
 
-        Bump(collision, newPlayer);
+        Bump(collision, other.GetComponent<SPPlayer>());
 
     }
 
