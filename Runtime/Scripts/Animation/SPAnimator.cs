@@ -11,18 +11,21 @@ public class SPAnimator : MonoBehaviour {
 
 
     public SPIK IK {get{return ik;}}
+    public Transform Head {get{return head;}}
 
     [Header("Animator")]
-    public Transform [] bodyParts;
-    public SPIK ik;
-    public SPAnimationProp defaultPropPrefab;
-
+    [SerializeField] Transform [] bodyParts;
+    [SerializeField] Transform head;
+    [SerializeField] SPIK ik;
+    [SerializeField] SPAnimationProp defaultPropPrefab;
+    public void SetDefaultProp(SPAnimationProp newDefault) {defaultPropPrefab = newDefault;}
     [Header("Debug")]
-    public SPAnimationProp prop;
-    public Dictionary<string, SPAnimationProp> props;
-    public System.Action<Object> OnEffect;
+    [SerializeField] SPAnimationProp prop;
+    [SerializeField] Dictionary<string, SPAnimationProp> props;
     [SerializeField] Animator animator;
     private RuntimeAnimatorController backupController;
+
+    public System.Action<Object> OnEffect;
 
     void Awake() {
 
