@@ -6,19 +6,27 @@ using UnityEngine;
 using UnityEditor;
 #endif
 
+public enum DevMode {Debug, Release}
 public class SPGlobal : MonoBehaviour
 {
+    public static System.Action<bool> OnDebug;
+
     public static SPGlobal I;
     public static bool IsQuitting = false;
     public static bool IsMobile;
     public static bool FirstFrame = true; 
-    public static bool IsDebug{get{return I.debug && Application.platform != RuntimePlatform.WebGLPlayer;}}
+    public static bool IsDebug{get{return I.Debug ;}}
     public static bool DebugItems{get{return I.debugItems;}}
     public static bool Beta{get{return I.beta;}}
     public static bool Testnet{get{return I.testnet;}}
     public static bool Updating {get{return true;}}
     public static bool LocalPlayer {get{return true;}}
-    
+    public bool Debug { 
+        get { return debug; } 
+        set { debug = value && I.devMode != DevMode.Release; OnDebug?.Invoke(debug); } 
+    }
+
+    [SerializeField] protected DevMode devMode;
     [SerializeField] protected bool debug = false;
     [SerializeField] protected bool debugItems = false;
     [SerializeField] protected bool beta = false;
@@ -34,7 +42,7 @@ public class SPGlobal : MonoBehaviour
             I = this;
         }
 
-        if(Application.isEditor || Debug.isDebugBuild) {
+        if(Application.isEditor || UnityEngine.Debug.isDebugBuild) {
             Application.targetFrameRate = 60;
             QualitySettings.vSyncCount = 1;
         } else {
@@ -57,6 +65,12 @@ public class SPGlobal : MonoBehaviour
             transform.GetChild(i).SendMessage("Init", SendMessageOptions.DontRequireReceiver); 
         }
 
+        ToggleDebug(debug);
+
+    }
+
+    public static void ToggleDebug(bool toggle) {
+        I.Debug = toggle;
     }
 
     void OnDestroy() {

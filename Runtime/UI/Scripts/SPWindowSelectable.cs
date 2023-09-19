@@ -318,6 +318,14 @@ public class SPWindowSelectable : SPWindow, IPointerEnterHandler, IPointerExitHa
 
     }
 
+    public void Hover() {
+        OnPointerEnter(null);
+    }
+
+    public void Click() {
+        OnPointerDown(null);
+        OnPointerUp(null);
+    }
 
     public virtual void OnPointerDown(PointerEventData eventData) {
 
@@ -328,7 +336,7 @@ public class SPWindowSelectable : SPWindow, IPointerEnterHandler, IPointerExitHa
 
     public virtual void OnPointerUp(PointerEventData eventData) {
 
-        if (clicking && hovering && !eventData.dragging) {
+        if (clicking && hovering && (eventData == null || !eventData.dragging)) {
 
             if(selectable.IsInteractable()) {
                 ToggleState(SPSelectableState.Clicked);

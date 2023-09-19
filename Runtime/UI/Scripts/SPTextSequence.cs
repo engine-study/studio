@@ -27,9 +27,9 @@ public class SPTextSequence : MonoBehaviour
         if(SPUIBase.CanInput) {
 
             if(Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D)) {
-                Next();
+                next.Click();
             } else if(Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A)){
-                Previous();
+                previous.Click();
             }
         }
     }

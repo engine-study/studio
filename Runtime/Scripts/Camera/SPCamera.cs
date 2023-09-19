@@ -117,7 +117,7 @@ public class SPCamera : MonoBehaviour
                 SetFOVGlobal(-1f); 
             }
                 
-            if(Input.GetKeyDown(KeyCode.BackQuote) && (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)) && Application.isEditor) {
+            if(Input.GetKeyDown(KeyCode.BackQuote) && (Input.GetKey(KeyCode.LeftShift) && Input.GetKey(KeyCode.LeftControl)) && Application.isEditor) {
                 screenshotCount++;
                 ScreenCapture.CaptureScreenshot("../Screenshots/" + screenshotCount + ".png", screenshotSize);
             }

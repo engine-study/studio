@@ -141,8 +141,6 @@ public class SPUIBase : MonoBehaviour
             if(IsSelectedTextField) {
                 EventSystem.current.SetSelectedGameObject(null);
             }
-
-            
             //third behaviour is to exit any fullscreen UI we might have open
             else if(fullscreenUI) {
                 ToggleTakeoverUI(exclusiveUI, false);
