@@ -28,8 +28,10 @@ public class SPTextSequence : MonoBehaviour
 
             if(Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D)) {
                 next.Click();
+                Next();
             } else if(Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A)){
                 previous.Click();
+                Previous();
             }
         }
     }
