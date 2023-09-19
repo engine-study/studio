@@ -45,37 +45,36 @@ public class SPFlashShake : MonoBehaviour {
     public void Flash() {
 
         if (FlashMat == null) { FlashMat = Resources.Load("FlashDither") as Material;}
-
-
-        if (clone == null) {
-
-            if (target == null) {
-                // Debug.LogError("No target", this);
-                return;
-            }
-
-            clone = Instantiate(target, target.transform.position, target.transform.rotation, transform);
-            clone.SetActive(true);
-
-            renderers = clone.GetComponentsInChildren<MeshRenderer>();
-
-            if (renderers.Length == 0) {
-                Debug.LogError("No renderers", this);
-            }
-
-            //replace all materials with flash material
-            for (int i = 0; i < renderers.Length; i++) {
-                Material[] sharedMaterialsCopy = renderers[i].sharedMaterials;
-                for (int j = 0; j < sharedMaterialsCopy.Length; j++) { sharedMaterialsCopy[j] = FlashMat; }
-                renderers[i].sharedMaterials = sharedMaterialsCopy;
-            }
-
-        }
-
         if (!gameObject.activeInHierarchy) { return; }
+        if (clone == null) { SpawnClone();}
 
         if (flash != null) { StopCoroutine(flash);}
         flash = StartCoroutine(FlashCoroutine());
+
+    }
+
+    void SpawnClone() {
+        if (target == null) {
+            // Debug.LogError("No target", this);
+            return;
+        }
+
+        clone = Instantiate(target, target.transform.position, target.transform.rotation);
+        clone.transform.parent = transform;
+        clone.SetActive(true);
+
+        renderers = clone.GetComponentsInChildren<MeshRenderer>();
+
+        if (renderers.Length == 0) {
+            Debug.LogError("No renderers", this);
+        }
+
+        //replace all materials with flash material
+        for (int i = 0; i < renderers.Length; i++) {
+            Material[] sharedMaterialsCopy = renderers[i].sharedMaterials;
+            for (int j = 0; j < sharedMaterialsCopy.Length; j++) { sharedMaterialsCopy[j] = FlashMat; }
+            renderers[i].sharedMaterials = sharedMaterialsCopy;
+        }
 
     }
 
