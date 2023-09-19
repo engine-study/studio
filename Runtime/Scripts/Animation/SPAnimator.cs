@@ -42,7 +42,8 @@ public class SPAnimator : MonoBehaviour {
 
     }
 
-    public static void SetToPlayerLayer(GameObject newObject) {SetToLayer(newObject, SPLayers.PlayerLayer);}
+    public static void SetToCharacterRenderLayer(GameObject newObject) {SetToLayer(newObject, SPLayers.CharacterLayer);}
+    public void SetToAnimatorLayer(GameObject newObject) {SetToLayer(newObject, gameObject.layer);}
     public static void SetToLayer(GameObject newObject, int layer) {
         Renderer [] children = newObject.GetComponentsInChildren<Renderer>(true);
         for (int i = 0; i < children.Length; i++) {
