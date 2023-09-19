@@ -1086,7 +1086,7 @@ GameObject:
   - component: {fileID: 3988295389107969487}
   - component: {fileID: 6597672105028011243}
   - component: {fileID: 7237790970229842130}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: MeshAnimator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1127,6 +1127,7 @@ MonoBehaviour:
   - {fileID: 2774679380915407051}
   - {fileID: 4925666639248955986}
   - {fileID: 6138733964720524945}
+  head: {fileID: 0}
   ik: {fileID: 7237790970229842130}
   defaultPropPrefab: {fileID: 0}
   prop: {fileID: 0}
