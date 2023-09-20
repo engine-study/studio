@@ -155,12 +155,12 @@ public class SPController : MonoBehaviour
         for(int i = 0; i < rigidbodies.Length; i++) {
             rigidbodies[i].isKinematic = !toggle; 
             rigidbodies[i].detectCollisions = toggle; 
-            if(toggle) {
 
+            if(toggle) {
                 if(player) {
                     rigidbodies[i].velocity = player.Velocity - player.Root.forward + Vector3.down;
                 } else {
-                    rigidbodies[i].velocity = (player.Root.forward + Vector3.down) * Random.Range(.75f,1.25f);
+                    rigidbodies[i].velocity = transform.forward + Vector3.down * Random.Range(.75f,1.25f);
                 }
 
             } else {
