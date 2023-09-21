@@ -40,11 +40,6 @@ public class SPButton : SPWindowSelectable {
         ToggleType(newType);
     }
 
-    public override void ToggleType(SPSelectableType newType) {
-        base.ToggleType(newType);
-
-    }
-
     //called from the unity event on the prefab
     public virtual void OnClickFunction() {
         

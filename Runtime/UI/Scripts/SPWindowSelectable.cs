@@ -98,12 +98,7 @@ public class SPWindowSelectable : SPWindow, IPointerEnterHandler, IPointerExitHa
     }
 
     public override void SetTheme(SPWindowTheme newTheme) {
-
-        if(customTheme != null) {
-            base.SetTheme(customTheme.Theme);
-        } else {
-            base.SetTheme(newTheme);
-        }
+        base.SetTheme(newTheme);
 
         ToggleType(selectableType);
     }
