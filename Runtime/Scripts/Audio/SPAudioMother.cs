@@ -19,4 +19,7 @@ public class SPAudioMother : MonoBehaviour
         Instance.pool[0].transform.position = position;
         return Instance.pool[0];
     }
+    public static SPAudioSource GetSource() {
+        return Instance.pool[0];
+    }
 }

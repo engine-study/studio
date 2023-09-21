@@ -7,6 +7,13 @@ public class SPAudioSource : MonoBehaviour {
     public AudioSource Source { get { return audioSource; } }
     [SerializeField] protected AudioSource audioSource;
 
+
+    public static void PlayGlobal(AudioClip clips, float volume = 1f, bool pitchShift = true) {
+        SPAudioMother.GetSource().PlaySound(clips, volume, pitchShift);
+    }
+    public static void PlayGlobal(AudioClip[] clips, float volume = 1f, bool pitchShift = true) {
+        SPAudioMother.GetSource().PlaySound(clips, volume, pitchShift);
+    }
     public static void Play(Vector3 position, AudioClip[] clips, float volume = 1f, bool pitchShift = true) {
         SPAudioMother.GetSource(position).PlaySound(clips, volume, pitchShift);
     }
