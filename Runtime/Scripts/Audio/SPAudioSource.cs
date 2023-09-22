@@ -33,4 +33,8 @@ public class SPAudioSource : MonoBehaviour {
         audioSource.PlayOneShot(clip, volume);
     }
 
+    public void Play(float volume = 1f, bool pitchShift = true) {
+        PlaySound(Source.clip, volume, pitchShift);
+    }
+
 }

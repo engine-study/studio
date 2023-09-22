@@ -71,7 +71,8 @@ public class SPCamera : MonoBehaviour
 
         I = this; 
         fov = camera.orthographic ? camera.orthographicSize : camera.fieldOfView;
-
+        fovLerp = fov;
+        
         position = transform.position;
         rotation = transform.rotation;
 
