@@ -3,5 +3,5 @@ public class SPEvents
 {
     public static Action OnLocalPlayerSpawn;
     public static Action OnServerLoaded;    
-
+    public static Action OnGameStarted;
 }
