@@ -136,7 +136,7 @@ public class SPCamera : MonoBehaviour
                 // rotation = rotation * Quaternion.Euler(Vector3.up * Input.mouseScrollDelta.y * 25f);
                 // transform.Rotate(0f,Input.mouseScrollDelta.y * 25f,0f);
 
-            } else if(!Input.GetKey(KeyCode.LeftShift) && !Input.GetKey(KeyCode.LeftAlt)) {
+            } else if(Input.GetKey(KeyCode.LeftShift) && !Input.GetKey(KeyCode.LeftAlt)) {
 
                 SetFOVGlobal(fov + Input.mouseScrollDelta.y * -scrollSensitivity);
 

@@ -40,9 +40,12 @@ public class SPWindowPosition : MonoBehaviour {
     }
 
     void OnEnable() {
-        if (hasInit) {
-            SetFollow(follow);
+        if(!hasInit) {
+            Init();
         }
+        
+        SetFollow(follow);
+        
     }
 
     public void SetFollow(Transform newFollow, Vector3 newOffset) {
@@ -69,6 +72,7 @@ public class SPWindowPosition : MonoBehaviour {
     }
 
     void UpdatePosition() {
+
         if (offsetSpace == OffsetType.Camera) {
             SPUIBase.WorldToCanvas(follow.position + SPUIBase.Camera.transform.TransformPoint(offset) - SPUIBase.Camera.transform.position, rect);
         } else if (offsetSpace == OffsetType.World) {
