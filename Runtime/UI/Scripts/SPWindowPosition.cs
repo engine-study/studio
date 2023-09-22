@@ -18,6 +18,10 @@ public class SPWindowPosition : MonoBehaviour {
         }
     }
 
+    void OnEnable() {
+        SetFollow(follow);
+    }
+
     void Init() {
 
         if (hasInit) {
@@ -35,17 +39,10 @@ public class SPWindowPosition : MonoBehaviour {
         }
 
         Debug.Assert(rect != null, "Null rect", this);
-
+        
         hasInit = true;
-    }
-
-    void OnEnable() {
-        if(!hasInit) {
-            Init();
-        }
-        
         SetFollow(follow);
-        
+
     }
 
     public void SetFollow(Transform newFollow, Vector3 newOffset) {
@@ -62,7 +59,7 @@ public class SPWindowPosition : MonoBehaviour {
         follow = newFollow;
         enabled = follow != null;
 
-        if (enabled && gameObject.activeInHierarchy) {
+        if (enabled && gameObject.activeInHierarchy && SPCamera.I) {
             UpdatePosition();
         }
     }
