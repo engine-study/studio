@@ -44,7 +44,10 @@ public class SPActionWheelUI : SPWindow
 
             if(newState == ActionEndState.InProgress) {
                 actionWheel.color = inProgress;
-
+                actionGlow.color = inProgress;
+                if(actionWheel.fillAmount == 1f) {
+                    linger = StartCoroutine(PendingCoroutine());
+                }
             } else if(newState == ActionEndState.Success) {
                 actionWheel.fillAmount = 1f;
                 actionWheel.color = success;
@@ -66,10 +69,29 @@ public class SPActionWheelUI : SPWindow
 
     }
 
+    public void ActionPending() {
+        actionWheel.fillAmount = 1f;
+        UpdateState(ActionEndState.InProgress);
+    }
+
+
+    IEnumerator PendingCoroutine() {
+        // actionGlow.gameObject.SetActive(true);
+        float lerp = 0f;
+
+        while(true) {
+            lerp += Time.deltaTime;
+            float size = Mathf.Sin(lerp) * .5f + .5f;
+            group.transform.localScale = Vector3.one * (size + 1f);
+            group.alpha = 1f-size;
+            yield return null;
+        }
+
+    }
+
     IEnumerator LingerCoroutine() {
         // actionGlow.gameObject.SetActive(true);
         float lerp = 0f;
-        Color startColor = actionGlow.color;
 
         while(lerp < 1f) {
             lerp += Time.deltaTime * 5f;
