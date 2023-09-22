@@ -119,7 +119,8 @@ public class SPActionPrompt : SPWindow {
         // promptParent.SetActive(!toggle);
 
         if (wheel) {
-            wheel.UpdateState(toggle ? ActionEndState.InProgress : ActionEndState.Canceled);
+            wheel.UpdateProgress(0f);
+            wheel.UpdateState(toggle ? ActionEndState.InProgress : ActionEndState.Canceled, true);
         }
 
         UpdateCast();
