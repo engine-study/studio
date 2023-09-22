@@ -21,8 +21,8 @@ public class SPMouseRotate : MonoBehaviour
 
         lastRot = rot;
 
-        float h = horizontalSpeed * -Input.GetAxis("Mouse X");
-        float v = verticalSpeed * Input.GetAxis("Mouse Y");
+        float h = horizontalSpeed * -Input.GetAxis("Mouse X") * Time.deltaTime;
+        float v = verticalSpeed * Input.GetAxis("Mouse Y") * Time.deltaTime;
 
         rot = Vector3.up * h + Vector3.right * v;
 
