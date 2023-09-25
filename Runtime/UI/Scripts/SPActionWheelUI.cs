@@ -44,6 +44,8 @@ public class SPActionWheelUI : SPWindow
         actionGlow.gameObject.SetActive(false);
         ToggleWindow(newState != ActionEndState.Canceled);
 
+        if(gameObject.activeInHierarchy == false) {return;}
+
         if(newState == ActionEndState.InProgress) {
             actionWheel.color = inProgress;
             actionGlow.color = inProgress - Color.black * .5f;
