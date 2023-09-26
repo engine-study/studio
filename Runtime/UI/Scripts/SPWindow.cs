@@ -8,6 +8,7 @@ public class SPWindow : MonoBehaviour
 {
     public bool Active {get{return gameObject.activeInHierarchy;}}
     public SPWindowTheme Theme {get{return theme;}}
+    public SPThemeScriptable CustomTheme {get{return customTheme;}}
 
     //add some delegate so changing theme changes all windows or something
     public virtual void SetTheme(SPWindowTheme newTheme) {theme = newTheme; UpdateColor();}

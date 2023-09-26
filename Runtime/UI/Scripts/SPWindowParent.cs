@@ -14,7 +14,6 @@ public class SPWindowParent : SPWindow
     [SerializeField] protected bool addSubcanvas = true;
     [SerializeField] protected bool addRaycaster = true;
     bool animateWindow = false;
-    [SerializeField] protected SPThemeScriptable themeOverride;
 
     protected List<SPWindow> windows;
     float animateLerp = 0f; 
@@ -34,14 +33,16 @@ public class SPWindowParent : SPWindow
 
         startPos = rect.anchoredPosition;
 
-        windows = GetComponentsInChildren<SPWindow>(true).ToList();
 
-        if(themeOverride) {
+        if(customTheme) {
 
-            SetTheme(themeOverride.Theme);
+            SetTheme(customTheme.Theme);
+
+            windows = GetComponentsInChildren<SPWindow>(true).ToList();
 
             for(int i = 0; i < windows.Count; i++) {
-                windows[i].SetTheme(themeOverride.Theme);
+                if(windows[i].CustomTheme != null) continue;
+                windows[i].SetTheme(customTheme.Theme);
             }
         }
             

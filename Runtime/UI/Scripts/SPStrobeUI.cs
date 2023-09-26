@@ -10,7 +10,7 @@ public class SPStrobeUI : MonoBehaviour
     [SerializeField] public float duration = -1;
     Coroutine animationCoroutine;
 
-    public static void ToggleStrobe(SPWindow window, bool run = true, float newDuration = .9f) {
+    public static void ToggleStrobe(SPWindow window, bool toggle = true, bool isAutoplay = false, float newDuration = .9f) {
 
         SPStrobeUI strobe = window.GetComponent<SPStrobeUI>();
 
@@ -19,18 +19,12 @@ public class SPStrobeUI : MonoBehaviour
         }
 
         strobe.duration = newDuration;
+        strobe.strobeOnEnable = isAutoplay;
 
-        if(run) {
-            
-            strobe.strobeOnEnable = true;
-
-            if(window.gameObject.activeInHierarchy) {
-                strobe.StartStrobe();
-            }
-
+        if(toggle) {
+            if(window.gameObject.activeInHierarchy) { strobe.StartStrobe();}
         } else {
             strobe.StopStrobe();
-            strobe.strobeOnEnable = false;
         }
         
     }
