@@ -224,9 +224,9 @@ public class SPWindowSelectable : SPWindow, IPointerEnterHandler, IPointerExitHa
 
         } else if(State == SPSelectableState.Disabled) {
             
-            bgColor = Theme.defaultTheme.bgColor;
-            graphicsColor = Theme.defaultTheme.color - Color.black * .3f;
-            borderColor = Theme.defaultTheme.color - Color.black * .3f;
+            bgColor = Theme.defaultTheme.bgColor - Color.black * .5f;
+            graphicsColor = Theme.defaultTheme.color - Color.black * .5f;
+            borderColor = Theme.defaultTheme.color - Color.black * .5f;
 
         } else if(State == SPSelectableState.Selected) {
             
@@ -236,9 +236,9 @@ public class SPWindowSelectable : SPWindow, IPointerEnterHandler, IPointerExitHa
 
         } else if(State == SPSelectableState.Inactive) {
             
-            bgColor = Theme.defaultTheme.bgColor;
-            graphicsColor = Theme.defaultTheme.color;
-            borderColor = Theme.defaultTheme.color;
+            bgColor = Theme.defaultTheme.bgColor - Color.black * .5f;
+            graphicsColor = Theme.defaultTheme.color - Color.black * .5f;
+            borderColor = Theme.defaultTheme.color - Color.black * .5f;
 
         } else {
             
