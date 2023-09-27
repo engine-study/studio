@@ -12,11 +12,9 @@ public class SPCanvas : MonoBehaviour
 
     public static List<SPCanvas> Canvases;
 
-    void Start() {
+    void Awake() {
     
-        if(Canvases == null) {
-            Canvases = new List<SPCanvas>();
-        }
+        if(Canvases == null) { Canvases = new List<SPCanvas>();}
         
         Canvases.Add(this);
 

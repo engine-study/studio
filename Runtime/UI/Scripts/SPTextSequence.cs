@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-public class SPTextSequence : MonoBehaviour
+public class SPTextSequence : SPWindow
 {
     public System.Action OnUpdated;
     public System.Action OnDone;
@@ -11,6 +11,7 @@ public class SPTextSequence : MonoBehaviour
     public System.Action OnPrevious;
 
     public int Index {get{return index;}}
+    public SPRawText Text {get{return rawText;}}
     public List<SPTextScriptable> Texts {get{return texts;}}
 
     [Header("Text Sequence")]
