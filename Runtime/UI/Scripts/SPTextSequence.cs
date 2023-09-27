@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class SPTextSequence : MonoBehaviour
 {
@@ -20,6 +21,13 @@ public class SPTextSequence : MonoBehaviour
     [SerializeField] bool isDone = false;
 
     void Start() {
+        Set();
+    }
+
+    public void SetText(SPTextScriptable [] newTexts) {
+        index = 0;
+        texts = newTexts.ToList();
+
         Set();
     }
 
@@ -48,11 +56,14 @@ public class SPTextSequence : MonoBehaviour
     }
 
     void Set() {
-        rawText.UpdateField(texts[index].Text);
+
         isDone = index >= texts.Count-1;
         next?.ToggleWindow(!isDone);
         previous?.ToggleWindow(index > 0);
+        
+        if(texts == null || texts.Count == 0) { rawText.UpdateField(""); return;}
 
+        rawText.UpdateField(texts[index].Text);
 
         if(isDone)
             OnDone?.Invoke();
