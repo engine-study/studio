@@ -25,11 +25,6 @@ public class SPCamera : MonoBehaviour
     [SerializeField] float minFOV = 5f, maxFOV = 25f;
     [SerializeField] float shakeFalloff = 10f;
     float fovMultiple = 1f;
-
-
-
-    float shake = 0f;
-    float scrollRot, scrollLock;
     float fovLerp = 15f;
 
     [Header("Screenshot")]
@@ -42,29 +37,30 @@ public class SPCamera : MonoBehaviour
     [SerializeField] bool canScroll = true; 
     [SerializeField] bool inCinematic = false; 
     [SerializeField] Transform followTransform;
-    [SerializeField] Vector3 position;
-    [SerializeField] Vector3 rotation;
+    [SerializeField] Vector3 pos;
     [SerializeField] Quaternion rot;
+    [SerializeField] float shake = 0f;
+    [SerializeField] float scrollRot, scrollLock;
 
     public static void ToggleCamera(bool toggle) {
         I.gameObject.SetActive(toggle);
     }
 
-    public static void Teleport(Vector3 targetPos) { Teleport(targetPos, I.transform.rotation);}
+    public static void Teleport(Vector3 targetPos) { Teleport(targetPos, I.rot);}
     public static void Teleport(Vector3 targetPos, Quaternion targetRot) {
         Debug.Log("Camera Teleport: " + targetPos.ToString());
         I.transform.position = targetPos;
-        I.transform.rotation = targetRot;
+        I.rot = targetRot;
     }
 
     public static void SetFollow(Transform newFollow) {
         I.follow = newFollow != null;
         I.followTransform = newFollow;
     }
-    public static void SetTarget(Vector3 targetPos) {SetTarget(targetPos, I.transform.rotation);}
+    public static void SetTarget(Vector3 targetPos) {SetTarget(targetPos, I.rot);}
     public static void SetTarget(Vector3 targetPos, Quaternion targetRot) {
         // Debug.Log("Camera Target: " + targetPos.ToString());
-        I.position = targetPos;
+        I.pos = targetPos;
         I.rot = targetRot;
     }
 
@@ -76,7 +72,7 @@ public class SPCamera : MonoBehaviour
         fov = camera.orthographic ? camera.orthographicSize : camera.fieldOfView;
         fovLerp = fov;
         
-        position = transform.position;
+        pos = transform.position;
         rot = transform.rotation;
 
         transform.localPosition = Vector3.zero;
@@ -165,14 +161,14 @@ public class SPCamera : MonoBehaviour
             newPos = followTransform.position;
             listener.transform.position = newPos;
         } else {
-            newPos = position;
+            newPos = pos;
             listener.transform.position = newPos;
         }
 
         float distanceClamped = Mathf.Max(.25f,Vector3.Distance(transform.position,newPos));
 
         transform.position = Vector3.MoveTowards(transform.position, newPos, distanceClamped * 2f * Time.deltaTime * moveSpeed);
-        transform.rotation = Quaternion.RotateTowards(transform.rotation, rot * Quaternion.Euler(Vector3.up * scrollLock), rotateSpeed * Time.deltaTime);
+        transform.localRotation = Quaternion.RotateTowards(transform.localRotation, rot * Quaternion.Euler(Vector3.up * scrollLock), rotateSpeed * Time.deltaTime);
 
         //FOV
         fov = Mathf.Clamp(fov, minFOV, maxFOV);
