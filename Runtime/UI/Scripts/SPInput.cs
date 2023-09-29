@@ -87,6 +87,33 @@ public class SPInput : MonoBehaviour {
 
     }
 
+    public static int GetNumber() {
+        
+        if(Input.GetKeyDown(KeyCode.Alpha1)) {
+            return 0;
+        } else if (Input.GetKeyDown(KeyCode.Alpha2)) {
+            return 1;
+        } else if (Input.GetKeyDown(KeyCode.Alpha3)) {
+            return 2;
+        } else if (Input.GetKeyDown(KeyCode.Alpha4)) {
+            return 3;
+        } else if (Input.GetKeyDown(KeyCode.Alpha5)) {
+            return 4;
+        } else if (Input.GetKeyDown(KeyCode.Alpha6)) {
+            return 5;
+        } else if (Input.GetKeyDown(KeyCode.Alpha7)) {
+            return 6;
+        } else if (Input.GetKeyDown(KeyCode.Alpha8)) {
+            return 7;
+        } else if (Input.GetKeyDown(KeyCode.Alpha9)) {
+            return 8;
+        } else if (Input.GetKeyDown(KeyCode.Alpha0)) {
+            return 9;
+        } else {
+            return -1;
+        }
+    }
+
     public static bool GetScrollWheel(bool forwardScroll = true) {
         return forwardScroll ? Input.GetAxis("Mouse ScrollWheel") > 0f : Input.GetAxis("Mouse ScrollWheel") < 0f;
     }

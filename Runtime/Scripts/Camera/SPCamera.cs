@@ -9,39 +9,42 @@ public class SPCamera : MonoBehaviour
     public static Camera Camera {get{return I.camera;}}
     public static float Shake {get{return I.shake;}}
     public static Transform Follow {get { return I.followTransform; } }
+    public float FOV {get{return fov;}}
 
     [Header("Camera")]
-    [SerializeField] private new Camera camera;
-    [SerializeField] private AudioListener listener;
+    [SerializeField] new Camera camera;
+    [SerializeField] Transform x, y, z;
+    [SerializeField] AudioListener listener;
 
     [Header("Settings")]
-    [SerializeField] private float moveSpeed = 5f; 
-    [SerializeField] private float scrollSensitivity = 1f;
-    [SerializeField] private float rotateSensitivity = 360f;
-    [SerializeField] private float rotateRound = 45f;
-    [SerializeField] private float rotateSpeed = 90f;
-    [SerializeField] private float minFOV = 5f, maxFOV = 25f;
-    [SerializeField] private float shakeFalloff = 10f;
-    private float fovMultiple = 1f;
+    [SerializeField] float moveSpeed = 5f; 
+    [SerializeField] float scrollSensitivity = 1f;
+    [SerializeField] float rotateSensitivity = 360f;
+    [SerializeField] float rotateRound = 45f;
+    [SerializeField] float rotateSpeed = 90f;
+    [SerializeField] float minFOV = 5f, maxFOV = 25f;
+    [SerializeField] float shakeFalloff = 10f;
+    float fovMultiple = 1f;
 
 
 
     float shake = 0f;
     float scrollRot, scrollLock;
-    private float fovLerp = 15f;
+    float fovLerp = 15f;
 
     [Header("Screenshot")]
-    [SerializeField] private int screenshotSize = 1;
+    [SerializeField] int screenshotSize = 1;
     int screenshotCount = 0;
 
     [Header("Debug")]
-    [SerializeField] private float fov = 15f;
-    [SerializeField] private bool follow = true; 
-    [SerializeField] private bool canScroll = true; 
-    [SerializeField] private bool inCinematic = false; 
-    [SerializeField] private Transform followTransform;
-    [SerializeField] private Vector3 position;
-    [SerializeField] private Quaternion rotation;
+    [SerializeField] float fov = 15f;
+    [SerializeField] bool follow = true; 
+    [SerializeField] bool canScroll = true; 
+    [SerializeField] bool inCinematic = false; 
+    [SerializeField] Transform followTransform;
+    [SerializeField] Vector3 position;
+    [SerializeField] Vector3 rotation;
+    [SerializeField] Quaternion rot;
 
     public static void ToggleCamera(bool toggle) {
         I.gameObject.SetActive(toggle);
@@ -62,7 +65,7 @@ public class SPCamera : MonoBehaviour
     public static void SetTarget(Vector3 targetPos, Quaternion targetRot) {
         // Debug.Log("Camera Target: " + targetPos.ToString());
         I.position = targetPos;
-        I.rotation = targetRot;
+        I.rot = targetRot;
     }
 
     void Awake() {
@@ -74,7 +77,7 @@ public class SPCamera : MonoBehaviour
         fovLerp = fov;
         
         position = transform.position;
-        rotation = transform.rotation;
+        rot = transform.rotation;
 
         transform.localPosition = Vector3.zero;
 
@@ -101,10 +104,18 @@ public class SPCamera : MonoBehaviour
         }
         #endif
 
+        I.SetFOV(newFOV, instant);
+      
+    }
+
+    public void SetFOV(float newFOV, bool instant = false) {
         // Debug.Log("Camera FOV: " + newFOV);
-        I.fov = Mathf.Clamp(newFOV, I.minFOV, I.maxFOV);
+        fov = Mathf.Clamp(newFOV, minFOV, maxFOV);
         if(instant) {
-            I.fovLerp = I.fov;
+            fovLerp = fov;
+            if(camera.orthographic) {camera.orthographicSize = fov;}
+            else {camera.fieldOfView = fov;}
+            
         }
     }
 
@@ -161,7 +172,7 @@ public class SPCamera : MonoBehaviour
         float distanceClamped = Mathf.Max(.25f,Vector3.Distance(transform.position,newPos));
 
         transform.position = Vector3.MoveTowards(transform.position, newPos, distanceClamped * 2f * Time.deltaTime * moveSpeed);
-        transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation * Quaternion.Euler(Vector3.up * scrollLock), rotateSpeed * Time.deltaTime);
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, rot * Quaternion.Euler(Vector3.up * scrollLock), rotateSpeed * Time.deltaTime);
 
         //FOV
         fov = Mathf.Clamp(fov, minFOV, maxFOV);
