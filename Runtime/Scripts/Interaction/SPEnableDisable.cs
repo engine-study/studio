@@ -44,6 +44,7 @@ public class SPEnableDisable : MonoBehaviour
         Spawn(offEffects);
     }
 
+    public virtual void Spawn(bool toggle) {Spawn(toggle ? onEffects : offEffects);}
     public virtual void Spawn(SPEffects newEffect) {
 
         if (newEffect == null) { return; }
