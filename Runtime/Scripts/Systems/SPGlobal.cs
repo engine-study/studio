@@ -16,9 +16,7 @@ public class SPGlobal : MonoBehaviour
     public static bool IsMobile;
     public static bool FirstFrame = true; 
     public static bool IsDebug{get{return I.Debug ;}}
-    public static bool DebugItems{get{return I.debugItems;}}
     public static bool Beta{get{return I.beta;}}
-    public static bool Testnet{get{return I.testnet;}}
     public static bool Updating {get{return true;}}
     public static bool LocalPlayer {get{return true;}}
     public bool Debug { 
@@ -28,9 +26,7 @@ public class SPGlobal : MonoBehaviour
 
     [SerializeField] protected DevMode devMode;
     [SerializeField] protected bool debug = false;
-    [SerializeField] protected bool debugItems = false;
     [SerializeField] protected bool beta = false;
-    [SerializeField] protected bool testnet = false;
 
     void Awake() {
 
