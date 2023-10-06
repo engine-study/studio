@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR; 
 using UnityEngine.Experimental.XR;
+using NBitcoin;
 
 public enum de_button { Space, Secondary, LeftClick, RightClick, Primary, Action, SwitchMode, Kill, Camera, Menu, Shoot, Submit, Tab, Chat, Ctrl, Copy, Rotate, Variable, Touchpad, _Count }
 public enum de_axis { PadXPositive, PadXNegative, PadYPositive, PadYNegative, LeftClick, RightClick,_Count }
@@ -100,6 +101,20 @@ public class SPInput : MonoBehaviour {
         else if (Input.GetKeyDown(KeyCode.Alpha9)) {return 8;}
         else if (Input.GetKeyDown(KeyCode.Alpha0)) {return 9;}
         else {return -1;}
+    }
+
+    public static string GetKeyCodeFormatted(KeyCode key) {
+        if(key == KeyCode.Alpha1) {return "1";}
+        else if (key == KeyCode.Alpha2) {return "2";}
+        else if (key == KeyCode.Alpha3) {return "3";}
+        else if (key == KeyCode.Alpha4) {return "4";}
+        else if (key == KeyCode.Alpha5) {return "5";}
+        else if (key == KeyCode.Alpha6) {return "6";}
+        else if (key == KeyCode.Alpha7) {return "7";}
+        else if (key == KeyCode.Alpha8) {return "8";}
+        else if (key == KeyCode.Alpha9) {return "9";}
+        else if (key == KeyCode.Alpha0) {return "10";}
+        else {return key.ToString();}
     }
 
     public static KeyCode [] AlphaKeys = {KeyCode.Alpha1,KeyCode.Alpha2,KeyCode.Alpha3,KeyCode.Alpha4,KeyCode.Alpha5,KeyCode.Alpha6,KeyCode.Alpha7,KeyCode.Alpha8,KeyCode.Alpha9};

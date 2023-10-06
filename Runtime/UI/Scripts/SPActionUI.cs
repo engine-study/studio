@@ -7,18 +7,20 @@ using TMPro;
 public class SPActionUI : SPWindowParent {
     public static SPActionUI Instance;
     public SPActor Actor { get { return actor; } }
+    public List<SPActionPrompt> Actions { get { return activeActions; } }
 
     [Header("Interacting")]
-    public SPActionWheelUI wheel;
-    public List<SPActionPrompt> actions;
-    public List<SPActionPrompt> actionSorted;
-    public List<SPActionPrompt> activeActions;
+    [SerializeField] SPActionWheelUI wheel;
+    [SerializeField] SPActionPrompt actionPrefab;
+    [SerializeField] List<SPActionPrompt> actions;
+    [SerializeField] List<SPActionPrompt> actionSorted;
+    [SerializeField] List<SPActionPrompt> activeActions;
 
     [Header("Debug")]
-    public SPActor actor;
-    public List<SPAction> actionStates;
-    public List<GameObject> targets;
-    public TextMeshProUGUI debugReadout;
+    [SerializeField] SPActor actor;
+    [SerializeField] List<SPAction> actionStates;
+    [SerializeField] List<GameObject> targets;
+    [SerializeField] TextMeshProUGUI debugReadout;
 
     public override void Init() {
 
@@ -66,9 +68,10 @@ public class SPActionUI : SPWindowParent {
         }
 
     }
-#if UNITY_EDITOR
     void Update() {
 
+
+        #if UNITY_EDITOR
         if(!actor || !Actor.ActionScript) {
             debugReadout.text = "";
             return;
@@ -82,9 +85,9 @@ public class SPActionUI : SPWindowParent {
             debugReadout.text += "Action: " + Actor.ActionLerp.ToString("F1") + "\n";
             
         }
-        
+        #endif
+
     }
-#endif
 
     void ToggleTarget(bool toggle, IInteract newInteract) {
         if (!hasInit) {
@@ -114,21 +117,25 @@ public class SPActionUI : SPWindowParent {
     }
 
     public void MapInputs() {
-
         int index = 0;
-        for(int i = 0; i < activeActions.Count; i++) {
-            if(activeActions[i].gameObject.activeSelf == false) {continue;}
-            activeActions[i].Input.SetKey((index+1).ToString());
+        for(int i = 0; i < actionSorted.Count; i++) {
+            if(actionSorted[i].gameObject.activeSelf ==false) {continue;}
+            actionSorted[i].Input.SetKey(SPInput.GetAlphaKey(index));
             index++;
         }
     }
 
+    public void SpawnAction(IInteract newInteract) {
+
+        SPActionPrompt ap = Instantiate(actionPrefab, transform);
+        ap.Init();
+        ap.ToggleAction(true, actor, newInteract, true);
+
+    }
+
     public void ToggleAction(bool toggle, IInteract newInteract, bool silentAdd = false) {
 
-        if (!hasInit) {
-            Init();
-        }
-
+        if (!hasInit) {Init();}
 
         GameObject targetGO = newInteract.GameObject();
         SPAction ActionScript = newInteract.Action() as SPAction;
@@ -145,7 +152,7 @@ public class SPActionUI : SPWindowParent {
                 return;
             }
 
-            // Debug.Log("Adding " + targetGO.name, this);
+            Debug.Log("Adding " + targetGO.name, this);
 
             SPActionPrompt newPrompt = actions[0];
             actions.RemoveAt(0);

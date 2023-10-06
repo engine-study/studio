@@ -121,12 +121,14 @@ public class SPActor : MonoBehaviour, IActor {
         InputAction(inputDown,input,i);
     }
 
-    public void InputAction(bool inputDown, bool input, IInteract newInteractable) {
-        if (newInteractable.Action().TryAction(this, newInteractable) && ((inputDown && ActionState == ActionState.Idle) || (input && (ActionState == ActionState.Casting || ActionState == ActionState.Acting)))) {
-            Use(newInteractable.Action(), newInteractable);
-        } else if (ActionScript) {
-            Stop(newInteractable.Action(), newInteractable, ActionEndState.Canceled);
-        }
+    public void InputAction(bool inputDown, bool input, IInteract i) {
+
+        bool canDoInput = (inputDown && ActionState == ActionState.Idle) || (input && (ActionState == ActionState.Casting || ActionState == ActionState.Acting));
+        bool canDoAction = i.Action().TryAction(this, i);
+
+        if (canDoInput && canDoAction) { Use(i.Action(), i); } 
+        else if (Interact == i) { Stop(i.Action(), i, ActionEndState.Canceled);}
+        
     }
 
     void UpdateAction() {
@@ -241,7 +243,7 @@ public class SPActor : MonoBehaviour, IActor {
     }
 
 
-    public void Stop(IAction newAction, IInteract newInteract, ActionEndState reason) {
+    public void Stop(IAction a, IInteract i, ActionEndState reason) {
 
         bool shouldEnd = reason != ActionEndState.Canceled || (reason == ActionEndState.Canceled && (ActionScript.Type == ActionType.Hold || ActionScript.Type == ActionType.Looping));
 

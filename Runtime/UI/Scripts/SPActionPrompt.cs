@@ -6,6 +6,7 @@ public class SPActionPrompt : SPWindow {
 
     public SPButton Button { get { return buttonText; } }
     public SPInputPrompt Input { get { return inputText; } }
+    public IInteract Interactable { get { return interactable; } }
 
     [Header("Action Prompt")]
     [SerializeField] bool worldSpace;
@@ -39,11 +40,22 @@ public class SPActionPrompt : SPWindow {
 
         if(!actionScript) { return;}
 
+        UpdateActionInput();
+        UpdateState();
+        
+    }
+
+    void UpdateState() {
+
         bool allowed = actionScript.TryAction(actorComponent,interactable);
         inputText.ToggleWindow(allowed);
         canPerform.color = allowed ? Color.black : Color.black - Color.black * .5f;
+    }
 
-        
+    void UpdateActionInput() {
+
+        if(SPUIBase.CanInput) {actorComponent.InputKey(Input.Key, interactable);}
+
     }
 
     public void ToggleActionTarget(bool toggle) {
@@ -58,6 +70,8 @@ public class SPActionPrompt : SPWindow {
         interactable = interact;
 
         if (toggle) {
+
+            gameObject.name = interact.GameObject().name;
 
             actionScript.OnActionStartCasting += StartCast;
             actionScript.OnActionUpdateCasting += UpdateCast;
