@@ -5,6 +5,7 @@ using System;
 using TMPro;
 
 public class SPActionUI : SPWindowParent {
+    public static SPActionUI Instance;
     public SPActor Actor { get { return actor; } }
 
     [Header("Interacting")]
@@ -27,6 +28,8 @@ public class SPActionUI : SPWindowParent {
 
         base.Init();
 
+        Instance = this;
+
         for (int i = 0; i < actions.Count; i++) {
             actions[i].index = i;
             actions[i].wheel = wheel;
@@ -44,12 +47,12 @@ public class SPActionUI : SPWindowParent {
     public void Setup(SPActor newActor) {
 
         if (actor != null) {
-            actor.OnActionsUpdated -= LoadAction;
+            actor.OnActionsUpdated -= LoadFromReciever;
             actor.OnTargetsUpdated -= ToggleTarget;
         }
 
         actor = newActor;
-        actor.OnActionsUpdated += LoadAction;
+        actor.OnActionsUpdated += LoadFromReciever;
         actor.OnTargetsUpdated += ToggleTarget;
 
         wheel.Setup(newActor);
@@ -59,7 +62,7 @@ public class SPActionUI : SPWindowParent {
         base.Destroy();
 
         if (actor != null) {
-            actor.OnActionsUpdated -= LoadAction;
+            actor.OnActionsUpdated -= LoadFromReciever;
             actor.OnTargetsUpdated -= ToggleTarget;
         }
 
@@ -71,7 +74,6 @@ public class SPActionUI : SPWindowParent {
             debugReadout.text = "";
             return;
         }
-
 
         if(Actor.ActionScript != null) {
             debugReadout.text = "Action: " + Actor?.ActionScript.name + "\n";
@@ -107,10 +109,17 @@ public class SPActionUI : SPWindowParent {
     // }
 
 
-    void LoadAction(bool toggle, IInteract newInteract) {
+    
+    void LoadFromReciever(bool toggle, IInteract newInteract) {
+        ToggleAction(toggle, newInteract);
+    }
+
+    public void ToggleAction(bool toggle, IInteract newInteract, bool silentAdd = false) {
+
         if (!hasInit) {
             Init();
         }
+
         GameObject targetGO = newInteract.GameObject();
         SPAction ActionScript = newInteract.Action() as SPAction;
 

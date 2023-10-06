@@ -7,11 +7,11 @@ public class SPActor : MonoBehaviour, IActor {
 
     public ActionState ActionState { get { return internalState; } }
 
-    public IAction ActionInterface {get{return actionInterface;}}
+    public IAction ActionInterface {get{return action;}}
 
     public SPAction ActionScript { get { return actionScript; } }
     public IInteract Interact { get { return interact; } }
-    public GameObject Target { get { return currentGO; } }
+    public GameObject Target { get { return target; } }
     private static KeyCode[] KEYS = new KeyCode[1] { KeyCode.E };
 
     [Header("Action")]
@@ -19,13 +19,13 @@ public class SPActor : MonoBehaviour, IActor {
 
     [Header("Debug")]
     [SerializeField] private SPState State;
-    [SerializeField] protected IAction actionInterface;
+    [SerializeField] protected IAction action;
     [SerializeField] protected SPReciever reciever;
 
     [SerializeField] protected SPAction actionScript;
     [SerializeField] protected IInteract interact;
     [SerializeField] protected IInteract activeInteract;
-    [SerializeField] protected GameObject currentGO;
+    [SerializeField] protected GameObject target;
     [SerializeField] protected List<GameObject> gos;
 
     [Header("Mutable Data")]
@@ -52,11 +52,11 @@ public class SPActor : MonoBehaviour, IActor {
 
         if (toggle) {
             reciever = r;
-            reciever.OnInteractToggle += ToggleAction;
-            reciever.OnTargetToggle += ToggleTarget;
+            reciever.OnInteractToggle += LoadActionFromReciever;
+            reciever.OnTargetToggle += LoadTargetFromReciever;
         } else if(reciever != null) {
-            reciever.OnInteractToggle -= ToggleAction;
-            reciever.OnTargetToggle -= ToggleTarget;
+            reciever.OnInteractToggle -= LoadActionFromReciever;
+            reciever.OnTargetToggle -= LoadTargetFromReciever;
             reciever = null;
         }
     }
@@ -120,14 +120,13 @@ public class SPActor : MonoBehaviour, IActor {
         bool input = SPUIBase.CanInput && Input.GetKey(keyCode);
         InputAction(inputDown,input,i);
     }
-    public void InputAction(bool inputDown, bool input, IInteract newInteractable) {
 
-        if (newInteractable.Action().TryAction(this, newInteractable) && (inputDown && ActionState == ActionState.Idle) || (input && ActionState == ActionState.Casting || ActionState == ActionState.Acting)) {
+    public void InputAction(bool inputDown, bool input, IInteract newInteractable) {
+        if (newInteractable.Action().TryAction(this, newInteractable) && ((inputDown && ActionState == ActionState.Idle) || (input && (ActionState == ActionState.Casting || ActionState == ActionState.Acting)))) {
             Use(newInteractable.Action(), newInteractable);
         } else if (ActionScript) {
             Stop(newInteractable.Action(), newInteractable, ActionEndState.Canceled);
         }
-
     }
 
     void UpdateAction() {
@@ -145,38 +144,41 @@ public class SPActor : MonoBehaviour, IActor {
 
 
     //get the most updated target from the interactreciever
-    void ToggleTarget(bool toggle, IInteract newInteractable) {
+    void LoadTargetFromReciever(bool toggle, IInteract newInteractable) {
         OnTargetsUpdated?.Invoke(toggle, newInteractable);
     }
 
     //get the list of potential actions from the reciever
-    void ToggleAction(bool toggle, IInteract newInteractable) {
+    void LoadActionFromReciever(bool toggle, IInteract newInteract) {
+        ToggleAction(toggle, newInteract);
+    }
 
-        Debug.Assert(newInteractable.Action() != null, name + " no action on " + newInteractable.GameObject().name);
-        IAction newAction = newInteractable.Action();
-        GameObject go = newInteractable.GameObject();
+    public void ToggleAction(bool toggle, IInteract newInteract) {
+        Debug.Assert(newInteract.Action() != null, name + " no action on " + newInteract.GameObject().name);
+        IAction newAction = newInteract.Action();
+        GameObject go = newInteract.GameObject();
 
         if (toggle) {
 
             gos.Add(go);
             //tell the interactable we are interactable
-            newInteractable.ToggleActor(true, this);
+            newInteract.ToggleActor(true, this);
 
         } else {
 
             gos.Remove(go);
+
             //stop the action if it was active
             if (go == Target) {
-                Stop(newAction, newInteractable, ActionEndState.Failed);
+                Stop(newAction, newInteract, ActionEndState.Failed);
 
                 //tell the interactable we are not interactable
-                newInteractable.ToggleActor(false, this);
+                newInteract.ToggleActor(false, this);
 
             }
         }
 
-        OnActionsUpdated?.Invoke(toggle, newInteractable);
-
+        OnActionsUpdated?.Invoke(toggle, newInteract);
     }
 
     public virtual void SetToInitialState() {
@@ -198,26 +200,28 @@ public class SPActor : MonoBehaviour, IActor {
     public void Use(IAction newAction, IInteract newInteractable) {
 
         //load new action if we haven't loaded it yet
-        if (currentGO != newInteractable.GameObject() || actionScript != newInteractable.Action() as SPAction) {
+        if (Target != newInteractable.GameObject() || actionScript != newInteractable.Action() as SPAction) {
 
             //stop current action
-            if (actionInterface != null) {
-                Stop(actionInterface, newInteractable, ActionEndState.Failed);
+            if (action != null) {
+                Stop(action, newInteractable, ActionEndState.Failed);
             }
 
             //setup new action
-            int index = reciever.GameObjects.IndexOf(newInteractable.GameObject());
+            // int index = reciever.GameObjects.IndexOf(newInteractable.GameObject());
+            // interact = reciever.Interactables[index];
+            // target = reciever.GameObjects[index];
 
-            actionInterface = newInteractable.Action();
+            action = newInteractable.Action();
             actionScript = newInteractable.Action() as SPAction;
-            interact = reciever.Interactables[index];
-            currentGO = reciever.GameObjects[index];
+            interact = newInteractable;
+            target = newInteractable.GameObject();
 
         }
 
         UpdateActionLogic();
 
-        OnAction?.Invoke(actionInterface);
+        OnAction?.Invoke(action);
 
     }
 
@@ -257,10 +261,10 @@ public class SPActor : MonoBehaviour, IActor {
             }
 
 
-            actionInterface = null;
+            action = null;
             actionScript = null;
             interact = null;
-            currentGO = null;
+            target = null;
 
             activeInteract = null;
 
@@ -297,7 +301,7 @@ public class SPActor : MonoBehaviour, IActor {
 
         // Debug.Log(ActionScript.name + " Casting Start", Interact.GameObject());
         internalState = ActionState.Casting;
-        actionInterface.DoCast(true, this, Interact);
+        action.DoCast(true, this, Interact);
         ActionScript.OnActionStartCasting?.Invoke();
 
         CastingUpdate();
@@ -320,7 +324,7 @@ public class SPActor : MonoBehaviour, IActor {
         if (endState == ActionEndState.Success) {
 
         } else {
-            actionInterface.DoCast(false, this, Interact);
+            action.DoCast(false, this, Interact);
             internalState = ActionState.Idle;
         }
 
@@ -333,7 +337,7 @@ public class SPActor : MonoBehaviour, IActor {
         // Debug.Log(ActionScript.name + " Action Start", Interact.GameObject());
         internalState = ActionState.Acting;
 
-        actionInterface.DoAction(true, this, Interact);
+        action.DoAction(true, this, Interact);
         Interact.Interact(true, this);
 
         activeInteract = Interact;
@@ -379,7 +383,7 @@ public class SPActor : MonoBehaviour, IActor {
 
         internalState = ActionState.Idle;
 
-        actionInterface.DoAction(false, this, Interact);
+        action.DoAction(false, this, Interact);
         ActionScript.EndAction(this, Interact, reason);
 
     }

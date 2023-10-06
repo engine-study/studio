@@ -54,7 +54,7 @@ public class SPActionPrompt : SPWindow {
         fullPromptParent.SetActive(toggle);
 
     }
-    public void ToggleAction(bool toggle, SPActor actor, IInteract interact) {
+    public void ToggleAction(bool toggle, SPActor actor, IInteract interact, bool silentAdd = false) {
 
         actionScript = interact.Action() as SPAction;
         actorComponent = actor;
@@ -100,7 +100,8 @@ public class SPActionPrompt : SPWindow {
             actionScript.OnSweetSpotEnd -= EndSweetSpot;
         }
 
-        ToggleWindow(toggle);
+        if(silentAdd) ToggleWindowClose();
+        else ToggleWindow(toggle);
 
     }
 
