@@ -6,13 +6,12 @@ public enum InputType { None, Input, Ambient }
 public class SPActor : MonoBehaviour, IActor {
 
     public ActionState ActionState { get { return internalState; } }
-
     public IAction ActionInterface {get{return action;}}
-
     public SPAction ActionScript { get { return actionScript; } }
     public IInteract Interact { get { return interact; } }
+    public SPReciever Reciever { get { return reciever; } }
     public GameObject Target { get { return target; } }
-    private static KeyCode[] KEYS = new KeyCode[1] { KeyCode.E };
+    public List<GameObject> GameObjects {get{return gos;}}
 
     [Header("Action")]
     public SPBase sender;
@@ -103,6 +102,7 @@ public class SPActor : MonoBehaviour, IActor {
             reciever.Interactables[i].Action().TryAction(this, reciever.Interactables[i]);
         }
     }
+    
     protected virtual void UpdateInput() {
 
     }

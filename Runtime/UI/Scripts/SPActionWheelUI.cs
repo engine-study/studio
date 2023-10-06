@@ -10,6 +10,7 @@ public class SPActionWheelUI : SPWindow
     public CanvasGroup group;
     public Image actionWheel;
     public Image actionGlow;
+    public Image actionBuffer;
     public SPWindowPosition actionPosition;
     public Color inProgress, success, failure;
     public bool Lock = false;
@@ -42,6 +43,8 @@ public class SPActionWheelUI : SPWindow
         group.alpha = 1f;
 
         actionGlow.gameObject.SetActive(false);
+        actionBuffer.gameObject.SetActive(false);
+
         ToggleWindow(newState != ActionEndState.Canceled);
 
         if(gameObject.activeInHierarchy == false) {return;}
@@ -89,13 +92,16 @@ public class SPActionWheelUI : SPWindow
     IEnumerator PendingCoroutine() {
 
         actionGlow.gameObject.SetActive(true);
+        actionBuffer.gameObject.SetActive(true);
+
         float lerp = 0f;
         Color startColor = actionGlow.color;
 
         while(true) {
             lerp += Time.deltaTime;
             float size = Mathf.Sin(lerp * 25f) * .5f + .5f;
-            group.transform.localScale = Vector3.one * (size * .75f + .5f);
+            actionBuffer.transform.Rotate(Vector3.forward * -2500f * Time.deltaTime);
+            // group.transform.localScale = Vector3.one * (size * .25f + .75f);
             actionGlow.color = startColor - Color.black * size;
             yield return null;
         }
@@ -103,12 +109,13 @@ public class SPActionWheelUI : SPWindow
     }
 
     IEnumerator LingerCoroutine() {
+
         actionGlow.gameObject.SetActive(true);
         float lerp = 0f;
 
         while(lerp < 1f) {
             lerp += Time.deltaTime * 5f;
-            group.transform.localScale = Vector3.one * (1f + lerp);
+            group.transform.localScale = Vector3.one * (1f + lerp * .5f);
             group.alpha = 1f-lerp;
             yield return null;
         }

@@ -8,39 +8,36 @@ public class SPActionPrompt : SPWindow {
     public SPInputPrompt Input { get { return inputText; } }
 
     [Header("Action Prompt")]
-    [SerializeField] private bool worldSpace;
-    [SerializeField] private SPButton buttonText;
-    [SerializeField] private SPInputPrompt inputText;
-    [SerializeField] private GameObject miniPromptParent;
-    [SerializeField] private GameObject fullPromptParent;
-    [SerializeField] private GameObject promptParent;
-    [SerializeField] private SPWindowPosition windowPosition;
-    [SerializeField] private Image canPerform;
+    [SerializeField] bool worldSpace;
+    [SerializeField] SPButton buttonText;
+    [SerializeField] SPInputPrompt inputText;
+    [SerializeField] GameObject miniPromptParent;
+    [SerializeField] GameObject fullPromptParent;
+    [SerializeField] GameObject promptParent;
+    [SerializeField] SPWindowPosition windowPosition;
+    [SerializeField] Image canPerform;
     [Header("Progress")]
     [SerializeField] public SPActionWheelUI wheel;
-    [SerializeField] private Image sweetSpot;
+    [SerializeField] Image sweetSpot;
 
     [Header("Debug")]
-    [SerializeField] private SPActor actorComponent;
-    [SerializeField] private SPAction actionScript;
-    [SerializeField] private IInteract interactable;
+    [SerializeField] SPActor actorComponent;
+    [SerializeField] SPAction actionScript;
+    [SerializeField] IInteract interactable;
     [SerializeField] public int index;
 
     public override void Init() {
 
-        if (hasInit) {
-            return;
-        }
+        if (hasInit) { return;}
 
         base.Init();
 
-        TogglePrompt(false, "");
+        windowPosition.enabled = worldSpace;
     }
 
     void Update() {
-        if(!actionScript) {
-            return;
-        }
+
+        if(!actionScript) { return;}
 
         bool allowed = actionScript.TryAction(actorComponent,interactable);
         inputText.ToggleWindow(allowed);

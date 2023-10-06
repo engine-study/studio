@@ -9,6 +9,7 @@ public class SPActionUI : SPWindowParent {
     public SPActor Actor { get { return actor; } }
 
     [Header("Interacting")]
+    public SPActionWheelUI wheel;
     public List<SPActionPrompt> actions;
     public List<SPActionPrompt> actionSorted;
     public List<SPActionPrompt> activeActions;
@@ -18,7 +19,6 @@ public class SPActionUI : SPWindowParent {
     public List<SPAction> actionStates;
     public List<GameObject> targets;
     public TextMeshProUGUI debugReadout;
-    public SPActionWheelUI wheel;
 
     public override void Init() {
 
@@ -31,7 +31,6 @@ public class SPActionUI : SPWindowParent {
         Instance = this;
 
         for (int i = 0; i < actions.Count; i++) {
-            actions[i].index = i;
             actions[i].wheel = wheel;
             actions[i].ToggleWindowClose();
         }
@@ -114,11 +113,22 @@ public class SPActionUI : SPWindowParent {
         ToggleAction(toggle, newInteract);
     }
 
+    public void MapInputs() {
+
+        int index = 0;
+        for(int i = 0; i < activeActions.Count; i++) {
+            if(activeActions[i].gameObject.activeSelf == false) {continue;}
+            activeActions[i].Input.SetKey((index+1).ToString());
+            index++;
+        }
+    }
+
     public void ToggleAction(bool toggle, IInteract newInteract, bool silentAdd = false) {
 
         if (!hasInit) {
             Init();
         }
+
 
         GameObject targetGO = newInteract.GameObject();
         SPAction ActionScript = newInteract.Action() as SPAction;
@@ -144,7 +154,7 @@ public class SPActionUI : SPWindowParent {
             activeActions.Add(newPrompt);
             actionStates.Add(ActionScript);
 
-            newPrompt.ToggleAction(true, Actor, newInteract);
+            newPrompt.ToggleAction(true, Actor, newInteract, silentAdd);
             newPrompt.ToggleActionTarget(true);
         } else {
 
@@ -156,7 +166,7 @@ public class SPActionUI : SPWindowParent {
             }
 
             SPActionPrompt newPrompt = activeActions[index];
-            newPrompt.ToggleAction(false, Actor, newInteract);
+            newPrompt.ToggleAction(false, Actor, newInteract, silentAdd);
 
             targets.Remove(targetGO);
             activeActions.Remove(newPrompt);
@@ -165,6 +175,8 @@ public class SPActionUI : SPWindowParent {
             actions.Insert(0, newPrompt);
 
         }
+
+        MapInputs();
 
     }
 
