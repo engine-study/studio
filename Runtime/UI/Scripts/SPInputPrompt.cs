@@ -7,6 +7,8 @@ public class SPInputPrompt : SPWindow
     public KeyCode Key {get{return key;}}
     [Header("Input")]
     [SerializeField] TMPro.TextMeshProUGUI inputText;
+    [SerializeField] UnityEngine.RectTransform graphicRect;
+
     [Header("Debug")]
     [SerializeField] KeyCode key;
 
@@ -19,7 +21,7 @@ public class SPInputPrompt : SPWindow
     }
 
     void Update() {
-        transform.localScale = Input.GetKey(key) ? Vector3.one * .9f : Vector3.one;
+        graphicRect.localScale = Input.GetKey(key) ? Vector3.one * .9f : Vector3.one;
     }
 
   

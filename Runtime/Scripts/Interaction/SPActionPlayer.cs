@@ -25,29 +25,32 @@ public class SPActionPlayer : SPAction
     public void ToggleCastState(bool toggle, IActor actor, IInteract interactable) {
 
         // Debug.Log("Actor: " + actor.Owner());
-        SPAnimator anim = (actor.Owner() as SPPlayer).Animator as SPAnimator;
-
+        SPAnimator animator = (actor.Owner() as SPPlayer).Animator as SPAnimator;
 
         if(toggle) {
-            anim.IK.SetLook(null);
-            ToggleProp(toggle, anim);
+            animator.IK.SetLook(null);
             FadeAnimation(actor, interactable, "Cast");
         } else {
             FadeAnimation(actor, interactable, "Idle");
         }
+
+        ToggleProp(toggle, animator);
+
     }
 
     public void ToggleActionState(bool toggle, IActor actor, IInteract interactable) {
 
-        SPAnimator anim = (actor.Owner() as SPPlayer).Animator;
+        SPAnimator animator = (actor.Owner() as SPPlayer).Animator;
 
         if(toggle) {
-            anim.IK.SetLook(null);
-            ToggleProp(toggle, anim);
+            animator.IK.SetLook(null);
+            ToggleProp(toggle, animator);
             FadeAnimation(actor, interactable, "Action");
         } else {
             FadeAnimation(actor, interactable, "Idle");
         }
+
+
     }
 
     void ToggleProp(bool toggle, SPAnimator animator) {
@@ -63,7 +66,7 @@ public class SPActionPlayer : SPAction
 
     }
 
-    protected void FadeAnimation(IActor actor, IInteract interactable, string state, float fade = .1f) {
+    protected void FadeAnimation(IActor actor, IInteract interactable, string state, float fade = .05f) {
         SPPlayer player = actor.Owner() as SPPlayer;
         AnimationMesh anim = player.Animation as AnimationMesh;
 
@@ -73,7 +76,7 @@ public class SPActionPlayer : SPAction
         }
     }
 
-    protected void ReleaseState(IActor actor, IInteract interactable, string state, float fade = .1f) {
+    protected void ReleaseState(IActor actor, IInteract interactable, string state, float fade = .05f) {
         
     }
 

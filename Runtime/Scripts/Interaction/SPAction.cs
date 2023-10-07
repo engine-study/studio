@@ -18,7 +18,7 @@ public abstract class SPAction : ScriptableObject, IAction
     public float CastDuration = .5f;
     public float ActionDuration = 0f; 
     public float Distance = 1.1f; 
-
+    
     bool canPerform;
     public System.Action<ActionEndState> OnActionOver;
     public System.Action OnActionStart, OnActionUpdate, OnActionEnd;

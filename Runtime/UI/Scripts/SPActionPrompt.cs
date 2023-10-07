@@ -61,8 +61,8 @@ public class SPActionPrompt : SPWindow {
     public void ToggleActionTarget(bool toggle) {
         miniPromptParent.SetActive(!toggle);
         fullPromptParent.SetActive(toggle);
-
     }
+    
     public void ToggleAction(bool toggle, SPActor actor, IInteract interact, bool silentAdd = false) {
 
         actionScript = interact.Action() as SPAction;

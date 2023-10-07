@@ -127,7 +127,7 @@ public class SPActor : MonoBehaviour, IActor {
         bool canDoAction = i.Action().TryAction(this, i);
 
         if (canDoInput && canDoAction) { Use(i.Action(), i); } 
-        else if (Interact == i) { Stop(i.Action(), i, ActionEndState.Canceled);}
+        else if (Interact != null && Interact.GameObject() == i.GameObject()) { Stop(i.Action(), i, ActionEndState.Canceled);}
         
     }
 
@@ -146,25 +146,25 @@ public class SPActor : MonoBehaviour, IActor {
 
 
     //get the most updated target from the interactreciever
-    void LoadTargetFromReciever(bool toggle, IInteract newInteractable) {
-        OnTargetsUpdated?.Invoke(toggle, newInteractable);
+    void LoadTargetFromReciever(bool toggle, IInteract i) {
+        OnTargetsUpdated?.Invoke(toggle, i);
     }
 
     //get the list of potential actions from the reciever
-    void LoadActionFromReciever(bool toggle, IInteract newInteract) {
-        ToggleAction(toggle, newInteract);
+    void LoadActionFromReciever(bool toggle, IInteract i) {
+        ToggleAction(toggle, i);
     }
 
-    public void ToggleAction(bool toggle, IInteract newInteract) {
-        Debug.Assert(newInteract.Action() != null, name + " no action on " + newInteract.GameObject().name);
-        IAction newAction = newInteract.Action();
-        GameObject go = newInteract.GameObject();
+    public void ToggleAction(bool toggle, IInteract i) {
+        Debug.Assert(i.Action() != null, name + " no action on " + i.GameObject().name);
+        IAction newAction = i.Action();
+        GameObject go = i.GameObject();
 
         if (toggle) {
 
             gos.Add(go);
             //tell the interactable we are interactable
-            newInteract.ToggleActor(true, this);
+            i.ToggleActor(true, this);
 
         } else {
 
@@ -172,15 +172,15 @@ public class SPActor : MonoBehaviour, IActor {
 
             //stop the action if it was active
             if (go == Target) {
-                Stop(newAction, newInteract, ActionEndState.Failed);
+                Stop(newAction, i, ActionEndState.Failed);
 
                 //tell the interactable we are not interactable
-                newInteract.ToggleActor(false, this);
+                i.ToggleActor(false, this);
 
             }
         }
 
-        OnActionsUpdated?.Invoke(toggle, newInteract);
+        OnActionsUpdated?.Invoke(toggle, i);
     }
 
     public virtual void SetToInitialState() {
@@ -195,29 +195,17 @@ public class SPActor : MonoBehaviour, IActor {
 
     }
 
-    public void Use() {
 
-    }
-
-    public void Use(IAction newAction, IInteract newInteractable) {
+    public void Use(IAction a, IInteract i) {
 
         //load new action if we haven't loaded it yet
-        if (Target != newInteractable.GameObject() || actionScript != newInteractable.Action() as SPAction) {
+        if (Target != i.GameObject() || actionScript != i.Action() as SPAction) {
 
             //stop current action
-            if (action != null) {
-                Stop(action, newInteractable, ActionEndState.Failed);
-            }
+            if (action != null) { Stop(action, i, ActionEndState.Failed); }
 
-            //setup new action
-            // int index = reciever.GameObjects.IndexOf(newInteractable.GameObject());
-            // interact = reciever.Interactables[index];
-            // target = reciever.GameObjects[index];
-
-            action = newInteractable.Action();
-            actionScript = newInteractable.Action() as SPAction;
-            interact = newInteractable;
-            target = newInteractable.GameObject();
+            //set new target
+            SetAction(a, i);
 
         }
 
@@ -225,6 +213,13 @@ public class SPActor : MonoBehaviour, IActor {
 
         OnAction?.Invoke(action);
 
+    }
+
+    public void SetAction(IAction a, IInteract i) {
+        action = i.Action();
+        actionScript = i.Action() as SPAction;
+        interact = i;
+        target = i.GameObject();
     }
 
     public virtual void SetState(IState newState) {

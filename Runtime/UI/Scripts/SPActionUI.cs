@@ -32,10 +32,7 @@ public class SPActionUI : SPWindowParent {
 
         Instance = this;
 
-        for (int i = 0; i < actions.Count; i++) {
-            actions[i].wheel = wheel;
-            actions[i].ToggleWindowClose();
-        }
+        for (int i = 0; i < actions.Count; i++) { actions[i].ToggleWindowClose();}
 
         actionSorted = new List<SPActionPrompt>(actions);
         debugReadout.gameObject.SetActive(debugReadout.gameObject.activeSelf && SPGlobal.IsDebug && Application.isEditor);
@@ -129,6 +126,7 @@ public class SPActionUI : SPWindowParent {
 
         SPActionPrompt ap = Instantiate(actionPrefab, transform);
         ap.Init();
+        ap.wheel = wheel;
         ap.ToggleAction(true, actor, newInteract, true);
 
     }
@@ -155,6 +153,7 @@ public class SPActionUI : SPWindowParent {
             Debug.Log("Adding " + targetGO.name, this);
 
             SPActionPrompt newPrompt = actions[0];
+            newPrompt.wheel = wheel;
             actions.RemoveAt(0);
 
             targets.Add(targetGO);

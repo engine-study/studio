@@ -113,6 +113,7 @@ public class SPController : MonoBehaviour
     public virtual void ToggleController(bool toggle) {
 
         controller.enabled = toggle;
+        controller.detectCollisions = toggle;
         enabled = toggle;
     }
 
