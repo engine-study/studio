@@ -3,22 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using TMPro;
+using System.Linq;
 
 public class SPActionUI : SPWindowParent {
     public static SPActionUI Instance;
     public SPActor Actor { get { return actor; } }
-    public List<SPActionPrompt> Actions { get { return activeActions; } }
+    public List<SPActionPrompt> Actions { get { return actions; } }
 
     [Header("Interacting")]
     [SerializeField] SPActionWheelUI wheel;
     [SerializeField] SPActionPrompt actionPrefab;
     [SerializeField] List<SPActionPrompt> actions;
-    [SerializeField] List<SPActionPrompt> actionSorted;
-    [SerializeField] List<SPActionPrompt> activeActions;
 
     [Header("Debug")]
     [SerializeField] SPActor actor;
-    [SerializeField] List<SPAction> actionStates;
     [SerializeField] List<GameObject> targets;
     [SerializeField] TextMeshProUGUI debugReadout;
 
@@ -32,9 +30,8 @@ public class SPActionUI : SPWindowParent {
 
         Instance = this;
 
-        for (int i = 0; i < actions.Count; i++) { actions[i].ToggleWindowClose();}
+        for (int i = 0; i < actions.Count; i++) { actions[i].ToggleWindowClose(); targets.Add(null);}
 
-        actionSorted = new List<SPActionPrompt>(actions);
         debugReadout.gameObject.SetActive(debugReadout.gameObject.activeSelf && SPGlobal.IsDebug && Application.isEditor);
 
         wheel.ToggleWindowClose();
@@ -115,9 +112,9 @@ public class SPActionUI : SPWindowParent {
 
     public void MapInputs() {
         int index = 0;
-        for(int i = 0; i < actionSorted.Count; i++) {
-            if(actionSorted[i].gameObject.activeSelf ==false) {continue;}
-            actionSorted[i].Input.SetKey(SPInput.GetAlphaKey(index));
+        for(int i = 0; i < actions.Count; i++) {
+            if(actions[i].gameObject.activeSelf ==false) {continue;}
+            actions[i].Input.SetKey(SPInput.GetAlphaKey(index));
             index++;
         }
     }
@@ -129,6 +126,11 @@ public class SPActionUI : SPWindowParent {
         ap.wheel = wheel;
         ap.ToggleAction(true, actor, newInteract, true);
 
+    }
+
+    public int GetPrompt() {
+        for(int i = 0; i < actions.Count; i++) { if(actions[i].gameObject.activeSelf == false) {return i;}}
+        return -1;
     }
 
     public void ToggleAction(bool toggle, IInteract newInteract, bool silentAdd = false) {
@@ -145,40 +147,29 @@ public class SPActionUI : SPWindowParent {
 
         if (toggle) {
 
-            if (actions.Count < 1) {
-                Debug.LogError("Too many actions");
-                return;
-            }
+            int newIndex = GetPrompt();
+            if (newIndex == -1) { Debug.LogError("Too many actions"); return; }
 
-            Debug.Log("Adding " + targetGO.name, this);
 
-            SPActionPrompt newPrompt = actions[0];
-            newPrompt.wheel = wheel;
-            actions.RemoveAt(0);
+            SPActionPrompt action = actions[newIndex];
+            // Debug.Log("Adding " + targetGO.name, this);
 
-            targets.Add(targetGO);
-            activeActions.Add(newPrompt);
-            actionStates.Add(ActionScript);
+            action.wheel = wheel;
 
-            newPrompt.ToggleAction(true, Actor, newInteract, silentAdd);
-            newPrompt.ToggleActionTarget(true);
+            targets[newIndex] =  targetGO;
+
+            action.ToggleAction(true, Actor, newInteract, silentAdd);
+            action.ToggleActionTarget(true);
+
         } else {
 
             int index = targets.IndexOf(targetGO);
+            if (index < 0) { Debug.LogError("Couldnt find action?");return;}
 
-            if (index < 0) {
-                Debug.LogError("Couldnt find action?");
-                return;
-            }
+            SPActionPrompt action = actions[index];
 
-            SPActionPrompt newPrompt = activeActions[index];
-            newPrompt.ToggleAction(false, Actor, newInteract, silentAdd);
-
-            targets.Remove(targetGO);
-            activeActions.Remove(newPrompt);
-            actionStates.Remove(ActionScript);
-
-            actions.Insert(0, newPrompt);
+            action.ToggleAction(false, Actor, newInteract, silentAdd);
+            targets[index] = null;
 
         }
 
