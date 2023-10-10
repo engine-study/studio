@@ -10,7 +10,7 @@ public class SPHelper : MonoBehaviour {
     
     public static SPHelper Instance;
 
-    [SerializeField] protected Transform cartesian, isometric;
+    Transform cartesian, isometric;
     public Texture2D [] users;
     public Texture2D [] DAOs;
     public Texture2D [] institutions;
@@ -27,7 +27,21 @@ public class SPHelper : MonoBehaviour {
     public static string chars = "$%#@!*abcdefghijklmnopqrstuvwxyz1234567890?;:ABCDEFGHIJKLMNOPQRSTUVWXYZ^&";
 
     void Awake() {
+
+        if(Instance != null ) {return;}
+        
         Instance = this; 
+
+        cartesian = new GameObject("Cartesian").transform;
+        isometric = new GameObject("Camera").transform;
+
+        cartesian.parent = transform;
+        isometric.parent = transform;
+    }
+
+    void LateUpdate() {
+        Vector3 cameraRot = SPCamera.Camera.transform.rotation.eulerAngles;
+        isometric.rotation = Quaternion.Euler(new Vector3(0,Mathf.Round((cameraRot.y-5f)/90f) * 90f,0f));
     }
 
     void OnDestroy() {

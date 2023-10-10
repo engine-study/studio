@@ -53,9 +53,7 @@ public class SPActionPrompt : SPWindow {
     }
 
     void UpdateActionInput() {
-
-        if(SPUIBase.CanInput) {actorComponent.InputKey(Input.Key, interactable);}
-
+        if(SPUIBase.CanInput && SPPlayer.CanInput) {actorComponent.InputKey(Input.Key, interactable);}
     }
 
     public void ToggleActionTarget(bool toggle) {

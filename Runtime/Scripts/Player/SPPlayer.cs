@@ -5,6 +5,7 @@ using UnityEngine;
 public class SPPlayer : SPBaseActor {
     public bool IsLocalPlayer { get { return isLocalPlayer; } }
     public static SPPlayer LocalPlayer { get { return localPlayer; } }
+    public static bool CanInput {get{return LocalPlayer && LocalPlayer.Input();}}
     protected static SPPlayer localPlayer;
 
 
@@ -17,7 +18,7 @@ public class SPPlayer : SPBaseActor {
     public bool Alive { get { return alive; } }
     public Vector3 Vector { get { return vector; } }
     public SPVelocity Velocity { get { return anim.Velocity; } }
-
+    protected virtual bool Input() {return LocalPlayer.HasInit;}
 
     [Header("Player")]
     [SerializeField] protected bool isNPC;
