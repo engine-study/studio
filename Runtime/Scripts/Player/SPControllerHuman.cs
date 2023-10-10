@@ -250,11 +250,6 @@ public class SPControllerHuman : SPController
             }
         }
 
-
-
-
-        velocity = controller.velocity; 
-
         moveDirectionNoY = moveDirection;
         moveDirectionNoY.y = 0f; 
 

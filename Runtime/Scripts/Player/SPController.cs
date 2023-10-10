@@ -15,6 +15,7 @@ public class SPController : MonoBehaviour
     protected CharacterController controller;
     protected Animator animator;
     protected Rigidbody rb;
+    protected SPVelocity velocity;
     public Rigidbody[] rigidbodies;
 
     [Header("Controller")]
@@ -28,7 +29,7 @@ public class SPController : MonoBehaviour
     [Header("Debug")]
     public Vector3 moveDirection = Vector3.zero;
     public Vector3 lookAt = Vector3.zero;
-    public Vector3 velocity, moveDirectionNoY, forceVelocity;
+    public Vector3 moveDirectionNoY, forceVelocity;
     public float tagging = 1f;
     public bool detectCollisions = true; 
     public float Gravity {get{return Physics.gravity.y;}}
@@ -75,6 +76,8 @@ public class SPController : MonoBehaviour
         }
 
         player = GetComponent<SPPlayer>();
+
+        velocity = GetComponent<SPVelocity>();
 
         mainCollider = GetComponent<Collider>();
         if(mainCollider == null) {
@@ -159,7 +162,7 @@ public class SPController : MonoBehaviour
 
             if(toggle) {
                 if(player) {
-                    rigidbodies[i].velocity = player.Velocity - player.Root.forward + Vector3.down;
+                    rigidbodies[i].velocity = player.Velocity.Velocity - player.Root.forward + Vector3.down;
                 } else {
                     rigidbodies[i].velocity = transform.forward + Vector3.down * Random.Range(.75f,1.25f);
                 }
@@ -245,7 +248,7 @@ public class SPController : MonoBehaviour
         bumped = true; 
         bumpTime = 2f; 
 
-        rb.velocity = newPlayer.Velocity * 1.25f + Vector3.up * 10f * Mathf.Clamp01(newPlayer.Velocity.magnitude);
+        rb.velocity = newPlayer.Velocity.Velocity * 1.25f + Vector3.up * 10f * Mathf.Clamp01(newPlayer.Velocity.Velocity.magnitude);
 
 
     }

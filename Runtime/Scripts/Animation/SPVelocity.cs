@@ -136,7 +136,7 @@ public class SPVelocity : MonoBehaviour
         animVelocity = Root.transform.InverseTransformDirection(velocity) ; //(lastLocalPos - newLocalPos);// * (Vector3.Distance(playerGlobal.position, lastWorldPos));
         lastLocalPos = newLocalPos;
 
-        SetSpeed(animVelocity.z);
+        speed = animVelocity.z;
 
         //adjust to 0-1 lerp
         m_ForwardAmount = animVelocity.z; 
@@ -166,7 +166,8 @@ public class SPVelocity : MonoBehaviour
 
     protected virtual void UpdateVisuals() {
 
-    
+        if(!animator) {return;}
+
         animator.SetBool("Weapon", false); //_currentUsable is de_gun);
         animator.SetFloat("Forward", m_ForwardAmount ,.075f,Time.deltaTime);
         animator.SetFloat("Strafe", m_StrafeAmount, .075f,Time.deltaTime);

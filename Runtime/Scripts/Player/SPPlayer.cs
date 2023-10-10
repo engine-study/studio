@@ -16,12 +16,8 @@ public class SPPlayer : SPBaseActor {
 
     public bool Alive { get { return alive; } }
     public Vector3 Vector { get { return vector; } }
-    public Vector3 Velocity { get { return velocity; } }
-    protected Vector3 vector;
-    protected Vector3 velocity;
-    protected bool isMoving, noclip;
-    protected bool alive = true;
-    protected bool isLocalPlayer = false;
+    public SPVelocity Velocity { get { return anim.Velocity; } }
+
 
     [Header("Player")]
     [SerializeField] protected bool isNPC;
@@ -32,6 +28,11 @@ public class SPPlayer : SPBaseActor {
     [SerializeField] private SPAnimator animator;
     [SerializeField] private SPPlayerResources resources;
 
+    [Header("Debug")]
+    [SerializeField] bool alive = true;
+    [SerializeField] bool isLocalPlayer = false;
+    Vector3 vector;
+    bool isMoving, noclip;
 
     protected override void Awake() {
 
@@ -125,7 +126,7 @@ public class SPPlayer : SPBaseActor {
     }
 
     public virtual void LateUpdate() {
-        UpdateAnimation();
+
     }
 
     public virtual void FixedUpdate() {
@@ -137,8 +138,6 @@ public class SPPlayer : SPBaseActor {
             Controller.CallFixedUpdate();
         }
 
-        CacheFixedValues();
-
     }
 
     float fixedDelta = 0f;
@@ -146,42 +145,7 @@ public class SPPlayer : SPBaseActor {
     protected Vector3 lastWorldPos, lastForward; //velocity of character
     protected Quaternion lastRot;
 
-    void CacheFixedValues() {
-
-        /*
-        if(!Alive)
-            return;
-        */
-
-        //add time since the last position update
-        fixedDelta = Time.fixedDeltaTime;
-
-        //Used to calculate ragdoll velocity and animation
-        velocity = Vector3.Lerp(velocity, (Root.position - lastWorldPos) / fixedDelta, .5f);
-
-        //Used for player animation
-        float newRotateVel = (Quaternion.Angle(lastRot, Root.rotation));
-        if (Vector3.Dot(lastForward, Root.right) > 0) newRotateVel *= -1f;
-        rotateVel = Mathf.Lerp(rotateVel, newRotateVel / fixedDelta, .5f);
-
-        isMoving = Vector.x != 0 || Vector.z != 0;
-
-        lastWorldPos = Root.position;
-        lastRot = Root.rotation;
-        lastForward = Root.forward;
-
-        fixedDelta = 0f;
-
-    }
-
     protected virtual void UpdateInput() {
-
-    }
-
-
-    protected virtual void UpdateAnimation() {
-
-        anim.UpdateAnimation();
 
     }
 

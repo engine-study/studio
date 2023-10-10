@@ -10,7 +10,8 @@ public class AnimationPikmin : SPAnimation
     float idleStart = 2f;
     float startIdling;
     Vector3 position;
-
+    SPPlayer player;
+    
     protected override void UpdateVisuals()
     {
         base.UpdateVisuals();

@@ -1086,6 +1086,7 @@ GameObject:
   - component: {fileID: 3988295389107969487}
   - component: {fileID: 6597672105028011243}
   - component: {fileID: 7237790970229842130}
+  - component: {fileID: 6537840764842658204}
   m_Layer: 0
   m_Name: MeshAnimator
   m_TagString: Untagged
@@ -1108,7 +1109,7 @@ Transform:
   - {fileID: 5316329334513552423}
   - {fileID: 3182305669666544823}
   m_Father: {fileID: 0}
-  m_RootOrder: -1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8621502410555695018
 MonoBehaviour:
@@ -1144,6 +1145,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ff31adc0538b21479e7a7d75273f163, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  velocityScript: {fileID: 6537840764842658204}
   grounded: 0
   crouching: 0
   speed: 0
@@ -1228,6 +1230,45 @@ MonoBehaviour:
   head: {fileID: 3792249001387857580}
   ikActive: 0
   lookObj: {fileID: 0}
+--- !u!114 &6537840764842658204
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3252748762511684666}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07850704c82630741b51b94c4fcda9d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 3988295389107969487}
+  sfx_steps: []
+  grounded: 0
+  crouching: 0
+  speed: 0
+  walkCount: 0.25
+  walkMultiplier: 2
+  walkClamp: 0.1
+  moving: 0
+  jumping: 0
+  hovering: 0
+  dead: 0
+  wasGrounded: 0
+  newLocalPos: {x: 0, y: 0, z: 0}
+  lastLocalPos: {x: 0, y: 0, z: 0}
+  animVelocity: {x: 0, y: 0, z: 0}
+  velocityNoY: {x: 0, y: 0, z: 0}
+  m_ForwardAmount: 0
+  m_StrafeAmount: 0
+  m_JumpAmount: 0
+  velocityMagnitude: 0
+  velocityMagHorizontal: 0
+  walkTime: 0
+  lastWalk: 0
+  turnAnimateVel: 0
+  footstepDistance: 0.25
+  footsteps: []
 --- !u!1 &3753813674127866114
 GameObject:
   m_ObjectHideFlags: 0
