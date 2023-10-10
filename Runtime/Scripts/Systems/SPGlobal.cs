@@ -45,12 +45,13 @@ public class SPGlobal : MonoBehaviour
             Application.targetFrameRate = -1;
             QualitySettings.vSyncCount = 1;
         }
+        
+        Application.runInBackground = true;
 
         if(Application.platform == RuntimePlatform.WindowsPlayer) {
             //BorderlessWindow.SetFramelessWindow();
             //BorderlessWindow.MoveWindowPos(Vector2Int.zero, Screen.width, Screen.height);
         } else {
-
         }
 
         for(int i = 0; i < transform.childCount; i++) {
