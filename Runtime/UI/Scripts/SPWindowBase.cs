@@ -8,11 +8,6 @@ public class SPWindowBase : SPWindow
     public SPBase baseObject;
     public SPWindowPosition position;
 
-
-    public override void Init()
-    {
-        base.Init();
-    }
     public virtual void UpdateObject(SPBase newBase) {
         baseObject = newBase;
         if(baseObject) {

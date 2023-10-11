@@ -12,6 +12,7 @@ public class SPButton : SPWindowSelectable {
     //public Button Button {get{return button;}}
     
     public string Text {get{return buttonText.text;}}
+    public Image Image {get{return buttonImage;}}
     public TextMeshProUGUI ButtonText {get{return buttonText;}}
     public Action OnClicked;
 
