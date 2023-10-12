@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class SPAnimationProp : MonoBehaviour
 {
+    public string Name {get{return gameObject.name;}}
+    
     [Header("Effects")]
 
     public ParticleSystem fx;

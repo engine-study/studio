@@ -18,28 +18,52 @@ public class SPAnimator : MonoBehaviour {
     [SerializeField] Transform head;
     [SerializeField] SPIK ik;
     [SerializeField] SPAnimationProp defaultPropPrefab;
-    public void SetDefaultProp(SPAnimationProp newDefault) {defaultPropPrefab = newDefault;}
+    [SerializeField] RuntimeAnimatorController defaultController;
+
     [Header("Debug")]
     [SerializeField] SPAnimationProp prop;
     [SerializeField] Dictionary<string, SPAnimationProp> props;
     [SerializeField] Animator animator;
-    private RuntimeAnimatorController backupController;
 
+    bool hasInit;
     public System.Action<Object> OnEffect;
 
     void Awake() {
+        if(!hasInit) {Init();}
+    }
+    void Init() {
+
+        if(hasInit) return;
 
         props = new Dictionary<string, SPAnimationProp>();
-
         animator = GetComponent<Animator>();
+
+        hasInit = true;
+
+        if(defaultController) SetController(defaultController);
+        if(defaultPropPrefab) ToggleProp(true, defaultPropPrefab);
+
+        //start the animation of the character at a random time range
         var state = animator.GetCurrentAnimatorStateInfo(0);
-        animator.Play(state.fullPathHash, 0, Random.Range(0f,1f));
+        animator.Play(state.fullPathHash, 0, Random.Range(0f,2.5f));
 
-        backupController = animator.runtimeAnimatorController;
+    }
 
-        if(defaultPropPrefab)
-            ToggleProp(true, defaultPropPrefab);
+    public void SetDefaultController(RuntimeAnimatorController newController) {
 
+        if(!hasInit) {Init();}
+
+        defaultController = newController; 
+        // if(animator.runtimeAnimatorController?.name == defaultController?.name) {SetController(newController);} 
+        SetController(defaultController);
+    }
+    
+    public void SetDefaultProp(SPAnimationProp newDefault) {
+
+        if(!hasInit) {Init();}
+
+        if(prop?.Name == defaultPropPrefab?.Name) {ToggleProp(true, newDefault);}
+        defaultPropPrefab = newDefault;
     }
 
     public static void SetToCharacterRenderLayer(GameObject newObject) {SetToLayer(newObject, SPLayers.CharacterLayer);}
@@ -55,20 +79,21 @@ public class SPAnimator : MonoBehaviour {
     public void ToggleProp(bool toggle, SPAnimationProp propPrefab) {
 
         // Debug.Log("Prop: " + toggle.ToString() + " " + propPrefab.gameObject.name.ToString());
-        if (toggle) {
+        if (toggle && propPrefab) {
             
-            if(prop != null && prop.gameObject.name != propPrefab.gameObject.name) {
+            if(prop != null && prop.Name != propPrefab?.Name) {
                 prop.gameObject.SetActive(false);
                 prop = null;
             }
 
-            if (props.ContainsKey(propPrefab.gameObject.name)) {
+            if (props.ContainsKey(propPrefab.Name)) {
                 
-                prop = props[propPrefab.gameObject.name];
+                prop = props[propPrefab.Name];
 
             } else {
                 prop = Instantiate(propPrefab, transform.position, transform.rotation, transform);
-                props.Add(propPrefab.gameObject.name, prop);
+                prop.name = propPrefab.Name; //remove Copy from name
+                props.Add(propPrefab.Name, prop);
 
                 if (prop.bodyParent != PlayerBody.None) {
                     prop.bodyProp.parent = bodyParts[(int)prop.bodyParent];
@@ -82,8 +107,9 @@ public class SPAnimator : MonoBehaviour {
 
         } else {
 
-            if(prop != null)
+            if(prop != null) {
                 prop.gameObject.SetActive(false);
+            }
 
             if(defaultPropPrefab && propPrefab != defaultPropPrefab) {
                 ToggleProp(true, defaultPropPrefab);
@@ -102,9 +128,9 @@ public class SPAnimator : MonoBehaviour {
     public void SetSpeed(float newSpeed) {
         animator.speed = newSpeed;
     }
-    public void OverrideController(AnimatorOverrideController overrideController) {
-        animator.runtimeAnimatorController = overrideController ? overrideController : backupController;
-    }
+
+    public void OverrideController(AnimatorOverrideController overrideController) { SetController(overrideController ?? defaultController);}
+    public void SetController(RuntimeAnimatorController newController) {animator.runtimeAnimatorController = newController;}
     public void SpawnObject(object newObject) {
 
     }
