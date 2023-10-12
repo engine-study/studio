@@ -7,7 +7,6 @@ public class SPAnimationProp : MonoBehaviour
     public string Name {get{return gameObject.name;}}
     
     [Header("Effects")]
-
     public ParticleSystem fx;
     public AudioClip [] sfx;
 
@@ -17,7 +16,8 @@ public class SPAnimationProp : MonoBehaviour
 
     [Header("Debug")]
     public bool hasInit;
-
+    public SPAnimator animator;
+    
     void OnEnable() {
        
         if(!hasInit) {
@@ -43,7 +43,7 @@ public class SPAnimationProp : MonoBehaviour
         hasInit = true;
     }
 
-    public virtual void Fire() {
+    public virtual void Fire(string actionName) {
 
         if(fx) {
             fx.Play(true);

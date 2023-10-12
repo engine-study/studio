@@ -43,7 +43,7 @@ public class SPAnimator : MonoBehaviour {
 
         if(defaultController) SetController(defaultController);
         else defaultController = animator.runtimeAnimatorController;
-        
+
         if(defaultPropPrefab) ToggleProp(true, defaultPropPrefab);
 
         //start the animation of the character at a random time range
@@ -110,6 +110,7 @@ public class SPAnimator : MonoBehaviour {
             } else {
                 prop = Instantiate(propPrefab, transform.position, transform.rotation, transform);
                 prop.name = propPrefab.Name; //remove Copy from name
+                prop.animator = this;
                 props.Add(propPrefab.Name, prop);
 
                 if (prop.bodyParent != PlayerBody.None) {
@@ -152,14 +153,15 @@ public class SPAnimator : MonoBehaviour {
     public void SpawnObject(object newObject) {
 
     }
-
-    public void Event() { prop?.Fire();}
-    public void Action() { prop?.Fire();}
+    public void Event(string actionName) { prop?.Fire(actionName);}
+    public void Action(string actionName) { prop?.Fire(actionName);}
+    public void Event() { prop?.Fire("Action");}
+    public void Action() { prop?.Fire("Action");}
     public void FootL() { OnStep?.Invoke(); }
     public void FootR() { OnStep?.Invoke(); }
 
     public void Event(Object newObject) {
-        prop?.Fire();
+        prop?.Fire("Action");
         OnEffect?.Invoke(newObject);
     }
 
