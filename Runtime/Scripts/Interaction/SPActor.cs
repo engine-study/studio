@@ -14,7 +14,7 @@ public class SPActor : MonoBehaviour, IActor {
     public List<GameObject> GameObjects {get{return gos;}}
 
     [Header("Action")]
-    public SPBase sender;
+    [SerializeField] SPAnimator sender;
 
     [Header("Debug")]
     [SerializeField] private SPState State;
@@ -45,6 +45,7 @@ public class SPActor : MonoBehaviour, IActor {
 
 
     public void ToggleReciever(bool toggle, SPReciever r) {
+        
         if (r == null) {
             return;
         }
@@ -64,9 +65,8 @@ public class SPActor : MonoBehaviour, IActor {
 
         owner = sender != null ? sender : this;
 
-        if (reciever == null) {
-            ToggleReciever(true, gameObject.GetComponent<SPReciever>());
-        }
+        if(reciever == null) { reciever = gameObject.GetComponent<SPReciever>();}
+        ToggleReciever(true, gameObject.GetComponent<SPReciever>());
 
         SetState(new SPState(PlayerState.Idle));
 
@@ -222,6 +222,7 @@ public class SPActor : MonoBehaviour, IActor {
         target = i.GameObject();
     }
 
+    //this doesnt do anything rn
     public virtual void SetState(IState newState) {
 
         if (State != null) {
@@ -256,7 +257,6 @@ public class SPActor : MonoBehaviour, IActor {
             if (reason == ActionEndState.Success) {
                 actionEndTime = Time.time;
             }
-
 
             action = null;
             actionScript = null;
@@ -298,7 +298,7 @@ public class SPActor : MonoBehaviour, IActor {
 
         // Debug.Log(ActionScript.name + " Casting Start", Interact.GameObject());
         internalState = ActionState.Casting;
-        action.DoCast(true, this, Interact);
+        action.DoCast(true, this);
         ActionScript.OnActionStartCasting?.Invoke();
 
         CastingUpdate();
@@ -321,7 +321,7 @@ public class SPActor : MonoBehaviour, IActor {
         if (endState == ActionEndState.Success) {
 
         } else {
-            action.DoCast(false, this, Interact);
+            action.DoCast(false, this);
             internalState = ActionState.Idle;
         }
 
@@ -334,7 +334,7 @@ public class SPActor : MonoBehaviour, IActor {
         // Debug.Log(ActionScript.name + " Action Start", Interact.GameObject());
         internalState = ActionState.Acting;
 
-        action.DoAction(true, this, Interact);
+        action.DoAction(true, this);
         Interact.Interact(true, this);
 
         activeInteract = Interact;
@@ -380,13 +380,26 @@ public class SPActor : MonoBehaviour, IActor {
 
         internalState = ActionState.Idle;
 
-        action.DoAction(false, this, Interact);
-        ActionScript.EndAction(this, Interact, reason);
+        action.DoAction(false, this);
+        ActionScript.EndAction(this, reason);
 
     }
 
 
 }
+
+[System.Serializable]
+public class ActorAnimator : IActor {
+
+    [SerializeField] SPAnimator owner;
+    public ActorAnimator(SPAnimator o) { owner = o; }
+    public MonoBehaviour Owner() { return owner;}
+    public void Use(IAction a, IInteract i) {}
+    public void Stop(IAction a, IInteract i, ActionEndState reason) {}
+    public void SetState(IState newState) {}
+
+}
+
 
 
 public interface IActor {

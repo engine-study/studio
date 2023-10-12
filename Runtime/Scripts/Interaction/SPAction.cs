@@ -51,16 +51,16 @@ public abstract class SPAction : ScriptableObject, IAction
         return canPerform;
     }
 
-    public virtual void DoCast(bool toggle, IActor actor, IInteract interactable) {
-
+    public virtual void DoCast(bool toggle, IActor actor) {
+        
     }
 
-    public virtual void DoAction(bool toggle, IActor actor, IInteract interactable) {
+    public virtual void DoAction(bool toggle, IActor actor) {
    
         
     }
 
-    public virtual void EndAction(IActor actor, IInteract interactable, ActionEndState reason) {
+    public virtual void EndAction(IActor actor, ActionEndState reason) {
    
         // if(reason == ActionEndState.Success) {
         //     for(int i = 0; i < endAction.Length; i++) {
@@ -79,8 +79,8 @@ public interface IAction {
 
     //this is the template of the action that we do not touch
     bool TryAction(IActor actor, IInteract interactable);
-    void DoCast(bool toggle, IActor actor, IInteract interactable);
-    void DoAction(bool toggle, IActor actor, IInteract interactable);
-    void EndAction(IActor actor, IInteract interactable, ActionEndState reason);
+    void DoCast(bool toggle, IActor actor);
+    void DoAction(bool toggle, IActor actor);
+    void EndAction(IActor actor, ActionEndState reason);
 
 }

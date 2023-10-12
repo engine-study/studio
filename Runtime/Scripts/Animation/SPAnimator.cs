@@ -22,8 +22,9 @@ public class SPAnimator : MonoBehaviour {
 
     [Header("Debug")]
     [SerializeField] SPAnimationProp prop;
-    [SerializeField] Dictionary<string, SPAnimationProp> props;
+    [SerializeField] SPAnimatorState state;
     [SerializeField] Animator animator;
+    [SerializeField] Dictionary<string, SPAnimationProp> props;
 
     bool hasInit;
     public System.Action<Object> OnEffect;
@@ -41,6 +42,8 @@ public class SPAnimator : MonoBehaviour {
         hasInit = true;
 
         if(defaultController) SetController(defaultController);
+        else defaultController = animator.runtimeAnimatorController;
+        
         if(defaultPropPrefab) ToggleProp(true, defaultPropPrefab);
 
         //start the animation of the character at a random time range
@@ -75,6 +78,20 @@ public class SPAnimator : MonoBehaviour {
         }
     }
 
+    public void ToggleState(bool toggle, SPAnimatorState newState) {
+
+        state = newState;
+        
+        if(toggle) {
+            // Debug.Log("Applying", animator);
+           OverrideController(newState.overrideController);
+           SetSpeed(newState.animationSpeed);
+        } else {
+            // Debug.Log("Removing", animator);
+           OverrideController(null);
+           SetSpeed(1f);
+        }
+    }
 
     public void ToggleProp(bool toggle, SPAnimationProp propPrefab) {
 
@@ -121,8 +138,9 @@ public class SPAnimator : MonoBehaviour {
       
     }
 
-    public void PlayClip(string name) {
-        animator.CrossFade(name, .1f);
+    public void PlayClip(string name, float crossFade = 0f) {
+        if(crossFade == 0f) {animator.Play(name);}
+        else {animator.CrossFade(name, crossFade);}
     }
 
     public void SetSpeed(float newSpeed) {
