@@ -175,17 +175,5 @@ public class SPReciever : MonoBehaviour {
 
     }
 
-    void OnDrawGizmos() {
-        for (int i = 0; i < GameObjects.Count; i++) {
-            if (GameObjects[i] == TargetGO) {
-                Gizmos.color = Color.blue;
-                Gizmos.DrawLine(GameObjects[i].transform.position, transform.position);
-            } else {
-                Gizmos.color = Color.yellow;
-                Gizmos.DrawLine(GameObjects[i].transform.position, transform.position);
-            }
-        }
-    }
-
 
 }
