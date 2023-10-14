@@ -9,14 +9,14 @@ public class SPController : MonoBehaviour
     public bool Active {get{return hasInit && enabled;}}
 
     [Header("Fields")]
-    public SPPlayer player;
-    public SPLogic Logic {get{return player.Logic;}}
-    protected Collider mainCollider;
-    protected CharacterController controller;
-    protected Animator animator;
-    protected Rigidbody rb;
-    protected SPVelocity velocity;
-    public Rigidbody[] rigidbodies;
+    [SerializeField] protected SPPlayer player;
+    [SerializeField] protected SPLogic Logic {get{return player.Logic;}}
+    [SerializeField] protected Collider mainCollider;
+    [SerializeField] protected CharacterController controller;
+    [SerializeField] protected SPAnimator animator;
+    [SerializeField] protected Rigidbody rb;
+    [SerializeField] protected SPVelocity velocity;
+    [SerializeField] protected Rigidbody[] rigidbodies;
 
     [Header("Controller")]
     [SerializeField] protected bool grounded = false;
@@ -55,14 +55,11 @@ public class SPController : MonoBehaviour
     protected float jumpTimer;
     protected bool hasCrouched = false; 
     protected float largestInputY;
-      
+    Vector3 animatorLocalPos;      
+    Transform animatorParent;      
 
     void Awake() {
-        
-        if(!hasInit) {
-            Init();
-        }
-
+        if(!hasInit) { Init();}
     }
 
     void Destroy() {
@@ -71,12 +68,9 @@ public class SPController : MonoBehaviour
 
     public virtual void Init() {
         
-        if(hasInit) {
-            return;
-        }
+        if(hasInit) { return; }
 
         player = GetComponent<SPPlayer>();
-
         velocity = GetComponent<SPVelocity>();
 
         mainCollider = GetComponent<Collider>();
@@ -95,10 +89,12 @@ public class SPController : MonoBehaviour
         }
 
         rb = GetComponent<Rigidbody>();
-        animator = GetComponentInChildren<Animator>();
 
+        if(animator == null) animator = GetComponentInChildren<SPAnimator>(true);
         if(animator) {
             rigidbodies = animator.GetComponentsInChildren<Rigidbody>(true);
+            animatorParent = animator.transform.parent;
+            animatorLocalPos = animator.transform.localPosition;
         }
 
         Transform = transform;
@@ -108,9 +104,10 @@ public class SPController : MonoBehaviour
         m_CapsuleHeight = controller.height;
         m_CapsuleCenter = controller.center;
     
+        hasInit = true; 
+
         Ragdoll(false);
 
-        hasInit = true; 
     }
 
     public virtual void ToggleController(bool toggle) {
@@ -145,22 +142,32 @@ public class SPController : MonoBehaviour
     public void Ragdoll() {Ragdoll(!ragdoll);}
     public void Ragdoll(bool toggle) {
 
+        if(!hasInit) {Init();}
+
+        Debug.Log($"RAGDOLL: {toggle}" , this);
         ragdoll = toggle;
 
-        if(!animator) {
-            return;
-        }
+        if(!animator) { return; }
 
         ToggleController(!toggle);
-        mainCollider.enabled = !toggle;
-        animator.enabled = !toggle;
 
+        mainCollider.enabled = !toggle;
+
+        animator.enabled = !toggle;
+        animator.transform.parent = toggle ? null : animatorParent;
+
+        if(!toggle) {
+            animator.transform.localPosition = animatorLocalPos;
+            animator.transform.localRotation = Quaternion.identity;
+        }
 
         for(int i = 0; i < rigidbodies.Length; i++) {
+
             rigidbodies[i].isKinematic = !toggle; 
             rigidbodies[i].detectCollisions = toggle; 
 
             if(toggle) {
+
                 if(player) {
                     rigidbodies[i].velocity = player.Velocity.Velocity - player.Root.forward + Vector3.down;
                 } else {

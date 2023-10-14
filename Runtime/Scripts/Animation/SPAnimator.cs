@@ -110,8 +110,9 @@ public class SPAnimator : MonoBehaviour {
             } else {
                 prop = Instantiate(propPrefab, transform.position, transform.rotation, transform);
                 prop.name = propPrefab.Name; //remove Copy from name
-                prop.animator = this;
                 props.Add(propPrefab.Name, prop);
+                
+                prop.SetAnimator(this);
 
                 if (prop.bodyParent != PlayerBody.None) {
                     prop.bodyProp.parent = bodyParts[(int)prop.bodyParent];
@@ -134,9 +135,7 @@ public class SPAnimator : MonoBehaviour {
             } else {
                 prop = null;
             }
-
         }
-      
     }
 
     public void PlayClip(string name, float crossFade = 0f) {
