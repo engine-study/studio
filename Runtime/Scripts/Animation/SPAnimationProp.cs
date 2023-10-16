@@ -17,7 +17,7 @@ public class SPAnimationProp : MonoBehaviour
 
     [Header("Debug")]
     [SerializeField] protected bool hasInit;
-    [SerializeField] SPAnimator animator;
+    [SerializeField] protected SPAnimator animator;
     
     void OnEnable() {
         if(!hasInit) { Init();}
