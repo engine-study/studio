@@ -144,7 +144,7 @@ public class SPController : MonoBehaviour
 
         if(!hasInit) {Init();}
 
-        Debug.Log($"RAGDOLL: {toggle}" , this);
+        // Debug.Log($"RAGDOLL: {toggle}" , this);
         ragdoll = toggle;
 
         if(!animator) { return; }
