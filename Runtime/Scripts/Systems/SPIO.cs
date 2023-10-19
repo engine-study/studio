@@ -11,7 +11,7 @@ public class SPIO : MonoBehaviour {
     public static SPIO Instance;
     public static string SaveDirectory {get{return Application.persistentDataPath + "/";}}
 
-    public static string URL_BASE {get{return "https://engine.study/" + (SPGlobal.Beta ? "Testnet/" : "wallet-3D/") + Application.productName + "/";}}
+    public static string URL_BASE {get{return "https://engine.study/" + Application.productName + "/";}}
     public const string FILE_UPLOADER = "uploader.php";
     public const string FILE_EXTENSION = ".txt";
 

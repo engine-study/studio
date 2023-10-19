@@ -18,9 +18,6 @@ public class SPCamera : MonoBehaviour
 
     [Header("Settings")]
     [SerializeField] float moveSpeed = 5f; 
-    [SerializeField] float scrollSensitivity = 1f;
-    [SerializeField] float rotateSensitivity = 360f;
-    [SerializeField] float rotateRound = 45f;
     [SerializeField] float rotateSpeed = 90f;
     [SerializeField] float minFOV = 5f, maxFOV = 25f;
     [SerializeField] float shakeFalloff = 10f;
@@ -34,13 +31,11 @@ public class SPCamera : MonoBehaviour
     [Header("Debug")]
     [SerializeField] float fov = 15f;
     [SerializeField] bool follow = true; 
-    [SerializeField] bool canScroll = true; 
-    [SerializeField] bool inCinematic = false; 
+
     [SerializeField] Transform followTransform;
     [SerializeField] Vector3 pos;
     [SerializeField] Quaternion rot;
     [SerializeField] float shake = 0f;
-    [SerializeField] float scrollRot, scrollLock;
 
     public static void ToggleCamera(bool toggle) {
         I.gameObject.SetActive(toggle);
@@ -81,14 +76,15 @@ public class SPCamera : MonoBehaviour
   
     public void Update() {
 
-        UpdateInput();
-
         UpdateCamera();
-
         UpdateShake();
      
     }
 
+    public static void Screenshot() {
+        I.screenshotCount++;
+        ScreenCapture.CaptureScreenshot("../Screenshots/" + I.screenshotCount + ".png", I.screenshotSize);
+    }
 
     public static void SetFOVGlobal(float newFOV, bool instant = false) {
 
@@ -104,6 +100,8 @@ public class SPCamera : MonoBehaviour
       
     }
 
+
+
     public void SetFOV(float newFOV, bool instant = false) {
         // Debug.Log("Camera FOV: " + newFOV);
         fov = Mathf.Clamp(newFOV, minFOV, maxFOV);
@@ -113,44 +111,6 @@ public class SPCamera : MonoBehaviour
             else {camera.fieldOfView = fov;}
             
         }
-    }
-
-
-    void UpdateInput() {
-
-        if(SPUIBase.CanInput) {
-            if(Input.GetKeyDown(KeyCode.Minus)) {
-                SetFOVGlobal(1f);
-            } else if(Input.GetKeyDown(KeyCode.Equals)) {
-                SetFOVGlobal(-1f); 
-            }
-                
-            if(Input.GetKeyDown(KeyCode.BackQuote) && (Input.GetKey(KeyCode.LeftShift) && Input.GetKey(KeyCode.LeftControl)) && Application.isEditor) {
-                screenshotCount++;
-                ScreenCapture.CaptureScreenshot("../Screenshots/" + screenshotCount + ".png", screenshotSize);
-            }
-            
-        }    
-        
-
-        if(SPUIBase.IsMouseOnScreen && canScroll) {
-
-            if(Input.GetKey(KeyCode.LeftControl)) {
-                
-                scrollRot += Input.mouseScrollDelta.y * rotateSensitivity * Time.deltaTime;
-                scrollLock = Mathf.Round(scrollRot / rotateRound) * rotateRound;
-                // scrollLock = Mathf.Round(scrollRot);
-
-                // rotation = rotation * Quaternion.Euler(Vector3.up * Input.mouseScrollDelta.y * 25f);
-                // transform.Rotate(0f,Input.mouseScrollDelta.y * 25f,0f);
-
-            } else if(Input.GetKey(KeyCode.LeftShift) && !Input.GetKey(KeyCode.LeftAlt)) {
-
-                SetFOVGlobal(fov + Input.mouseScrollDelta.y * -scrollSensitivity);
-
-            }
-        }
-        
     }
 
     void UpdateCamera() {
@@ -168,7 +128,7 @@ public class SPCamera : MonoBehaviour
         float distanceClamped = Mathf.Max(.25f,Vector3.Distance(transform.position,newPos));
 
         transform.position = Vector3.MoveTowards(transform.position, newPos, distanceClamped * 2f * Time.deltaTime * moveSpeed);
-        transform.localRotation = Quaternion.RotateTowards(transform.localRotation, rot * Quaternion.Euler(Vector3.up * scrollLock), rotateSpeed * Time.deltaTime);
+        transform.localRotation = Quaternion.RotateTowards(transform.localRotation, rot, rotateSpeed * Time.deltaTime);
 
         //FOV
         fov = Mathf.Clamp(fov, minFOV, maxFOV);
@@ -194,12 +154,6 @@ public class SPCamera : MonoBehaviour
             }
 
         }
-    }
-
-    public static void ToggleScroll(bool toggle) {
-        I.canScroll = toggle;
-        if(toggle) {} 
-        else {I.scrollRot = 0;}
     }
 
     public static void SetPosition(Vector3 position) {
