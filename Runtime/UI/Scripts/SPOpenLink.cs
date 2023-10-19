@@ -6,9 +6,17 @@ public class SPOpenLink : MonoBehaviour
 {
 
     public string link; 
+    public string prefix;
+    public SPWindowSelectable selectable;
 
     public void OpenLink(string newLink) {
         link = newLink;
+        OpenLink();
+    }
+
+
+    public void OpenSelectableText() {
+        link = prefix + selectable.Field;
         OpenLink();
     }
 
@@ -22,7 +30,7 @@ public class SPOpenLink : MonoBehaviour
     }
 
     void OpenLinkSameWindow(string newLink) {
-        Application.OpenURL(link);
+        Application.OpenURL(newLink);
     }
 
 
