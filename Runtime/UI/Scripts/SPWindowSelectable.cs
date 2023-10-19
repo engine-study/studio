@@ -20,7 +20,7 @@ public class SPWindowSelectable : SPWindow, IPointerEnterHandler, IPointerExitHa
     public bool IsDisabled {get{return State == SPSelectableState.Disabled;}}
     public bool IsDragging {get{return StateDraggable == SPDraggableState.Dragging;}}
     public bool IsReadOnly {get{return readOnly;}}
-
+    public string Field {get{return field;}}
 
     public Action<SPWindowSelectable> OnWindowHover;
     public Action<SPWindowSelectable> OnWindowClick;
@@ -39,7 +39,7 @@ public class SPWindowSelectable : SPWindow, IPointerEnterHandler, IPointerExitHa
     [SerializeField] protected SPSelectableType selectableType;
     [SerializeField] protected SPActionType actionType;
     [SerializeField] protected SPWindowTheme.SPTheme selectableTheme;
-
+    protected string field;
 
     [Header("Reference")]
 	[SerializeField] protected Selectable selectable;
@@ -187,6 +187,8 @@ public class SPWindowSelectable : SPWindow, IPointerEnterHandler, IPointerExitHa
     }
 
     public virtual void UpdateField(string newString, SPDataType newDataType) {
+        field = newString;
+        
         //Debug.Log("Update field selectable: " + gameObject.name);
         if(hideIfEmpty) {
             ToggleWindow(!string.IsNullOrEmpty(newString));

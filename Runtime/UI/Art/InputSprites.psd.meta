@@ -185,6 +185,27 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: InputSprites_3
+      rect:
+        serializedVersion: 2
+        x: 768
+        y: 768
+        width: 256
+        height: 256
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 44d8bbe3bae905840bfb8e750fd2ba15
+      internalID: 259454583
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -199,6 +220,7 @@ TextureImporter:
       InputSprites_0: 517858773
       InputSprites_1: -787426984
       InputSprites_2: 836126857
+      InputSprites_3: 259454583
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

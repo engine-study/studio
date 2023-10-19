@@ -2,19 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SPExclusiveWindows : MonoBehaviour
+public class SPExclusiveWindows : SPWindowParent
 {
-    public List<SPWindow> windows;
+    [Header("Exclusive")]
+    public List<SPWindow> exclusiveWindows;
 
-    void Awake() {
+    public override void Init() {
 
-        windows = new List<SPWindow>();
+        if(hasInit) {return;}
+
+        base.Init();
+
+        exclusiveWindows = new List<SPWindow>();
         for(int i = 0; i < transform.childCount; i++) {
             SPWindow menuWindow = transform.GetChild(i).GetComponent<SPWindow>();
-            if(menuWindow != null) windows.Add(menuWindow);
+            if(menuWindow != null) exclusiveWindows.Add(menuWindow);
         }
         
-        foreach(SPWindow w in windows) {
+        foreach(SPWindow w in exclusiveWindows) {
             w.ToggleWindowClose();
         }
 
@@ -30,7 +35,7 @@ public class SPExclusiveWindows : MonoBehaviour
 
             window.ToggleWindow(true);
 
-            foreach(SPWindow w in windows) {
+            foreach(SPWindow w in exclusiveWindows) {
                 if(w != window && w.gameObject.activeInHierarchy) {
                     w.ToggleWindowClose();
                 }
