@@ -52,6 +52,7 @@ public class SPCamera : MonoBehaviour
         I.follow = newFollow != null;
         I.followTransform = newFollow;
     }
+    public static void SetTarget(Quaternion targetRot) {SetTarget(I.pos, targetRot);}
     public static void SetTarget(Vector3 targetPos) {SetTarget(targetPos, I.rot);}
     public static void SetTarget(Vector3 targetPos, Quaternion targetRot) {
         // Debug.Log("Camera Target: " + targetPos.ToString());
