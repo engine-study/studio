@@ -7,10 +7,11 @@ public class SPInteract : MonoBehaviour, IInteract {
 
 
     public SPAction ActionScript {get{return action;}}
+    public IActor Actor {get{return actor;}}
 
     [Header("Interact")]
-    [SerializeField] SPAction action;
-    [SerializeField] SPState state;
+    [SerializeField] protected SPAction action;
+    [SerializeField] protected SPState state;
 
     [Header("Debug")]
     [SerializeField] bool interacting = false;

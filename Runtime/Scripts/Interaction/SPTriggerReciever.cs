@@ -26,7 +26,7 @@ public class SPTriggerReciever : SPReciever
 
         IInteract i = other.GetComponentInParent<IInteract>();
         //Debug.Log("OnTriggerEnter: " + other.gameObject.name);
-        if(i != null && i.IsInteractable() && i.GameObject() != gameObject) {
+        if(i != null && i.GameObject() != gameObject) {
             ToggleInteractable(true, i);
         }
 
