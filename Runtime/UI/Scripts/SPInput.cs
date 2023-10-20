@@ -118,7 +118,7 @@ public class SPInput : MonoBehaviour {
     }
 
     public static KeyCode [] AlphaKeys = {KeyCode.Alpha1,KeyCode.Alpha2,KeyCode.Alpha3,KeyCode.Alpha4,KeyCode.Alpha5,KeyCode.Alpha6,KeyCode.Alpha7,KeyCode.Alpha8,KeyCode.Alpha9};
-    public static KeyCode GetAlphaKey(int number) { return AlphaKeys[Mathf.Clamp(number, 0, 8)];}
+    public static KeyCode GetAlphaKey(int number) { return AlphaKeys[number];}
 
     public static bool GetScrollWheel(bool forwardScroll = true) {
         return forwardScroll ? Input.GetAxis("Mouse ScrollWheel") > 0f : Input.GetAxis("Mouse ScrollWheel") < 0f;
