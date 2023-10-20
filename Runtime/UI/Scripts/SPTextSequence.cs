@@ -11,6 +11,8 @@ public class SPTextSequence : SPWindow
     public System.Action OnPrevious;
 
     public int Index {get{return index;}}
+    public bool IsDone {get{return isDone;}}
+    public bool HasReachedFinal {get{return hasReachedFinal;}}
     public SPRawText Text {get{return rawText;}}
     public List<SPTextScriptable> Texts {get{return texts;}}
 
@@ -20,15 +22,19 @@ public class SPTextSequence : SPWindow
     [SerializeField] List<SPTextScriptable> texts;
     [SerializeField] int index = 0;
     [SerializeField] bool isDone = false;
+    [SerializeField] bool hasReachedFinal = false;
 
-    void Start() {
+    public override void Init() {
+        if(hasInit) {return;}
+        base.Init();
         Set();
     }
 
     public void SetText(SPTextScriptable [] newTexts) {
         index = 0;
         texts = newTexts.ToList();
-
+        isDone = false;
+        hasReachedFinal = false;
         Set();
     }
 
@@ -59,6 +65,8 @@ public class SPTextSequence : SPWindow
     void Set() {
 
         isDone = index >= texts.Count-1;
+        if(!hasReachedFinal) {hasReachedFinal = isDone;}
+
         next?.ToggleWindow(!isDone);
         previous?.ToggleWindow(index > 0);
         
