@@ -9,6 +9,7 @@ public class SPCamera : MonoBehaviour
     public static Camera Camera {get{return I.camera;}}
     public static float Shake {get{return I.shake;}}
     public static Transform Follow {get { return I.followTransform; } }
+    public static bool IsFollowing {get { return Follow != null; } }
     public float FOV {get{return fov;}}
 
     [Header("Camera")]

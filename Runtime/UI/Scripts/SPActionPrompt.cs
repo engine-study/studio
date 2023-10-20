@@ -63,11 +63,14 @@ public class SPActionPrompt : SPWindow {
     
     public void ToggleAction(bool toggle, SPActor actor, IInteract interact, bool silentAdd = false) {
 
-        actionScript = interact.Action() as SPAction;
+        
+        actionScript = interact?.Action() as SPAction;
         actorComponent = actor;
         interactable = interact;
 
         if (toggle) {
+
+            if(interact == null || interact.Action() == null) {Debug.Log(interact?.GameObject()?.name + " no action"); return;}
 
             gameObject.name = interact.GameObject().name;
 

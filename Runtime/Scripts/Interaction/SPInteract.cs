@@ -16,7 +16,7 @@ public class SPInteract : MonoBehaviour, IInteract {
     [Header("Debug")]
     [SerializeField] bool interacting = false;
     [SerializeField] GameObject targetGO;
-
+    [SerializeField] SPActor actorScript;
     [SerializeField] IActor actor;
 
     [Header("Events")]
@@ -41,6 +41,14 @@ public class SPInteract : MonoBehaviour, IInteract {
 
     public virtual void ToggleActor(bool toggle, IActor newActor) {
 
+        if(toggle) {
+            actor = newActor;
+            actorScript = newActor as SPActor;
+        } else {
+            actor = null;
+            actorScript = null;
+        }
+
         OnActor?.Invoke();
         OnActorToggle?.Invoke(toggle, newActor);
     }
@@ -50,6 +58,12 @@ public class SPInteract : MonoBehaviour, IInteract {
         interacting = toggle;
 
         if (toggle) {
+            
+            //is this overkill?
+            if(newActor != actor) {
+                ToggleActor(false, actor);
+                ToggleActor(true, newActor);
+            }
             actor = newActor;
             newActor.SetState(state != null ? state : new SPState(PlayerState.Interact));
 

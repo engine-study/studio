@@ -10,11 +10,13 @@ public class SPBase : MonoBehaviour
     public GameObject Visual { get { return visual; } }
     public Vector3 Center { get { return Root.position; } }
     public virtual bool HasInit { get { return hasInit; } }
+    public virtual bool HasLoaded { get { return hasLoaded; } }
     public string Name {get{return baseName;}}
 
     public System.Action OnPlayerToggle;
     public System.Action OnInit, OnNetworkInit, OnPostInit;
-    protected bool hasInit;
+    bool hasInit;
+    bool hasLoaded;
 
 
     [Header("Settings")]
@@ -68,6 +70,8 @@ public class SPBase : MonoBehaviour
     protected void DoNetworkInit() {
         
         NetworkInit();
+        hasLoaded = true;
+        
         OnNetworkInit?.Invoke();
 
         DoPostInit();
