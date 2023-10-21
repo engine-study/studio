@@ -4,7 +4,7 @@ using UnityEngine;
 using System;
 
 
-public enum ActionState{Idle, Casting, Acting, Complete}
+public enum ActionState{Idle, Casting, Acting}
 public enum ActionEndState{InProgress, Success, Canceled, Failed}
 public enum ActionRestriction{None, Movement, Arms, Head}
 public enum ActionType{OneShot, Looping, State, Hold}
