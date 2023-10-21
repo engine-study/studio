@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 
 public enum ActionState{Idle, Casting, Acting, Complete}
@@ -20,10 +21,10 @@ public abstract class SPAction : ScriptableObject, IAction
     public float Distance = 1.1f; 
     
     bool canPerform;
-    public System.Action<ActionEndState> OnActionOver;
-    public System.Action OnActionStart, OnActionUpdate, OnActionEnd;
-    public System.Action OnActionStartCasting, OnActionUpdateCasting, OnActionEndCasting;
-    public System.Action OnSweetSpotStart, OnSweetSpotEnd; 
+    public Action<ActionEndState> OnActionOver;
+    public Action OnActionStart, OnActionUpdate, OnActionEnd;
+    public Action OnActionStartCasting, OnActionUpdateCasting, OnActionEndCasting;
+    public Action OnSweetSpotStart, OnSweetSpotEnd; 
 
     public SPConditionalScriptable [] conditions;
     public SPAction [] endAction;
