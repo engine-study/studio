@@ -4,7 +4,7 @@ using UnityEngine;
 using System;
 
 
-public enum ActionState{Idle, Casting, Acting}
+public enum ActionState{None, Idle, Casting, Acting}
 public enum ActionEndState{InProgress, Success, Canceled, Failed}
 public enum ActionRestriction{None, Movement, Arms, Head}
 public enum ActionType{OneShot, Looping, State, Hold}
@@ -31,10 +31,16 @@ public abstract class SPAction : ScriptableObject, IAction
 
     public virtual bool TryAction(IActor actor, IInteract interactable) {
 
+        if(actor == null) {Debug.LogError($"{name}, no actor found");}
+        if(actor.Owner() == null) {Debug.LogError($"{name}, no actor Owner found");}
+        if(interactable == null) {Debug.LogError($"{name}, no interactable found");}
+        if(interactable.GameObject() == null) {Debug.LogError($"{name}, no interactable Gameobject found");}
+
         if(!interactable.GameObject().activeInHierarchy) {
             canPerform = false;
             return false;
         }
+
 
         if(Vector3.Distance(actor.Owner().gameObject.transform.position, interactable.GameObject().transform.position) > Distance){
             canPerform = false;

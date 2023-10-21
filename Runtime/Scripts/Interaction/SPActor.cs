@@ -69,7 +69,7 @@ public class SPActor : MonoBehaviour, IActor {
         ToggleReciever(true, gameObject.GetComponent<SPReciever>());
 
         SetState(new SPState(PlayerState.Idle));
-
+        SetToInitialState();
     }
 
     void OnDestroy() {
