@@ -37,7 +37,7 @@ public class SPInteract : MonoBehaviour, IInteract {
 
     }
 
-    public virtual bool IsInteractable() { return true; }
+    public virtual bool IsInteractable() { return gameObject.activeInHierarchy; }
 
     public virtual void ToggleActor(bool toggle, IActor newActor) {
 

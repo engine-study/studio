@@ -16,16 +16,19 @@ public class SPActionWithAnimator : SPAction
         SPAnimator animator = (SPAnimator)actor?.Owner();
         if(animator == null) {Debug.LogError(actor?.Owner()?.name +  ": Not SPAnimator or no Owner", actor?.Owner()); return;}
 
+        ToggleProp(true, animator);
+
         if(toggle) {
             animator.IK.SetLook(null);
             if(animatorState) animator.ToggleState(true, animatorState);
             SetAnimation(animator,animation);
+
+
         } else {
             if(animatorState) animator.ToggleState(false, animatorState);
             SetAnimation(animator,animation);
         }
 
-        ToggleProp(toggle, animator);
 
     }
 
