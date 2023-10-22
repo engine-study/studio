@@ -6,42 +6,41 @@ using UnityEngine;
 public class SPEnableDisable : MonoBehaviour
 {
 
+    public bool Active {get{return active;}}
     //clones on disable
     [Header("EnableDisable")]
-    public bool active = true;
+    bool active = true;
     public SPEffects onEffects;
     public SPEffects offEffects;
 
     protected bool hasStarted = false; 
     protected bool hasPlayed = false; 
 
-    public virtual bool CanPlay(bool enable, SPEffects effect) { return active && effect != null && hasStarted && effect.isEnabled && !SPGlobal.IsQuitting; }
+    public virtual bool CanFire(bool enable, SPEffects effect) { return active && effect != null && hasStarted && effect.isEnabled && !SPGlobal.IsQuitting; }
     
     protected virtual void Awake() {}
     protected virtual void Start() { 
         hasStarted = true; 
 
-        if(CanPlay(true, onEffects)) 
-            PlayEnabled();
+        ToggleActive(active);
+
+        if(CanFire(true, onEffects)) 
+            Spawn(true);
+    }
+
+    public virtual void ToggleActive(bool toggle) {
+        active = toggle;
     }
 
     protected virtual void OnEnable() {
-        if(CanPlay(true, onEffects))
-            PlayEnabled();
+        if(CanFire(true, onEffects))
+            Spawn(true);
 
     }
 
     protected virtual void OnDisable() {
-        if(CanPlay(false, offEffects))
-            PlayDisabled();
-    }
-
-    public void PlayEnabled() {
-        Spawn(onEffects);
-    }
-
-    public void PlayDisabled() {
-        Spawn(offEffects);
+        if(CanFire(false, offEffects))
+            Spawn(false);
     }
 
     public virtual void Spawn(bool toggle) {Spawn(toggle ? onEffects : offEffects);}
