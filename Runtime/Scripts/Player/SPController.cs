@@ -70,10 +70,10 @@ public class SPController : MonoBehaviour
         
         if(hasInit) { return; }
 
-        player = GetComponent<SPPlayer>();
-        velocity = GetComponent<SPVelocity>();
+        if(player == null) player = GetComponent<SPPlayer>();
+        if(velocity == null) velocity = GetComponent<SPVelocity>();
 
-        mainCollider = GetComponent<Collider>();
+        if(mainCollider == null) mainCollider = GetComponent<Collider>();
         if(mainCollider == null) {
             var capsule = gameObject.AddComponent<CapsuleCollider>();
             capsule.height = 1.5f;
@@ -81,14 +81,14 @@ public class SPController : MonoBehaviour
             mainCollider = capsule;
         }
 
-        controller = GetComponent<CharacterController>();
+        if(controller == null) controller = GetComponent<CharacterController>();
         if(controller == null) {
             controller = gameObject.AddComponent<CharacterController>();
             controller.height = 1.25f;
             controller.radius = .1f;
         }
 
-        rb = GetComponent<Rigidbody>();
+        if(rb == null) rb = GetComponent<Rigidbody>();
 
         if(animator == null) animator = GetComponentInChildren<SPAnimator>(true);
         if(animator) {
