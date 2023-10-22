@@ -12,7 +12,7 @@ public class SPAnimator : MonoBehaviour {
     public System.Action OnStep;
     public SPIK IK {get{return ik;}}
     public Transform Head {get{return head;}}
-
+    
     [Header("Animator")]
     [SerializeField] Transform [] bodyParts;
     [SerializeField] Transform head;
@@ -32,6 +32,8 @@ public class SPAnimator : MonoBehaviour {
     void Awake() {
         if(!hasInit) {Init();}
     }
+
+    public void Toggle(bool toggle) {animator.enabled = toggle;}
     void Init() {
 
         if(hasInit) return;

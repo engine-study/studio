@@ -27,6 +27,7 @@ public class SPController : MonoBehaviour
 
 
     [Header("Debug")]
+    [SerializeField] bool ragdoll;
     public Vector3 moveDirection = Vector3.zero;
     public Vector3 lookAt = Vector3.zero;
     public Vector3 moveDirectionNoY, forceVelocity;
@@ -46,7 +47,6 @@ public class SPController : MonoBehaviour
     protected float speed;
     protected RaycastHit hit;
     protected float fallStartLevel;
-    protected bool ragdoll;
     protected bool falling;
     protected float slideLimit {get{return controller.slopeLimit - .1f;}}
     protected float rayDistance;
@@ -114,6 +114,7 @@ public class SPController : MonoBehaviour
 
         controller.enabled = toggle;
         controller.detectCollisions = toggle;
+        mainCollider.enabled = toggle;
         enabled = toggle;
     }
 
@@ -146,14 +147,11 @@ public class SPController : MonoBehaviour
 
         // Debug.Log($"RAGDOLL: {toggle}" , this);
         ragdoll = toggle;
+        ToggleController(!toggle);
 
         if(!animator) { return; }
 
-        ToggleController(!toggle);
-
-        mainCollider.enabled = !toggle;
-
-        animator.enabled = !toggle;
+        animator.Toggle(!toggle);
         animator.transform.parent = toggle ? null : animatorParent;
 
         if(!toggle) {
