@@ -36,7 +36,7 @@ public abstract class SPAction : ScriptableObject, IAction
         if(interactable == null) {Debug.LogError($"{name}, no interactable found");}
         if(interactable.GameObject() == null) {Debug.LogError($"{name}, no interactable Gameobject found");}
 
-        if(Vector3.Distance(actor.Owner().gameObject.transform.position, interactable.GameObject().transform.position) > Distance){
+        if(Distance != -1 && Vector3.Distance(actor.Owner().gameObject.transform.position, interactable.GameObject().transform.position) > Distance){
             canPerform = false;
             return false;
         }
