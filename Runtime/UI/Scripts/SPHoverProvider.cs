@@ -29,7 +29,8 @@ public class SPHoverProvider : MonoBehaviour
 
         if(toggle) {
             OnHoverStart?.Invoke();
-            SPHoverWindow.Instance.SetWindow(rectOverride ?? selectable.Rect, anchor);
+            if(rectOverride) {SPHoverWindow.Instance.SetWindow(rectOverride, anchor);}
+            else {SPHoverWindow.Instance.SetWindow(selectable.Rect, anchor);}
         } else {
             OnHoverEnd?.Invoke();
             SPHoverWindow.Instance.SetWindow((RectTransform)null, anchor);
