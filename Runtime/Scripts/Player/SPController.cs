@@ -147,7 +147,7 @@ public class SPController : MonoBehaviour
 
         // Debug.Log($"RAGDOLL: {toggle}" , this);
         ragdoll = toggle;
-        ToggleController(!toggle);
+        ToggleController(!toggle && (player != null && player.IsLocalPlayer));
 
         if(!animator) { return; }
 
