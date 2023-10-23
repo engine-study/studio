@@ -65,9 +65,7 @@ public class SPFlashShake : MonoBehaviour {
 
         renderers = clone.GetComponentsInChildren<MeshRenderer>();
 
-        if (renderers.Length == 0) {
-            Debug.LogError("No renderers", this);
-        }
+        if (renderers.Length == 0) { Debug.Log("No renderers", this);}
 
         //replace all materials with flash material
         for (int i = 0; i < renderers.Length; i++) {
