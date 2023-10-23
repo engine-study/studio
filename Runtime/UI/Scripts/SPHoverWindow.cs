@@ -11,7 +11,8 @@ public class SPHoverWindow : SPWindow
 
     [Header("Debug")]
     [SerializeField] Canvas canvas;
-    [SerializeField] RectTransform anchor;
+    [SerializeField] RectTransform target;
+    public Vector3 useAnchor;
 
     public override void Init() {
         if(hasInit) {return;}
@@ -26,21 +27,28 @@ public class SPHoverWindow : SPWindow
         Instance = null;
     }
 
-    public void SetWindow(SPWindow window) {
-        SetAnchor(window?.Rect);
+    public void SetWindow(SPWindow window, Vector2 newAnchor) {
+        SetWindow(window?.Rect, newAnchor);
     }
 
-    public void SetAnchor(RectTransform rect) {
+    public void SetWindow(RectTransform rect, Vector2 newAnchor) {
 
-        anchor = rect;
+        target = rect;
+        useAnchor = newAnchor;
+
         ToggleWindow(rect != null);
 
     }
     
     void Update() {
-        
-        float sign = Mathf.Sign(anchor.anchoredPosition.x) * -1f;
-        transform.position = anchor.position + Vector3.right * sign * (child.rect.width * .5f + 25f) * canvas.scaleFactor;
+
+        float signX = Mathf.Sign(target.anchoredPosition.x) * -1f;
+        float signY = Mathf.Sign(target.anchoredPosition.y) * 1f;
+
+        Vector3 xPos = Vector3.right * signX * (child.rect.width * .5f + 25f) * useAnchor.x;
+        Vector3 yPos = Vector3.up * signY * (child.rect.height * .5f + 25f) * useAnchor.y;
+
+        transform.position = target.position + ((xPos+yPos) * canvas.scaleFactor);
 
     }
 }

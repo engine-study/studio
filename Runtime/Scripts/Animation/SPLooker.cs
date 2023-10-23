@@ -4,19 +4,16 @@ using UnityEngine;
 
 public class SPLooker : MonoBehaviour
 {
-    Vector3 lookVector;
-    Quaternion lookRotation;
-    Quaternion lastRot;
+    [SerializeField] Vector3 lookVector;
+    [SerializeField] Quaternion lookRotation;
     float rotationSpeed = 720f;
 
     void Awake() {
-        lastRot = Quaternion.identity;
         lookRotation = Quaternion.identity;
         enabled = false; 
     }
     public void SetLookRotation(Vector3 newLookAt) {
 
-        lastRot = lookRotation;
 
         var _lookY = newLookAt;
         _lookY.y = transform.position.y;
@@ -29,9 +26,8 @@ public class SPLooker : MonoBehaviour
         lookVector = (_lookY - transform.position).normalized;
         lookRotation = Quaternion.Euler(eulerAngles.x, (int)Mathf.Round(eulerAngles.y / 90) * 90, eulerAngles.z);
 
-        if(lookRotation != lastRot) {
-            enabled = true; 
-        }
+        enabled = true; 
+        
     }
 
     void Update() {
@@ -40,5 +36,9 @@ public class SPLooker : MonoBehaviour
         if(transform.rotation == lookRotation) {
             enabled = false;
         }
+    }
+
+    void OnDrawGizmosSelected() {
+        Gizmos.DrawLine(transform.position + Vector3.up, transform.position + lookVector + Vector3.up);
     }
 }

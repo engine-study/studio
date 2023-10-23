@@ -5,10 +5,13 @@ using UnityEngine.Events;
 
 public class SPHoverProvider : MonoBehaviour
 {
-
     [Header("Hover")]
-    [SerializeField] protected UnityEvent OnHoverStart;
-    [SerializeField] protected UnityEvent OnHoverEnd;
+    public Vector2 anchor;
+    [SerializeField] RectTransform rectOverride;
+
+    [Header("Events")]
+    [SerializeField] UnityEvent OnHoverStart;
+    [SerializeField] UnityEvent OnHoverEnd;
 
     SPWindowSelectable selectable;
     
@@ -26,10 +29,10 @@ public class SPHoverProvider : MonoBehaviour
 
         if(toggle) {
             OnHoverStart?.Invoke();
-            SPHoverWindow.Instance.SetWindow(selectable);
+            SPHoverWindow.Instance.SetWindow(rectOverride ?? selectable.Rect, anchor);
         } else {
             OnHoverEnd?.Invoke();
-            SPHoverWindow.Instance.SetWindow(null);
+            SPHoverWindow.Instance.SetWindow((RectTransform)null, anchor);
         }
 
     }
