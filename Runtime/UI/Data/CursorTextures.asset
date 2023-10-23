@@ -28,6 +28,7 @@ MonoBehaviour:
   - {fileID: 2800000, guid: 146c9978ae9e39146b8b93576c3c9770, type: 3}
   - {fileID: 2800000, guid: 207a48616b7f3064a8f83eada992ff60, type: 3}
   - {fileID: 2800000, guid: ea78fc512c385d241882ed3eeca5a5e0, type: 3}
+  - {fileID: 2800000, guid: cbad87ab7303f954284307117f5ce841, type: 3}
   cursorHotspots:
   - {x: 16, y: 0}
   - {x: 16, y: 16}
@@ -44,3 +45,4 @@ MonoBehaviour:
   - {x: 16, y: 0}
   - {x: 16, y: 16}
   - {x: 16, y: 16}
+  - {x: 16, y: 6}
