@@ -11,6 +11,7 @@ public class SPCamera : MonoBehaviour
     public static Transform Follow {get { return I.followTransform; } }
     public static bool IsFollowing {get { return Follow != null; } }
     public float FOV {get{return fov;}}
+    public Vector2 FOVClamp {get{return fovClamp;}}
 
     [Header("Camera")]
     [SerializeField] new Camera camera;
@@ -20,7 +21,7 @@ public class SPCamera : MonoBehaviour
     [Header("Settings")]
     [SerializeField] float moveSpeed = 5f; 
     [SerializeField] float rotateSpeed = 90f;
-    [SerializeField] float minFOV = 5f, maxFOV = 25f;
+    [SerializeField] Vector2 fovClamp = new Vector2(2f,20f);
     [SerializeField] float shakeFalloff = 10f;
     float fovMultiple = 1f;
     float fovLerp = 15f;
@@ -106,7 +107,7 @@ public class SPCamera : MonoBehaviour
 
     public void SetFOV(float newFOV, bool instant = false) {
         // Debug.Log("Camera FOV: " + newFOV);
-        fov = Mathf.Clamp(newFOV, minFOV, maxFOV);
+        fov = Mathf.Clamp(newFOV, fovClamp.x, fovClamp.y);
         if(instant) {
             fovLerp = fov;
             if(camera.orthographic) {camera.orthographicSize = fov;}
@@ -133,7 +134,7 @@ public class SPCamera : MonoBehaviour
         transform.localRotation = Quaternion.RotateTowards(transform.localRotation, rot, rotateSpeed * Time.deltaTime);
 
         //FOV
-        fov = Mathf.Clamp(fov, minFOV, maxFOV);
+        fov = Mathf.Clamp(fov, fovClamp.x, fovClamp.y);
         fovLerp = Mathf.MoveTowards(fovLerp, fov * fovMultiple, Time.deltaTime * 100f);
         camera.orthographicSize = fovLerp;
         camera.fieldOfView = fovLerp;
