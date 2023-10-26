@@ -127,10 +127,10 @@ public class SPActor : MonoBehaviour, IActor {
         bool canDoAction = i.IsInteractable(); // Action().TryAction(this, i);
 
         if (canDoInput && canDoAction) { 
-            Debug.Log($"Using {i.GameObject().name}", this); 
+            // Debug.Log($"Using {i.GameObject().name}", this); 
             Use(i.Action(), i); 
         } else if (Interact != null && Interact.GameObject() == i.GameObject()) { 
-            Debug.Log($"Stopping {i.GameObject().name}", this); 
+            // Debug.Log($"Stopping {i.GameObject().name}", this); 
             Stop(action, i, ActionEndState.Canceled);
         }
 
