@@ -8,6 +8,7 @@ public class SPStrobeUI : MonoBehaviour
     [SerializeField] bool strobeOnEnable = true;
     [SerializeField] SPWindow target;
     [SerializeField] public float duration = -1;
+    [SerializeField] SPThemeScriptable overrideTheme;
     Coroutine animationCoroutine;
 
     public static void ToggleStrobe(SPWindow window, bool toggle = true, bool isAutoplay = false, float newDuration = .9f) {
@@ -68,11 +69,19 @@ public class SPStrobeUI : MonoBehaviour
 
         bool strobe = false;
 
-        Color colorA = target.Theme.defaultTheme.bgColor;
-        Color colorB = target.Theme.defaultTheme.color;
+        Color colorA;
+        Color colorB;
 
-        colorA.a = target.Theme.defaultTheme.color.a;
-        colorB.a = target.Theme.defaultTheme.bgColor.a;
+        if(overrideTheme) {
+            colorA = overrideTheme.Theme.defaultTheme.color;
+            colorB = overrideTheme.Theme.defaultTheme.bgColor;
+        } else {
+            colorA = target.Theme.defaultTheme.bgColor;
+            colorA.a = target.Theme.defaultTheme.color.a;
+
+            colorB = target.Theme.defaultTheme.color;
+            colorB.a = target.Theme.defaultTheme.bgColor.a;
+        }
 
         SPWindowTheme.SPTheme strobeTheme = new SPWindowTheme.SPTheme(colorA, colorB);
 
