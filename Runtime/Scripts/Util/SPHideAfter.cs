@@ -22,6 +22,10 @@ public class SPHideAfter : MonoBehaviour
         hasInit = true;
     }
 
+    void OnDestroy() {
+        if(window) {window.OnToggleWindow -= Refresh;}
+    }
+
     void OnEnable() {
         if(!hasInit) {
             Init();
