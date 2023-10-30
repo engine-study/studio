@@ -39,7 +39,7 @@ public class SPStrobeUI : MonoBehaviour
     }
 
     void OnDisable() {
-        animationCoroutine = null;
+
     }
 
     public void StartStrobe() {
@@ -56,7 +56,6 @@ public class SPStrobeUI : MonoBehaviour
     public void StopStrobe() {
 
         if(animationCoroutine != null) {StopCoroutine(animationCoroutine);}
-        animationCoroutine = null;
 
         if(target == null) {
             target = GetComponent<SPWindow>();
