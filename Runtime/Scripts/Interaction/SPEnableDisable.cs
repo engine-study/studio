@@ -9,7 +9,7 @@ public class SPEnableDisable : MonoBehaviour
     public bool Active {get{return active;}}
     //clones on disable
     [Header("EnableDisable")]
-    bool active = true;
+    [SerializeField] bool active = true;
     public SPEffects onEffects;
     public SPEffects offEffects;
 
