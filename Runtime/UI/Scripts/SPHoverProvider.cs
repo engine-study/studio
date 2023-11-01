@@ -6,6 +6,7 @@ using UnityEngine.Events;
 public class SPHoverProvider : MonoBehaviour
 {
     [Header("Hover")]
+    public bool displayHoverWindow = true;
     public Vector2 anchor;
     [SerializeField] RectTransform rectOverride;
 
@@ -28,12 +29,20 @@ public class SPHoverProvider : MonoBehaviour
     public void ToggleHover(bool toggle) {
 
         if(toggle) {
+
             OnHoverStart?.Invoke();
-            if(rectOverride) {SPHoverWindow.Instance.SetWindow(rectOverride, anchor);}
-            else {SPHoverWindow.Instance.SetWindow(selectable.Rect, anchor);}
+            
+            if(displayHoverWindow) {
+                if(rectOverride) {SPHoverWindow.Instance.SetWindow(rectOverride, anchor);}
+                else {SPHoverWindow.Instance.SetWindow(selectable.Rect, anchor);}
+            }
         } else {
+            
             OnHoverEnd?.Invoke();
-            SPHoverWindow.Instance.SetWindow((RectTransform)null, anchor);
+
+            if(displayHoverWindow) {
+                SPHoverWindow.Instance.SetWindow((RectTransform)null, anchor);
+            }
         }
 
     }
