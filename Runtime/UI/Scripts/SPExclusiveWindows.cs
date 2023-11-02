@@ -6,6 +6,7 @@ public class SPExclusiveWindows : SPWindowParent
 {
     [Header("Exclusive")]
     public List<SPWindow> exclusiveWindows;
+    SPWindow activeWindow;
 
     public override void Init() {
 
@@ -29,11 +30,18 @@ public class SPExclusiveWindows : SPWindowParent
         ToggleWindowExclusive(!window.gameObject.activeInHierarchy, window);
     }
 
+    public void Update() {
+        if(activeWindow && Input.GetKeyDown(KeyCode.Escape)) {
+            ToggleWindowExclusive(false, activeWindow);
+        }
+    }
+
     public void ToggleWindowExclusive(bool toggle, SPWindow window) {
 
         if(toggle) {
 
             window.ToggleWindow(true);
+            activeWindow = window;
 
             foreach(SPWindow w in exclusiveWindows) {
                 if(w != window && w.gameObject.activeInHierarchy) {
