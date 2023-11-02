@@ -124,5 +124,26 @@ public class SPHelper : MonoBehaviour {
 
         return newString;
     }
+
+
+
+    public static void CenterGameObject(GameObject obj) {
+        MeshRenderer[] meshRenderers = obj.GetComponentsInChildren<MeshRenderer>();
+        if (meshRenderers.Length == 0)
+        {
+            Debug.LogError("Object does not have any MeshRenderer components in its children");
+            return;
+        }
+
+        Bounds totalBounds = meshRenderers[0].bounds;
+        for (int i = 1; i < meshRenderers.Length; i++)
+        {
+            totalBounds.Encapsulate(meshRenderers[i].bounds);
+        }
+
+        Vector3 centerOffset = obj.transform.position - totalBounds.center;
+        obj.transform.position += centerOffset;
+    }
+
     
 }

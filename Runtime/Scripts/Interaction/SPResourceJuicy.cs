@@ -7,9 +7,9 @@ public class SPResourceJuicy : MonoBehaviour
     Vector3 start;
     Transform target;
     [SerializeField] float time = 2f;
-    [SerializeField] private Vector3 offset = Vector3.up;
-    [SerializeField] private Vector3 rotation;
-    [SerializeField] private AudioClip [] sfx_spawn, sfx_recieve;
+    [SerializeField] public Vector3 offset = Vector3.zero;
+    [SerializeField] public Vector3 rotation;
+    [SerializeField] public AudioClip [] sfx_spawn, sfx_recieve;
     
     public static SPResourceJuicy SpawnResource(string prefabNameInFolder, Transform newTarget, Vector3 spawnPos = default(Vector3), Quaternion spawnRot = default(Quaternion)) {
         
