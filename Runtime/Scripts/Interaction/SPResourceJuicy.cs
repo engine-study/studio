@@ -7,10 +7,11 @@ public class SPResourceJuicy : MonoBehaviour
     Vector3 start;
     Transform target;
     [SerializeField] float time = 2f;
+    [SerializeField] private Vector3 offset = Vector3.up;
     [SerializeField] private Vector3 rotation;
     [SerializeField] private AudioClip [] sfx_spawn, sfx_recieve;
     
-    public static SPResourceJuicy SpawnResource(string prefabNameInFolder, Transform newTarget, Vector3 spawnPos = default(Vector3), Quaternion rotation = default(Quaternion)) {
+    public static SPResourceJuicy SpawnResource(string prefabNameInFolder, Transform newTarget, Vector3 spawnPos = default(Vector3), Quaternion spawnRot = default(Quaternion)) {
         
         SPResourceJuicy res = (Instantiate(Resources.Load(prefabNameInFolder)) as GameObject).GetComponent<SPResourceJuicy>();
 
@@ -21,7 +22,7 @@ public class SPResourceJuicy : MonoBehaviour
 
         res.target = newTarget;
         res.transform.position = spawnPos;
-        res.transform.rotation = rotation;
+        res.transform.rotation = spawnRot;
 
         return res;
 
@@ -46,7 +47,7 @@ public class SPResourceJuicy : MonoBehaviour
 
         while(lerp < 1f) {
             
-            transform.position = Vector3.Lerp(start, target.position + Vector3.up, lerp) + Vector3.up * randomHeight * lerp;
+            transform.position = Vector3.Lerp(start + Vector3.up, target.position + Vector3.up, lerp); //+ Vector3.up * randomHeight * lerp
             transform.Rotate(rotation * Time.deltaTime );
 
             count += Time.deltaTime;
