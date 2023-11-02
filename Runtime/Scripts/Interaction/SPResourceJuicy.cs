@@ -6,8 +6,9 @@ public class SPResourceJuicy : MonoBehaviour
 {
     Vector3 start;
     Transform target;
-    [SerializeField] float time = 2f;
+    [SerializeField] public float time = 1f;
     [SerializeField] public Vector3 offset = Vector3.zero;
+    [SerializeField] public Vector3 arc = Vector3.zero;
     [SerializeField] public Vector3 rotation;
     [SerializeField] public AudioClip [] sfx_spawn, sfx_recieve;
     
@@ -47,7 +48,7 @@ public class SPResourceJuicy : MonoBehaviour
 
         while(lerp < 1f) {
             
-            transform.position = Vector3.Lerp(start + offset, target.position + offset, lerp); //+ Vector3.up * randomHeight * lerp
+            transform.position = Vector3.Lerp(start + offset, target.position + offset, lerp) + arc * Mathf.Sin(lerp * Mathf.PI); 
             transform.Rotate(rotation * Time.deltaTime );
 
             count += Time.deltaTime;
