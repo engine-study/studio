@@ -6,7 +6,7 @@ public class SPResourceJuicy : MonoBehaviour
 {
     Vector3 start;
     Transform target;
-    [SerializeField] Vector2 speed = new Vector2(.5f, .75f);
+    [SerializeField] float time = 2f;
     [SerializeField] private Vector3 rotation;
     [SerializeField] private AudioClip [] sfx_spawn, sfx_recieve;
     
@@ -38,19 +38,19 @@ public class SPResourceJuicy : MonoBehaviour
     IEnumerator GiveAnimation() {
 
         start = transform.position;
-        
         if(sfx_spawn.Length > 0) SPAudioSource.Play(transform.position, sfx_spawn);
 
-        float randomHeight = Random.Range(2f, 3f);
-        float speedTime = Random.Range(speed.x, speed.y);
-
+        float randomHeight = Random.Range(.5f, .5f);
+        float count = 0f;
         float lerp = 0f;
+
         while(lerp < 1f) {
             
-            transform.position = Vector3.Lerp(start, target.position, lerp) + Vector3.up * randomHeight * Mathf.Sin(lerp * Mathf.PI);
+            transform.position = Vector3.Lerp(start, target.position + Vector3.up, lerp) + Vector3.up * randomHeight * lerp;
             transform.Rotate(rotation * Time.deltaTime );
 
-            lerp += Time.deltaTime * speedTime;
+            count += Time.deltaTime;
+            lerp = Mathf.Clamp01(count/time);
 
             yield return null;
         }
