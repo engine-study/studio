@@ -47,7 +47,7 @@ public class SPResourceJuicy : MonoBehaviour
 
         while(lerp < 1f) {
             
-            transform.position = Vector3.Lerp(start + Vector3.up, target.position + Vector3.up, lerp); //+ Vector3.up * randomHeight * lerp
+            transform.position = Vector3.Lerp(start + offset, target.position + offset, lerp); //+ Vector3.up * randomHeight * lerp
             transform.Rotate(rotation * Time.deltaTime );
 
             count += Time.deltaTime;
