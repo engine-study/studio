@@ -159,14 +159,6 @@ public class SPCamera : MonoBehaviour
         }
     }
 
-    public static void SetPosition(Vector3 position) {
-        I.transform.position = position;
-    }
-
-    public void SetRotation(Quaternion rotation) {
-        I.transform.rotation = rotation;
-    }
-
     public static void SetShakeGlobal(float set) {
         I.shake = Mathf.Clamp01(set);
     }
