@@ -14,10 +14,12 @@ public class SPOpenLink : MonoBehaviour
         OpenLink();
     }
 
+    public void OpenWithPrefix() {
+        OpenLink(prefix+link);
+    }
 
     public void OpenSelectableText() {
-        link = prefix + selectable.Field;
-        OpenLink();
+        OpenLink(prefix + selectable.Field);
     }
 
     public void OpenLink() {

@@ -53,6 +53,10 @@ public class SPInteract : MonoBehaviour, IInteract {
         OnActorToggle?.Invoke(toggle, newActor);
     }
 
+    public virtual void Engage(bool toggle, IActor newActor) {
+
+    }
+
     public virtual void Interact(bool toggle, IActor newActor) {
 
         interacting = toggle;
@@ -107,6 +111,7 @@ public class SPInteract : MonoBehaviour, IInteract {
 
 public interface IInteract {
     void ToggleActor(bool toggle, IActor newActor);
+    void Engage(bool toggle, IActor newActor);
     void Interact(bool toggle, IActor newActor);
     void UpdateInteract();
     void UpdateState();

@@ -255,6 +255,8 @@ public class SPActor : MonoBehaviour, IActor {
 
         } else if (shouldEnd) {
 
+            Interact.Engage(false, this);
+
             if (internalState == ActionState.Acting) {
                 ActionEnd(reason);
                 Interact.Interact(false, this);
@@ -272,6 +274,7 @@ public class SPActor : MonoBehaviour, IActor {
             activeInteract = null;
 
         }
+
 
         OnActionEnd?.Invoke(reason);
 
@@ -303,6 +306,10 @@ public class SPActor : MonoBehaviour, IActor {
     protected virtual void CastingStart() {
 
         // Debug.Log(ActionScript.name + " Casting Start", Interact.GameObject());
+
+        //start casting visuals on interactable
+        Interact.Engage(true, this);
+
         internalState = ActionState.Casting;
         action.DoCast(true, this);
         ActionScript.OnActionStartCasting?.Invoke();
