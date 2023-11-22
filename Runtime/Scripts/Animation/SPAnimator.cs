@@ -14,11 +14,12 @@ public class SPAnimator : MonoBehaviour {
     public Transform Head {get{return head;}}
     
     [Header("Animator")]
-    [SerializeField] Transform [] bodyParts;
     [SerializeField] Transform head;
     [SerializeField] SPIK ik;
     [SerializeField] SPAnimationProp defaultPropPrefab;
     [SerializeField] RuntimeAnimatorController defaultController;
+    [EnumNamedArray( typeof(PlayerBody) )]
+    [SerializeField] Transform [] bodyParts;
 
     [Header("Debug")]
     [SerializeField] SPAnimationProp prop;
@@ -39,7 +40,7 @@ public class SPAnimator : MonoBehaviour {
         if(hasInit) return;
 
         props = new Dictionary<string, SPAnimationProp>();
-        animator = GetComponent<Animator>();
+        if(animator == null) animator = GetComponent<Animator>();
 
         hasInit = true;
 
@@ -96,6 +97,10 @@ public class SPAnimator : MonoBehaviour {
     }
 
     public void ToggleProp(bool toggle, SPAnimationProp propPrefab) {
+
+        if(bodyParts.Length == 0) {
+            return;
+        }
 
         // Debug.Log("Prop: " + toggle.ToString() + " " + propPrefab.gameObject.name.ToString());
         if (toggle && propPrefab) {

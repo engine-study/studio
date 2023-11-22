@@ -44,7 +44,7 @@ public class SPActionWithAnimator : SPAction
     }
 
     void ToggleProp(bool toggle, SPAnimator animator) {
-        if(animatorState.Prop != null) {
+        if(animatorState.Prop != null   ) {
             animator.ToggleProp(toggle, animatorState.Prop);
         }
     }
