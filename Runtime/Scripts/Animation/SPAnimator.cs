@@ -12,6 +12,7 @@ public class SPAnimator : MonoBehaviour {
     public System.Action OnStep;
     public SPIK IK {get{return ik;}}
     public Transform Head {get{return head;}}
+    public bool IsHumanoid {get{return bodyParts.Length > 0;}}
     
     [Header("Animator")]
     [SerializeField] Transform head;
@@ -98,7 +99,7 @@ public class SPAnimator : MonoBehaviour {
 
     public void ToggleProp(bool toggle, SPAnimationProp propPrefab) {
 
-        if(bodyParts.Length == 0) {
+        if(!IsHumanoid) {
             return;
         }
 
