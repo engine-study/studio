@@ -11,6 +11,7 @@ public class SPCamera : MonoBehaviour
     public static Transform Follow {get { return I.followTransform; } }
     public static bool IsFollowing {get { return Follow != null; } }
     public float FOV {get{return fov;}}
+    public float Lerp {get{return zoomLerp;}}
     public Vector2 FOVClamp {get{return fovClamp;}}
 
     [Header("Camera")]
@@ -25,6 +26,7 @@ public class SPCamera : MonoBehaviour
     [SerializeField] float shakeFalloff = 10f;
     float fovMultiple = 1f;
     float fovLerp = 15f;
+    float zoomLerp = 0f;
 
     [Header("Screenshot")]
     [SerializeField] int screenshotSize = 1;
@@ -112,8 +114,15 @@ public class SPCamera : MonoBehaviour
             fovLerp = fov;
             if(camera.orthographic) {camera.orthographicSize = fov;}
             else {camera.fieldOfView = fov;}
-            
+            UpdateFOV(fov);
         }
+    }
+
+    void UpdateFOV(float newFOV) {
+        fov = Mathf.Clamp(newFOV, fovClamp.x, fovClamp.y);
+        camera.orthographicSize = fovLerp;
+        camera.fieldOfView = fovLerp;
+        zoomLerp = Mathf.InverseLerp(FOVClamp.x, FOVClamp.y, FOV);
     }
 
     void UpdateCamera() {
@@ -134,12 +143,8 @@ public class SPCamera : MonoBehaviour
         transform.localRotation = Quaternion.RotateTowards(transform.localRotation, rot, rotateSpeed * Time.deltaTime);
 
         //FOV
-        fov = Mathf.Clamp(fov, fovClamp.x, fovClamp.y);
         fovLerp = Mathf.MoveTowards(fovLerp, fov * fovMultiple, Time.deltaTime * 100f);
-        camera.orthographicSize = fovLerp;
-        camera.fieldOfView = fovLerp;
-
-        //fovLerp = Mathf.Lerp(camera.orthographicSize, fov * fovMultiple, .2f);
+        UpdateFOV(fovLerp);
 
 
     }
