@@ -26,6 +26,7 @@ public class SPCamera : MonoBehaviour
     [SerializeField] float shakeFalloff = 10f;
     float fovMultiple = 1f;
     float fovLerp = 15f;
+    float fovSmooth = 250f;
     float zoomLerp = 0f;
 
     [Header("Screenshot")]
@@ -143,7 +144,7 @@ public class SPCamera : MonoBehaviour
         transform.localRotation = Quaternion.RotateTowards(transform.localRotation, rot, rotateSpeed * Time.deltaTime);
 
         //FOV
-        fovLerp = Mathf.MoveTowards(fovLerp, fov * fovMultiple, Time.deltaTime * 100f);
+        fovLerp = Mathf.MoveTowards(fovLerp, fov * fovMultiple, Time.deltaTime * fovSmooth);
         UpdateFOV(fovLerp);
 
 
