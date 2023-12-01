@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Animations;
 
 
-public enum PlayerBody { None, LeftHand, RightHand, Head }
+public enum PlayerBody { None, LeftHand, RightHand, Head, Effect, Material, Body }
 
 [RequireComponent(typeof(Animator))]
 public class SPAnimator : MonoBehaviour {
@@ -95,6 +95,10 @@ public class SPAnimator : MonoBehaviour {
            OverrideController(null);
            SetSpeed(1f);
         }
+    }
+
+    public void ToggleCosmetic(bool toggle, GameObject cosmetic) {
+
     }
 
     public void ToggleProp(bool toggle, SPAnimationProp propPrefab) {

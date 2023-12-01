@@ -1109,7 +1109,7 @@ Transform:
   - {fileID: 5316329334513552423}
   - {fileID: 3182305669666544823}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8621502410555695018
 MonoBehaviour:
@@ -1123,15 +1123,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1615f2c19b0bb6047b32768a3fc304b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  head: {fileID: 0}
+  ik: {fileID: 7237790970229842130}
+  defaultPropPrefab: {fileID: 0}
+  defaultController: {fileID: 0}
   bodyParts:
   - {fileID: 0}
   - {fileID: 2774679380915407051}
   - {fileID: 4925666639248955986}
   - {fileID: 6138733964720524945}
-  head: {fileID: 0}
-  ik: {fileID: 7237790970229842130}
-  defaultPropPrefab: {fileID: 0}
+  - {fileID: 6138733964720524945}
+  - {fileID: 6138733964720524945}
   prop: {fileID: 0}
+  state: {fileID: 0}
   animator: {fileID: 3988295389107969487}
 --- !u!114 &4749932027313776448
 MonoBehaviour:
