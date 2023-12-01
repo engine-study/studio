@@ -12,7 +12,7 @@ public class SPWindowEnumSelector : SPWindow
     [Header("Debug")]
     [SerializeField] SPButton selected;
     [SerializeField] List<SPButton> windows;
-
+    Array enumValues;
     protected override void Start() {
         base.Start();
         
@@ -27,7 +27,8 @@ public class SPWindowEnumSelector : SPWindow
             return;
         }
 
-        Array enumValues = Enum.GetValues(enumType);
+        enumValues = Enum.GetValues(enumType);
+        
         int totalLength = ignoreLast ? enumValues.Length - 1 : enumValues.Length;
         for (int i = 0; i < totalLength; i++) {
             SPButton newButton = Instantiate(prefab, transform.position, Quaternion.identity, transform);
@@ -38,7 +39,12 @@ public class SPWindowEnumSelector : SPWindow
         }
     }
 
-    void UpdateSelection(SPButton button) {
+    protected virtual void UpdateSelection(SPButton button) {
         selected = button;
+        UpdatedEnum(windows.IndexOf(button));
+    }
+
+    protected virtual void UpdatedEnum(int index) {
+
     }
 }

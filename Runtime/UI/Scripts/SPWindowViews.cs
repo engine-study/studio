@@ -18,6 +18,10 @@ public class SPWindowViews : SPWindowParent {
         if (enumType != null && enumType.IsEnum) {
             enumValues = Enum.GetValues(enumType);
         }
+
+        for (int i = 0; i < views.Length; i++) {
+            if(views[i] != null) {SetView(i); return;}
+        }
     }
     
     public void SetView(int index) {

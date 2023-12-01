@@ -54,6 +54,7 @@ public class SPButton : SPWindowSelectable {
         }
 
         OnClicked?.Invoke();
+        OnClickedDetail?.Invoke(this);
   
     }
 
