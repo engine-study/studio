@@ -54,9 +54,6 @@ public class SPCosmetic : MonoBehaviour
 
             if(activeBody == null) { return; }
 
-            animator.GetComponentInChildren<SkinnedMeshRenderer>();
-
-
         } else {
            
         }

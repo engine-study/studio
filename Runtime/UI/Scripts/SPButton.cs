@@ -15,6 +15,7 @@ public class SPButton : SPWindowSelectable {
     public Image Image {get{return buttonImage;}}
     public TextMeshProUGUI ButtonText {get{return buttonText;}}
     public Action OnClicked;
+    public Action<SPButton> OnClickedDetail;
 
     [Header("Button")]
     [SerializeReference] protected Button button;

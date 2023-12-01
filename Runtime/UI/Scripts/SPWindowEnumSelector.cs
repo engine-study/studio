@@ -6,31 +6,39 @@ public class SPWindowEnumSelector : SPWindow
 {
     [Header("Window Enum")]
     [SerializeField] string EnumName;
-    [SerializeField] GameObject prefab;
+    [SerializeField] SPButton prefab;
     [SerializeField] bool ignoreLast;
 
     [Header("Debug")]
-    [SerializeField] List<GameObject> windows;
+    [SerializeField] SPButton selected;
+    [SerializeField] List<SPButton> windows;
 
     protected override void Start() {
         base.Start();
         
-        windows = new List<GameObject>();
-        prefab.SetActive(false);
+        windows = new List<SPButton>();
+
+        if(prefab == null) prefab = transform.GetChild(0)?.GetComponent<SPButton>();
+        prefab.ToggleWindow(false);
         
         Type enumType = Type.GetType(EnumName);
-        if (enumType == null || !enumType.IsEnum)
-        {
-            Debug.LogError("Invalid enum type.");
+        if (enumType == null || !enumType.IsEnum) {
+            Debug.LogError("Invalid enum type " + EnumName, this);
             return;
         }
 
         Array enumValues = Enum.GetValues(enumType);
         int totalLength = ignoreLast ? enumValues.Length - 1 : enumValues.Length;
         for (int i = 0; i < totalLength; i++) {
-            GameObject newWindow = Instantiate(prefab, transform.position, Quaternion.identity, transform);
-            newWindow.SetActive(true);
-            windows.Add(newWindow);
+            SPButton newButton = Instantiate(prefab, transform.position, Quaternion.identity, transform);
+            newButton.ToggleWindow(true);
+            windows.Add(newButton);
+            newButton.OnClickedDetail += UpdateSelection;
+            newButton.UpdateField(enumValues.GetValue(i).ToString());
         }
+    }
+
+    void UpdateSelection(SPButton button) {
+        selected = button;
     }
 }
