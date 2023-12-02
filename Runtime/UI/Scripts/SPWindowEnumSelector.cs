@@ -11,12 +11,12 @@ public class SPWindowEnumSelector : SPWindow
 
     [Header("Debug")]
     [SerializeField] SPButton selected;
-    [SerializeField] List<SPButton> windows;
-    Array enumValues;
+    [SerializeField] protected List<SPButton> buttons;
+    protected Array enumValues;
     protected override void Start() {
         base.Start();
         
-        windows = new List<SPButton>();
+        buttons = new List<SPButton>();
 
         if(prefab == null) prefab = transform.GetChild(0)?.GetComponent<SPButton>();
         prefab.ToggleWindow(false);
@@ -33,7 +33,7 @@ public class SPWindowEnumSelector : SPWindow
         for (int i = 0; i < totalLength; i++) {
             SPButton newButton = Instantiate(prefab, transform.position, Quaternion.identity, transform);
             newButton.ToggleWindow(true);
-            windows.Add(newButton);
+            buttons.Add(newButton);
             newButton.OnClickedDetail += UpdateSelection;
             newButton.UpdateField(enumValues.GetValue(i).ToString());
         }
@@ -41,7 +41,7 @@ public class SPWindowEnumSelector : SPWindow
 
     protected virtual void UpdateSelection(SPButton button) {
         selected = button;
-        UpdatedEnum(windows.IndexOf(button));
+        UpdatedEnum(buttons.IndexOf(button));
     }
 
     protected virtual void UpdatedEnum(int index) {

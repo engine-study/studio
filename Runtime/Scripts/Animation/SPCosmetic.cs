@@ -12,6 +12,7 @@ public class SPCosmetic : MonoBehaviour
     public Transform bodyParent;
     public GameObject activeBody;
     public SPAnimator animator;
+    public Renderer [] renderers;
     public MeshRenderer targetMR;
     public SkinnedMeshRenderer targetSMR;
 
@@ -28,34 +29,45 @@ public class SPCosmetic : MonoBehaviour
 
         if(bodyType == PlayerBody.Head) {
 
-            if(activeBody) { activeBody.SetActive(false);}
-
             activeBody = newBody;
 
             if(activeBody == null) {return;}
 
             mr = activeBody.GetComponent<MeshRenderer>();
-            activeBody.SetActive(true);
-            activeBody.transform.parent = bodyParent;
-            activeBody.transform.localPosition = Vector3.zero;
-            activeBody.transform.localRotation = Quaternion.identity;
+            targetMR.GetComponent<MeshFilter>().sharedMesh = mr.GetComponent<MeshFilter>().sharedMesh;
 
         } else if(bodyType == PlayerBody.Body) {
 
             activeBody = newBody;
             if(activeBody == null) {return;}
+
             targetSMR.sharedMesh = newBody.GetComponent<MeshFilter>()?.sharedMesh;
 
         } else if(bodyType == PlayerBody.Material) {
             
-            if(activeBody) { activeBody.SetActive(false);}
-
             activeBody = newBody;
 
             if(activeBody == null) { return; }
 
-        } else {
-           
+            Material mat = activeBody.GetComponent<Renderer>().sharedMaterial;
+
+            //replace all materials with flash material
+            for (int i = 0; i < renderers.Length; i++) {
+                Material[] sharedMaterialsCopy = renderers[i].sharedMaterials;
+                for (int j = 0; j < sharedMaterialsCopy.Length; j++) { sharedMaterialsCopy[j] = mat; }
+                renderers[i].sharedMaterials = sharedMaterialsCopy;
+            }
+
+        } else if(bodyType == PlayerBody.Effect) {
+
+            if(activeBody != null) {
+                Destroy(activeBody);
+            }
+
+            activeBody = newBody;
+            if(activeBody == null) { return; }
+
+            activeBody = Instantiate(newBody, bodyParent.transform);
         }
 
 
