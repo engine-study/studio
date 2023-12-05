@@ -68,6 +68,7 @@ public class SPCosmetic : MonoBehaviour
             if(activeBody == null) { return; }
 
             activeBody = Instantiate(newBody, bodyParent.transform);
+            activeBody.SetActive(true);
         }
 
 
