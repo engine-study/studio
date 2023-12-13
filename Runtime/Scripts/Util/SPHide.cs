@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class SPHide : MonoBehaviour
 {
-    void Start()
-    {
+    void Awake()
+    {   
         gameObject.SetActive(false);
     }
 
