@@ -30,6 +30,11 @@ public class SPLooker : MonoBehaviour
         
     }
 
+    public void SetLookRotation(Quaternion lookRot) {
+        lookRotation = lookRot;
+        enabled = true;
+    }
+
     void Update() {
 
         transform.rotation = Quaternion.RotateTowards(transform.rotation, lookRotation, rotationSpeed * Time.deltaTime);

@@ -50,9 +50,7 @@ public class SPAnimator : MonoBehaviour {
 
         if(defaultPropPrefab) ToggleProp(true, defaultPropPrefab);
 
-        //start the animation of the character at a random time range
-        var state = animator.GetCurrentAnimatorStateInfo(0);
-        animator.Play(state.fullPathHash, 0, Random.Range(0f,2.5f));
+        RandomizeClipTime();
 
     }
 
@@ -63,6 +61,12 @@ public class SPAnimator : MonoBehaviour {
         defaultController = newController; 
         // if(animator.runtimeAnimatorController?.name == defaultController?.name) {SetController(newController);} 
         SetController(defaultController);
+    }
+
+    public void RandomizeClipTime() {
+        //start the animation of the character at a random time range
+        var state = animator.GetCurrentAnimatorStateInfo(0);
+        animator.Play(state.fullPathHash, 0, Random.Range(0f,2.5f));
     }
     
     public void SetDefaultProp(SPAnimationProp newDefault) {
@@ -160,7 +164,11 @@ public class SPAnimator : MonoBehaviour {
     }
 
     public void OverrideController(AnimatorOverrideController overrideController) { SetController(overrideController ?? defaultController);}
-    public void SetController(RuntimeAnimatorController newController) {animator.runtimeAnimatorController = newController;}
+    public void SetController(RuntimeAnimatorController newController) {
+        animator.runtimeAnimatorController = newController;
+        RandomizeClipTime();
+    }
+
     public void SpawnObject(object newObject) {
 
     }
