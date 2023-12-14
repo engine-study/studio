@@ -152,7 +152,7 @@ public class SPController : MonoBehaviour
         if(!animator) { return; }
 
         animator.Toggle(!toggle);
-        animator.transform.parent = toggle ? null : animatorParent;
+        // animator.transform.parent = toggle ? null : animatorParent;
 
         if(!toggle) {
             animator.transform.localPosition = animatorLocalPos;
