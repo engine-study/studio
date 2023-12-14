@@ -17,10 +17,12 @@ public class SPActionWithAnimator : SPAction
         if(animator == null) {Debug.LogError(actor?.Owner()?.name +  ": Not SPAnimator or no Owner", actor?.Owner()); return;}
 
         ToggleProp(true, animator);
-        SetAnimation(animator,animation);
+        
         if(animator.IsHumanoid) {
             if(animatorState) animator.ToggleState(toggle, animatorState);
         }
+
+        SetAnimation(animator,animation);
 
         if(toggle) {
             animator.IK.SetLook(null);
@@ -31,6 +33,8 @@ public class SPActionWithAnimator : SPAction
 
     public override void DoCast(bool toggle, IActor actor) {
         base.DoCast(toggle, actor);
+
+        Debug.Log("Casting: " + toggle);
         SetState(toggle, actor, toggle ? "Cast" : "Idle");
 
     }

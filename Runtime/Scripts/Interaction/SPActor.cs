@@ -311,8 +311,8 @@ public class SPActor : MonoBehaviour, IActor {
         Interact.Engage(true, this);
 
         internalState = ActionState.Casting;
-        action.DoCast(true, this);
         ActionScript.OnActionStartCasting?.Invoke();
+        action.DoCast(true, this);
 
         CastingUpdate();
     }
